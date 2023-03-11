@@ -1,1 +1,1 @@
-# kdd1_proj_2023
+# Knowledge Discovery and Data Mining 1 semestr project
