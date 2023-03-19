@@ -12,6 +12,9 @@
 * First idea is to create a user with some history of votes. Based on this votes we could make some recommendations at least for favourite genres, year range, 
 movie type etc. So we could restrict the space of recommendations.
 
+### Alexander
+* I personally would be interested, but I have no experience with it (hence the interest).
+* by using the imdb id you could also scrape erroneous/missing data ( e.g. https://www.imdb.com/title/tt0000002/ ) and user may can be created by userlists (e.g. https://www.imdb.com/list/ls564877733/ not shure if age, sex is very important for this (?,idk) but its may be only theoretical)
 </br>
 
 ## Undergrad.csv (clustering)
@@ -23,7 +26,11 @@ movie type etc. So we could restrict the space of recommendations.
 ### Thomas
 * Dataset is in my opinion not that bad, just some cleaning for unreasonable high values would be hard. The values of the other columns should be obvious to complete / change.
 * I am also not a friend of clustering, because this would just lead to a biased representation in a way that we could get nice clustered plots to support some argumentations for the dataset.
-
+### Alexander 
+* "bigger" dataset (~3900 samples, 392 "useless")
+* some high values look like dummy values ( multiple times 9999999 in values and 9999 in year -> maybe easy cleaning) (whereas Arizona == AR?, UT,VT,SC -> can be found in the internet for shure)
+* clustering in general maybe sounds interesting what can be found
+* type_{1,2} & Expanse_{1,2} only 4 distinct values (Public,Private / {In,Out}-State)
 </br>
 
 ## Olympics.csv (classification)
@@ -59,13 +66,19 @@ movie type etc. So we could restrict the space of recommendations.
 * In this dataset we could not correct the missing values without using external material (university name, founded year, CWUR_score, Student_satisfaction etc.). Because these are just unknown for us and we cannot reconstruct them out of other data from this dataset. But most likely we will not need them for most of the regression tasks we will just not consider this rows with missing information.
 * This dataset offers a huge amount of possibilities for different regression approaches. I think therefore we would not run out of tasks for everyone to contribute within this project. As David already mentioned just alone the amount of possible models and techniques we could use here is for sure a benefit for our final report.
 
+
+### Alexander
+- Many fields can be filled in manually (e.g. University_name, Founded_year), but not shure if CWUR_score is easy to find (~52 entries missing?) 
+- dataset has not many samples(~145 entries), could cause problems/be a challenge
+- many columns, some not needed (motto?), therefore quite a few regression possibilities
+- like in the description mentioned, many possibilities (-> comparisons of the methods/models could be well split up between us, recomender imdb would be harder to split the work) 
 </br>
 
 ## Ranking
 ***
 | Project                                | Dataset          | Alexander     | David         | Ronald        | Thomas       |
 | -------------                          | -------------    | ------------- | ------------- | ------------- |------------- |
-| Interactive system/recommender system  | IMDB.csv         | X             | X             | X             | 4            |                   
-| Clustering                             | Undergrad.csv    | X             | X             | X             | 3            |  
-| Prediction/classification              | Olympics.csv     | X             | X             | X             | 1            |  
-| Prediction/regression                  | Universities.csv | X             | X             | X             | 2            | 
+| Interactive system/recommender system  | IMDB.csv         | 3             | X             | X             | 4            |                   
+| Clustering                             | Undergrad.csv    | 2             | X             | X             | 3            |  
+| Prediction/classification              | Olympics.csv     | 3             | X             | X             | 1            |  
+| Prediction/regression                  | Universities.csv | 1             | X             | X             | 2            | 
