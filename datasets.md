@@ -82,9 +82,9 @@ movie type etc. So we could restrict the space of recommendations.
 ***
 | Project                                | Dataset          | Alexander  (*)| David         | Ronald        | Thomas       |
 | -------------                          | -------------    | ------------- | ------------- | ------------- |------------- |
-| Interactive system/recommender system  | IMDB.csv         | 3/2             | X             | X             | 4            |                   
-| Clustering                             | Undergrad.csv    | 2/3             | X             | X             | 3            |  
-| Prediction/classification              | Olympics.csv     | 2/3             | X             | X             | 1            |  
-| Prediction/regression                  | Universities.csv | 1             | X             | X             | 2            | 
+| Interactive system/recommender system  | IMDB.csv         | 3/2           | 4             | X             | 4            |                   
+| Clustering                             | Undergrad.csv    | 2/3           | 3             | X             | 3            |  
+| Prediction/classification              | Olympics.csv     | 2/3           | 1             | X             | 1            |  
+| Prediction/regression                  | Universities.csv | 1             | 2             | X             | 2            | 
 
 (*) most of the tasks have intresting parts, therefore i don
