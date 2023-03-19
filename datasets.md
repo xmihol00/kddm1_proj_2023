@@ -29,7 +29,7 @@ movie type etc. So we could restrict the space of recommendations.
 ### Alexander 
 * "bigger" dataset (~3900 samples, 392 "useless")
 * some high values look like dummy values ( multiple times 9999999 in values and 9999 in year -> maybe easy cleaning) (whereas Arizona == AR?, UT,VT,SC -> can be found in the internet for shure)
-* clustering in general maybe sounds interesting what can be found
+* clustering in general maybe sounds interesting what can be found out
 * type_{1,2} & Expanse_{1,2} only 4 distinct values (Public,Private / {In,Out}-State)
 </br>
 
@@ -49,6 +49,10 @@ movie type etc. So we could restrict the space of recommendations.
 * Maybe different training approaches for different predictions. I think we could show/argue how it would impact our results when we just train our model e.g. gender specific or mixed.
 * As David already mentioned, there is for sure some kind of randomness, also the performance of some nations have changed over the years. But therefore we could also show this in our summary and make some kind of performance rankings for disciplines e.g. to show the dominance of nations over decades in some disciplines.
 * I think there is a huge potential to analyze the dataset and create different approaches, as mentioned in the project remark the performance is not that important but to understand the dataset.
+
+### Alexander
+- depends on the task, but it does not look easy to process the data/get usefull information (at a frist glance) . (no real numeric values, many classes (diciplines/sports))
+- At first sight, the data seems to be more or less complete.
 
 </br>
 
@@ -76,9 +80,11 @@ movie type etc. So we could restrict the space of recommendations.
 
 ## Ranking
 ***
-| Project                                | Dataset          | Alexander     | David         | Ronald        | Thomas       |
+| Project                                | Dataset          | Alexander  (*)| David         | Ronald        | Thomas       |
 | -------------                          | -------------    | ------------- | ------------- | ------------- |------------- |
-| Interactive system/recommender system  | IMDB.csv         | 3             | X             | X             | 4            |                   
-| Clustering                             | Undergrad.csv    | 2             | X             | X             | 3            |  
-| Prediction/classification              | Olympics.csv     | 3             | X             | X             | 1            |  
+| Interactive system/recommender system  | IMDB.csv         | 3/2             | X             | X             | 4            |                   
+| Clustering                             | Undergrad.csv    | 2/3             | X             | X             | 3            |  
+| Prediction/classification              | Olympics.csv     | 2/3             | X             | X             | 1            |  
 | Prediction/regression                  | Universities.csv | 1             | X             | X             | 2            | 
+
+(*) most of the tasks have intresting parts, therefore i don
