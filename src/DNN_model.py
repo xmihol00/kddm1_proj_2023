@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras as nn
 
@@ -23,15 +24,17 @@ X_test_median = test_median.drop(columns=y_columns).to_numpy()
 y_test_median = test_median[y_columns].to_numpy()
 
 model = nn.Sequential([
-    nn.layers.Dense(64, activation='relu', input_shape=[X_train_mean.shape[1]]),
-    nn.layers.Dense(64, activation='relu'),
-    nn.layers.Dense(2)
+    nn.layers.Dense(X_train_mean.shape[1], activation='relu', input_shape=[X_train_mean.shape[1]]),
+    nn.layers.Dense(X_train_mean.shape[1], activation='relu'),
+    nn.layers.Dense(X_train_mean.shape[1], activation='linear'),
+    nn.layers.Dense(1)
 ])
 
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
 # train the model
-model.compile(optimizer='adam', loss='mse', metrics=['mae', 'mse'])
-model.fit(X_train_mean, y_train_mean, epochs=50, verbose=1)
+model.compile(optimizer=optimizer, loss='mse')
+model.fit(X_train_mean, y_train_mean[:, 0], epochs=100, verbose=2)
 
 # evaluate the model on the test set
-results = model.evaluate(X_test_mean, y_test_mean, verbose=2)
-print(results)
+result = model.predict(X_test_mean)
+print(np.vstack((result.reshape(result.shape[0]), y_test_mean[:, 0])).T)
