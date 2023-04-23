@@ -40,6 +40,7 @@ universities_test_mean_imputed.set_index("Id", inplace=True)
 universities_test_median_imputed = pd.read_csv("data/Universities_test_median_imputed.csv")
 universities_test_median_imputed.set_index("Id", inplace=True)
 
+# deep copy
 universities_train_mean_imputed_normalized = universities_train_mean_imputed.copy()
 universities_train_median_imputed_normalized = universities_train_median_imputed.copy()
 
@@ -64,16 +65,16 @@ universities_test_mean_imputed_normalized = pd.get_dummies(universities_test_mea
 universities_test_median_imputed_normalized = pd.get_dummies(universities_test_median_imputed_normalized, columns=one_hot_encoded_columns)
 
 # add columns that might be missing in the test data due to one-hot encoding
-missing_columns = set(universities_train_mean_imputed_normalized.columns) - set(universities_test_mean_imputed_normalized.columns)
-for missing_column in missing_columns:
-    universities_test_mean_imputed_normalized[missing_column] = 0
-    universities_test_median_imputed_normalized[missing_column] = 0
+missing_test_columns = set(universities_train_mean_imputed_normalized.columns) - set(universities_test_mean_imputed_normalized.columns)
+for missing_test_column in missing_test_columns:
+    universities_test_mean_imputed_normalized[missing_test_column] = 0
+    universities_test_median_imputed_normalized[missing_test_column] = 0
 
 # add columns that might be missing in the training data due to one-hot encoding
-missing_columns = set(universities_test_mean_imputed_normalized.columns) - set(universities_train_mean_imputed_normalized.columns)
-for missing_column in missing_columns:
-    universities_train_mean_imputed_normalized[missing_column] = 0
-    universities_train_median_imputed_normalized[missing_column] = 0
+missing_train_columns = set(universities_test_mean_imputed_normalized.columns) - set(universities_train_mean_imputed_normalized.columns)
+for missing_train_column in missing_train_columns:
+    universities_train_mean_imputed_normalized[missing_train_column] = 0
+    universities_train_median_imputed_normalized[missing_train_column] = 0
 
 # order columns alphabetically for both train and test data
 universities_train_mean_imputed_normalized = universities_train_mean_imputed_normalized.reindex(sorted(universities_train_mean_imputed_normalized.columns), axis=1)

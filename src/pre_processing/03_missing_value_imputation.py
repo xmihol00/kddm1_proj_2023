@@ -59,7 +59,7 @@ campus_setting_mode = universities_test["Campus_setting"].mode()[0]
 universities_test_mean_imputed["Campus_setting"].fillna(campus_setting_mode, inplace=True)
 universities_test_median_imputed["Campus_setting"].fillna(campus_setting_mode, inplace=True)
 
-# imputation of the academic staff to
+# imputation of the academic staff to 10_000
 universities_train_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 universities_train_median_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 universities_test_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True)

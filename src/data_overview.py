@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -51,10 +52,14 @@ df.describe()
 
 ###############################################################################
 # correlation matrix
+corr = df.corr().round(2)
 print('\n' + '#'*120)
-print(df.corr().round(2))
+print(corr)
 
-plt.matshow(df.corr().round(2))
+# plt.matshow(corr, cmap=plt.cm.Reds)
+plt.figure(figsize=(14, 14))
+sns.heatmap(corr, annot=True, cmap=plt.cm.Reds)
+plt.tight_layout()
 plt.savefig('plt/00_Correlation.png')
 plt.show()
 plt.close()

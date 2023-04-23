@@ -8,9 +8,9 @@ import datetime as dt
 
 universities = pd.read_csv("data/Universities.csv")
 universities.rename( columns={"Unnamed: 0": "Id"}, inplace=True )
-
-# correction of 9999 in the founded year column
 universities.set_index("Id", inplace=True)
+
+# correction of "9999" to "" in the founded year column
 universities["Founded_year"].mask(universities["Founded_year"] > dt.datetime.now().year, None, inplace=True)
 
 # conversion of percentage to float
@@ -30,6 +30,9 @@ universities.loc[universities["Academic_staff_from"] == "over", ["Academic_staff
 universities["Academic_staff_from"] = universities["Academic_staff_from"].str.replace(",", "").astype("float")
 universities["Academic_staff_to"] = universities["Academic_staff_to"].str.replace(",", "").astype("float")
 universities.drop(columns=["Academic_staff"], inplace=True)
+
+# deduplicate
+universities.drop_duplicates(keep='first', inplace=True, ignore_index=False)
 
 universities.to_csv("data/Universities_cleaned.csv")
 
