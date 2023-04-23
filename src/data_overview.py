@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -7,6 +8,10 @@ import numpy as np
 # Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
 
 df = pd.read_csv("data/Universities.csv")
+
+################################################################################
+# heads, Dtype
+df.columns
 
 ################################################################################
 # Non-Null Count, Dtype
@@ -41,6 +46,43 @@ print("nr rows are compleat:  ", np.sum(nan_row_count == 0))
 # print(df.select_dtypes(exclude='number'))
 
 ###############################################################################
-print('\n' + '#'*120)
-print(df.describe())
+# statistics
+df.describe()
 
+###############################################################################
+# correlation matrix
+print('\n' + '#'*120)
+print(df.corr().round(2))
+
+plt.matshow(df.corr().round(2))
+plt.savefig('plt/00_Correlation.png')
+plt.show()
+plt.close()
+
+###############################################################################
+# scatter plots
+# plt.get_current_fig_manager().full_screen_toggle()
+
+# hist + scatter plot matrix of all feature pairs
+pd.plotting.scatter_matrix(df, figsize=(30, 30))
+plt.savefig('plt/00_Scatter Matrix.png')
+plt.get_current_fig_manager().window.showMaximized()
+plt.show()
+plt.close()
+
+# are both ranks linear related?
+df.plot(kind = 'scatter', x = 'UK_rank', y = 'World_rank', figsize=(8,6))
+plt.savefig('plt/01_Compare Ranks.png')
+plt.show()
+plt.close()
+
+# hist of regions?
+print('\n' + '#'*120)
+print(df['Region'].value_counts(sort=False))
+
+df['Region'].value_counts(sort=False).plot(kind='bar')
+plt.grid(axis='y')
+plt.tight_layout()
+plt.savefig('plt/02_Inspect region.png')
+# plt.show()
+plt.close()
