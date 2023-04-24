@@ -31,8 +31,28 @@ universities["Academic_staff_from"] = universities["Academic_staff_from"].str.re
 universities["Academic_staff_to"] = universities["Academic_staff_to"].str.replace(",", "").astype("float")
 universities.drop(columns=["Academic_staff"], inplace=True)
 
-# deduplicate
-universities.drop_duplicates(keep='first', inplace=True, ignore_index=False)
+# compare duplicates
+universities_duplicates = universities.drop(universities.drop_duplicates(keep=False, inplace=False, ignore_index=False).index)
+universities_duplicates.sort_values(by=["Motto"], inplace=True)
 
-universities.to_csv("data/Universities_cleaned.csv")
+universities_duplicates_first = universities.drop(universities.drop_duplicates(keep="last", inplace=False, ignore_index=False).index)
+universities_duplicates_first.sort_values(by=["Motto"], inplace=True)
+universities_duplicates_first.set_index("Motto", inplace=True)
 
+universities_duplicates_last = universities.drop(universities.drop_duplicates(keep="first", inplace=False, ignore_index=False).index)
+universities_duplicates_last.sort_values(by=["Motto"], inplace=True)
+universities_duplicates_last.set_index("Motto", inplace=True)
+
+print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
+
+# store
+universities_duplicates.to_csv("data/Universities_cleaned_duplicates.csv")
+universities_duplicates_first.to_csv("data/universities_cleaned_duplicates_first.csv")
+universities_duplicates_last.to_csv("data/universities_cleaned_duplicates_last.csv")
+
+
+# drop deduplicates
+universities.drop_duplicates(keep="first", inplace=True, ignore_index=True)
+
+# store
+universities.to_csv("data/Universities_cleaned2.csv")
