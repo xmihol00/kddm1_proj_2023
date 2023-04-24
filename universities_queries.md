@@ -70,4 +70,40 @@
 2. ...
 3. ...
 
+## Pre processing
+
+1. Cleaning
+      - Index column is labeld "Id"
+      - Invalide Founded_year past current year get set to NaN.
+      - Percentage information of "International_students" and "Student_satisfaction" transformed to interval of [0,1].
+      - Information of "Student_enrollment" and "Academic_staff" get split in extra columns with suffix "from" and "to".
+      - "Academic_staff" containing the value "over-5000" transform into "Academic_staff_from" = 5000, "Academic_staff_to" = ""
+      - Duplicate data gets analyzed and filtered out.
+2. Train / test split
+      - The data is split in 80% Training and 20% Test data
+
+3. Missing value imputation
+      - Empty entries in continues data {"CWUR_score","Student_satisfaction"} is filled with the columns mean / median values.
+      - Empty entries in categorical data {"Academic_Calender","Campus_setting"} are set to most frequent value
+      - Empty entries in "Academic_staff_to" is set to a max of "10000"
+
+4. Normalization
+      - Continues data is normalized by its mean an standard error
+      {"UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", "Student_satisfaction", "Estimated_cost_of_living_per_year_(in_pounds)", "Student_enrollment_from", "Student_enrollment_to", "Academic_staff_from", "Academic_staff_to"}
+      - Catigorial data is split by one-hot encoding
+      {"Region", "Control_type", "Academic_Calender", "Campus_setting"}
+      - columns are ordered alphabetically
+
+5. Convert continuous values to numeric
+      - All remaining non numerical columns {'Motto', 'University_name', 'Website'} get dropped.
+      - Remaining columns with NaN get dropped. {"Founded_year"}
+      - Column "Id" gets dropped.
+
 ## MSE Model Performance
+
+| researcher         | Model                    | Nr. features  | MSE             | Accuracy      |
+| -------------      | -------------            | ------------- | -------------   | ------------- |
+| Alexander          | x                        | X             | x               | x             |
+| David              | DNN                      | X             | x               | x             |
+| Ronald             | random forest            | 10            | 4267268.34      | 0.49          |
+| Thomas             | support vector machine   | X             | x               | x             |

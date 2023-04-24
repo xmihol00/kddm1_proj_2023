@@ -73,7 +73,7 @@ def printPerformance(rf, X_test, y_test, X_columns):
     
     ft_imp = pd.Series(rf.feature_importances_, index=X_columns).sort_values(ascending=False)
     print()
-    print('feature importance:                   \n', ft_imp.head(10))
+    print('feature importance:                   \n', ft_imp.head(20))
     
     y_pred = rf.predict(X_test)
     y_true = y_test

@@ -1,10 +1,36 @@
 import pandas as pd
+import numpy as np
+
+
+def analyzeDroppedColumns(df):
+  # Dropped non numeric columns ("object")
+  print('\n' + '#'*120)
+  print("Dropped non numeric columns:")
+  logic_mask = [t not in ['float64', 'int64'] for t in df.dtypes]
+  print(df.columns[logic_mask])
+
+  # Dropped columns contain NaN
+  print('\n' + '#'*120)
+  print("Dropped null columns:")
+  
+  nan_col_count = df.isna().sum()
+  for i, x in enumerate(nan_col_count):
+    if x != 0:
+      print("{:3} {:50} {:3}".format(i, df.columns[i], x))
+  print("total Null columns:   {:}".format(nan_col_count.sum()))
+  print("nr columns with null: {:}".format(np.sum(nan_col_count != 0)))
+
 
 universities_train_mean = pd.read_csv("data/Universities_train_mean_imputed_normalized.csv")
 universities_train_median = pd.read_csv("data/Universities_train_median_imputed_normalized.csv")
 
 universities_test_mean = pd.read_csv("data/Universities_test_mean_imputed_normalized.csv")
 universities_test_median = pd.read_csv("data/Universities_test_median_imputed_normalized.csv")
+
+
+################################################################################
+# analyze
+# analyzeDroppedColumns(universities_train_mean)
 
 # drop non numeric columns, columns with NaNs and the Id column
 universities_train_mean = universities_train_mean.select_dtypes(include=['float64', 'int64'])
