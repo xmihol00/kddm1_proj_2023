@@ -6,6 +6,8 @@ import pandas as pd
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
+print("Normaling continuous features and one-hot encoding categorical features ...")
+
 # zero mean and unit variance normalization for continuous features (apart from the target variables)
 # normalized columns (continuous features):
 normalized_continuous_columns = ["UK_rank", 

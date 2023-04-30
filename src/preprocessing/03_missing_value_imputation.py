@@ -6,6 +6,8 @@ import pandas as pd
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
+print("Imputing missing values ...")
+
 # make sure test data don't leak to the training data, i.e. mean, median, mode are calculated separately
 
 universities_train = pd.read_csv("data/Universities_train_split.csv")

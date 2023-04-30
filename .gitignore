@@ -2,6 +2,8 @@
 .vscode/
 .history/
 data/
+__pycache__/
 
 # File
 log.txt
+old_log.txt

@@ -1,15 +1,22 @@
-# INP.31202UF - Knowledge Discovery and Data Mining 1 UE
+# INP.31202UF - Knowledge Discovery and Data Mining 1
+This repository contains our implementation of the **Project 4: regression** using the Universities.csv dataset in summer semester 2023 at TU Graz.
 
-## SS 2023 - Project 4: Prediction/regression: universities
+## Goal of our project
+The goal is to the tuition fees (both for under and post graduate programs) of a university based on its ranking, location, acceptance rate, and other features. To achieve that by comparing performance of various machine learning regression models and later on creating an ensemble of all the tested models to further improve the prediction.
 
-### Project Ideas
+## Project structure
+```
+ |
+ |-- data/                 - directory with the original and pre-processed dataset (must be created and the dataset inserted)
+ |
+ |-- plots/                - directory with plots analyzing the dataset
+ |
+ |-- src/                  - directory with Python source files for dataset pre-processing, visualizations and model training
+ |
+ |-- dataset_analysis.md   - markdown file containing detail analysis and taken pre-processing steps of the Universities.csv dataset
+ |
+ |-- model_performance.md  - markdown file containing parameters of our models and achieved results
+ |
+ |-- run_preprocessing.sh  - shell script to run all pre-processing steps
 
-One possible project idea for regression using this dataset is to predict the tuition fees of a university based on its ranking, location, acceptance rate, and other features. Another idea is to analyze the relationship between tuition fees and student satisfaction scores across different universities and see if there is a correlation or a trade-off. A third idea is to compare the performance of different regression models (such as linear regression, polynomial regression, random forest regression, etc.) on this dataset and evaluate their accuracy and error metrics.
-
-## Project Dataset
-
-- Universities.csv
-
-## Dataset Impressions
-
-## Dataset Models
+```

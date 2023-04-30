@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+print("Dropping non numeric columns, Id column and columns with NaNs...")
 
 def analyzeDroppedColumns(df):
   # Dropped non numeric columns ("object")

@@ -4,9 +4,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# Create dir 'plt/'
-if not os.path.isdir("plt"):
-    os.makedirs("plt")
+# Create dir 'plots/'
+os.makedirs("plots", exist_ok=True)
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -65,7 +64,7 @@ print(corr)
 plt.figure(figsize=(14, 14))
 sns.heatmap(corr, annot=True, cmap=plt.cm.Reds)
 plt.tight_layout()
-plt.savefig('plt/00_Correlation.png')
+plt.savefig('plots/00_Correlation.png')
 plt.show()
 plt.close()
 
@@ -75,14 +74,14 @@ plt.close()
 
 # hist + scatter plot matrix of all feature pairs
 pd.plotting.scatter_matrix(df, figsize=(30, 30))
-plt.savefig('plt/00_Scatter Matrix.png')
+plt.savefig('plots/00_Scatter Matrix.png')
 plt.get_current_fig_manager().window.showMaximized()
 plt.show()
 plt.close()
 
 # are both ranks linear related?
 df.plot(kind = 'scatter', x = 'UK_rank', y = 'World_rank', figsize=(8,6))
-plt.savefig('plt/01_Compare Ranks.png')
+plt.savefig('plots/01_Compare Ranks.png')
 plt.show()
 plt.close()
 
@@ -93,6 +92,6 @@ print(df['Region'].value_counts(sort=False))
 df['Region'].value_counts(sort=False).plot(kind='bar')
 plt.grid(axis='y')
 plt.tight_layout()
-plt.savefig('plt/02_Inspect region.png')
+plt.savefig('plots/02_Inspect region.png')
 # plt.show()
 plt.close()

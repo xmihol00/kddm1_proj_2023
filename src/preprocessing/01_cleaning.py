@@ -1,13 +1,15 @@
 import pandas as pd
 import datetime as dt
 
+print("Cleaning ...")
+
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
 # PG_average_fees_(in_pounds), International_students, Student_satisfaction, Student_enrollment, Academic_staff, Control_type, 
 # Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
 
 universities = pd.read_csv("data/Universities.csv")
-universities.rename( columns={"Unnamed: 0": "Id"}, inplace=True )
+universities.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
 universities.set_index("Id", inplace=True)
 
 # correction of "9999" to "" in the founded year column
@@ -43,16 +45,16 @@ universities_duplicates_last = universities.drop(universities.drop_duplicates(ke
 universities_duplicates_last.sort_values(by=["Motto"], inplace=True)
 universities_duplicates_last.set_index("Motto", inplace=True)
 
-print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
+#print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
 
 # store
-universities_duplicates.to_csv("data/Universities_cleaned_duplicates.csv")
-universities_duplicates_first.to_csv("data/universities_cleaned_duplicates_first.csv")
-universities_duplicates_last.to_csv("data/universities_cleaned_duplicates_last.csv")
+universities_duplicates.to_csv("data/Universities_cleaned_removed_duplicates.csv")
+universities_duplicates_first.to_csv("data/Universities_cleaned_deduplicated_first.csv")
+universities_duplicates_last.to_csv("data/Universities_cleaned_deduplicated_last.csv")
 
 
-# drop deduplicates
-universities.drop_duplicates(keep="first", inplace=True, ignore_index=True)
+# drop duplicates
+universities.drop_duplicates(keep="first", inplace=True)
 
 # store
-universities.to_csv("data/Universities_cleaned2.csv")
+universities.to_csv("data/Universities_cleaned_deduplicated.csv")

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,10 +9,17 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn import metrics
 import os
+import random as rn
 
-# Create dir 'plt/'
-if not os.path.isdir("plt"):
-    os.makedirs("plt")
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from seed import RANDOM_SEED
+
+np.random.seed(RANDOM_SEED)
+rn.seed(RANDOM_SEED)
+
+# Create dir 'plots/'
+os.makedirs("plots", exist_ok=True)
+
 
 def performGridSearch(X_train, y_train, rf, param_grid, create_Plot = False, plotSuffix = ''):
     # Grid Search
@@ -32,7 +40,7 @@ def performGridSearch(X_train, y_train, rf, param_grid, create_Plot = False, plo
         plt.grid()
         plt.xlabel('params')
         plt.ylabel('neg_mean_squared_error')
-        plt.savefig('plt/rand_forest_elbow_graph_{}.png'.format(plotSuffix))
+        plt.savefig('plots/rand_forest_elbow_graph_{}.png'.format(plotSuffix))
         # plt.show()
     return gs.best_params_
 
@@ -40,7 +48,7 @@ def performGridSearch(X_train, y_train, rf, param_grid, create_Plot = False, plo
 def plotBestParams(X_train, y_train):
 
     # param: n_estimators
-    rf = RandomForestRegressor(random_state=0)
+    rf = RandomForestRegressor(random_state=RANDOM_SEED)
     param_grid = {
         'n_estimators': list(range(1, 101, 1)),
     }
@@ -48,7 +56,7 @@ def plotBestParams(X_train, y_train):
     best_params = performGridSearch(X_train, y_train, rf, param_grid, create_Plot = True, plotSuffix = 'n_estimators')
     
     # # param: max_features, best params: {'max_features': 21}
-    # rf = RandomForestRegressor(random_state=0)
+    # rf = RandomForestRegressor(random_state=RANDOM_SEED)
     # param_grid = {
     #     'max_features': list(range(1, X_train.shape[1], 1))
     # }
@@ -56,7 +64,7 @@ def plotBestParams(X_train, y_train):
     # best_params = performGridSearch(X_train, y_train, rf, param_grid, create_Plot = True, plotSuffix = 'max_features')
     
     # # param: mix
-    # rf = RandomForestRegressor(random_state=0)
+    # rf = RandomForestRegressor(random_state=RANDOM_SEED)
     # param_grid = {
     #     'n_estimators': list(range(16, 25, 1)),
     #     'max_features': list(range(1, len(X_train.columns), 1))
@@ -73,7 +81,7 @@ def printPerformance(rf, X_test, y_test, X_columns):
     
     ft_imp = pd.Series(rf.feature_importances_, index=X_columns).sort_values(ascending=False)
     print()
-    print('feature importance:                   \n', ft_imp.head(20))
+    print('feature importance:                   ', ft_imp.head(20), sep='\n')
     
     y_pred = rf.predict(X_test)
     y_true = y_test
@@ -117,8 +125,8 @@ if __name__ == "__main__":
     rf = RandomForestRegressor(n_estimators=22, max_features=10)
     rf.fit(X_train_mean, y_train_mean)
 
-    printPerformance(rf, X_test_mean, y_test_mean, X_columns)
     y_pred = rf.predict(X_test_mean)
+    printPerformance(rf, X_test_mean, y_test_mean, X_columns)
 
 
     # crate a data frame with the results of the selected model
