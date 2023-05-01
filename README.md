@@ -7,16 +7,18 @@ The goal is to the tuition fees (both for under and post graduate programs) of a
 ## Project structure
 ```
  |
- |-- data/                 - directory with the original and pre-processed dataset (must be created and the dataset inserted)
+ |-- data/                          - directory with the original and pre-processed dataset (must be created and the dataset inserted)
  |
- |-- plots/                - directory with plots analyzing the dataset
+ |-- plots/                         - directory with plots analyzing the dataset
  |
- |-- src/                  - directory with Python source files for dataset pre-processing, visualizations and model training
+ |-- results/                       - directory with CSV files containing predictions and ground truths of our models
  |
- |-- dataset_analysis.md   - markdown file containing detail analysis and taken pre-processing steps of the Universities.csv dataset
+ |-- src/                           - directory with Python source files for dataset pre-processing, visualizations and model training
  |
- |-- model_performance.md  - markdown file containing parameters of our models and achieved results
+ |-- dataset_analysis.md            - markdown file containing analysis and taken pre-processing steps of the Universities.csv dataset
  |
- |-- run_preprocessing.sh  - shell script to run all pre-processing steps
+ |-- model_training_evaluation.md   - markdown file describing how we trained and evaluated our models
+ |
+ |-- run_preprocessing.sh           - shell script to run all pre-processing steps
 
 ```

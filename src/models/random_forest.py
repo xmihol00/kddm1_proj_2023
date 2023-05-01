@@ -134,4 +134,4 @@ if __name__ == "__main__":
                                     "truth UG_average_fees_(in_pounds)": y_test_mean[:, 0], "truth PG_average_fees_(in_pounds)": y_test_mean[:, 1]})
     
     print(predicted_truth)
-    predicted_truth.to_csv("models/rf_predicted_truth.csv")
+    predicted_truth.to_csv("results/RF_predicted_truth.csv", index=False)
