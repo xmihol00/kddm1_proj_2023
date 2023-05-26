@@ -1,16 +1,18 @@
 import pandas as pd
 import datetime as dt
 
+print("Cleaning ...")
+
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
 # PG_average_fees_(in_pounds), International_students, Student_satisfaction, Student_enrollment, Academic_staff, Control_type, 
 # Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
 
 universities = pd.read_csv("data/Universities.csv")
-universities.rename( columns={"Unnamed: 0": "Id"}, inplace=True )
-
-# correction of 9999 in the founded year column
+universities.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
 universities.set_index("Id", inplace=True)
+
+# correction of "9999" to "" in the founded year column
 universities["Founded_year"].mask(universities["Founded_year"] > dt.datetime.now().year, None, inplace=True)
 
 # conversion of percentage to float
@@ -31,5 +33,28 @@ universities["Academic_staff_from"] = universities["Academic_staff_from"].str.re
 universities["Academic_staff_to"] = universities["Academic_staff_to"].str.replace(",", "").astype("float")
 universities.drop(columns=["Academic_staff"], inplace=True)
 
-universities.to_csv("data/Universities_cleaned.csv")
+# compare duplicates
+universities_duplicates = universities.drop(universities.drop_duplicates(keep=False, inplace=False, ignore_index=False).index)
+universities_duplicates.sort_values(by=["Motto"], inplace=True)
 
+universities_duplicates_first = universities.drop(universities.drop_duplicates(keep="last", inplace=False, ignore_index=False).index)
+universities_duplicates_first.sort_values(by=["Motto"], inplace=True)
+universities_duplicates_first.set_index("Motto", inplace=True)
+
+universities_duplicates_last = universities.drop(universities.drop_duplicates(keep="first", inplace=False, ignore_index=False).index)
+universities_duplicates_last.sort_values(by=["Motto"], inplace=True)
+universities_duplicates_last.set_index("Motto", inplace=True)
+
+#print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
+
+# store
+universities_duplicates.to_csv("data/Universities_cleaned_removed_duplicates.csv")
+universities_duplicates_first.to_csv("data/Universities_cleaned_deduplicated_first.csv")
+universities_duplicates_last.to_csv("data/Universities_cleaned_deduplicated_last.csv")
+
+
+# drop duplicates
+universities.drop_duplicates(keep="first", inplace=True)
+
+# store
+universities.to_csv("data/Universities_cleaned_deduplicated.csv")

@@ -6,6 +6,8 @@ import pandas as pd
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
+print("Imputing missing values ...")
+
 # make sure test data don't leak to the training data, i.e. mean, median, mode are calculated separately
 
 universities_train = pd.read_csv("data/Universities_train_split.csv")
@@ -59,7 +61,7 @@ campus_setting_mode = universities_test["Campus_setting"].mode()[0]
 universities_test_mean_imputed["Campus_setting"].fillna(campus_setting_mode, inplace=True)
 universities_test_median_imputed["Campus_setting"].fillna(campus_setting_mode, inplace=True)
 
-# imputation of the academic staff to
+# imputation of the academic staff to 10_000
 universities_train_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 universities_train_median_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 universities_test_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
