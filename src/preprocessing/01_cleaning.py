@@ -1,14 +1,21 @@
+import os
+from pathlib import Path
+
 import pandas as pd
 import datetime as dt
+import numpy as np
 
-print("Cleaning ...")
+from src.utils import deduplication
+os.chdir(Path(__file__).parents[2])
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
 # PG_average_fees_(in_pounds), International_students, Student_satisfaction, Student_enrollment, Academic_staff, Control_type, 
 # Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
 
+print("Cleaning ...")
 universities = pd.read_csv("data/Universities.csv")
+
 universities.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
 universities.set_index("Id", inplace=True)
 
@@ -52,9 +59,31 @@ universities_duplicates.to_csv("data/Universities_cleaned_removed_duplicates.csv
 universities_duplicates_first.to_csv("data/Universities_cleaned_deduplicated_first.csv")
 universities_duplicates_last.to_csv("data/Universities_cleaned_deduplicated_last.csv")
 
-
 # drop duplicates
 universities.drop_duplicates(keep="first", inplace=True)
 
 # store
 universities.to_csv("data/Universities_cleaned_deduplicated.csv")
+
+universities = pd.read_csv("data/Universities.csv")
+
+universities_deduplicated = universities.drop(columns='Unnamed: 0')
+deduplication(universities_deduplicated)
+
+#remove non valuable values with NaN
+universities_deduplicated['Founded_year'] = universities_deduplicated['Founded_year'].replace(9999, np.NaN)
+universities_deduplicated['Student_satisfaction'] = universities_deduplicated['Student_satisfaction'].replace(0.0, np.NaN)
+
+#remove useless columns
+useless_columns = np.array(['University_name', 'Motto', 'Website'])
+universities_deduplicated = universities_deduplicated.drop(columns=useless_columns)
+
+#% string into float
+for column in universities_deduplicated.columns:
+    if (universities_deduplicated[column].dtype == object):
+        if (universities_deduplicated[column].str.contains('%').any()):
+            universities_deduplicated[column] = universities_deduplicated[column].str.rstrip('%').astype('float') / 100.0
+
+#save file
+universities_deduplicated.to_csv("data/Universities_cleaned_deduplicated_new.csv")
+

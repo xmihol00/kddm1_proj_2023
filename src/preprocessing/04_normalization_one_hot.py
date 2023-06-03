@@ -1,4 +1,12 @@
+import os
+from pathlib import Path
 import pandas as pd
+import numpy as np
+
+from src.seed import RANDOM_SEED
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+os.chdir(Path(__file__).parents[2])
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -91,4 +99,31 @@ universities_train_median_imputed_normalized.to_csv("data/Universities_train_med
 
 universities_test_mean_imputed_normalized.to_csv("data/Universities_test_mean_imputed_normalized.csv")
 universities_test_median_imputed_normalized.to_csv("data/Universities_test_median_imputed_normalized.csv")
+
+
+universities_mixed_imputed = pd.read_csv("data/Universities_mixed_imputed.csv")
+universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
+
+universities_mixed_imputed_normalized = pd.DataFrame()
+for column in universities_mixed_imputed.columns:
+    if((universities_mixed_imputed[column].dtype == 'int') | (universities_mixed_imputed[column].dtype == 'float')):
+        scaler = StandardScaler()
+        df_num = pd.DataFrame(scaler.fit_transform(universities_mixed_imputed[[column]]))
+        df_num.rename(columns={0 : column}, inplace=True)
+        universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_num], axis=1)
+    else:
+        encoder = OneHotEncoder()
+        df_cat = pd.DataFrame(encoder.fit_transform(universities_mixed_imputed[[column]]).toarray())
+        column_names = np.array(encoder.categories_)
+        df_cat = df_cat.set_axis(column_names.flatten(), axis=1, copy=False)
+        universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_cat], axis=1)
+
+universities_mixed_imputed_normalized.to_csv("data/Universities_mixed_imputed_normalized.csv", index=False)
+
+universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.sample(frac=0.8, random_state=RANDOM_SEED)
+universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.drop(universities_train_mixed_imputed_normalized.index)
+
+universities_train_mixed_imputed_normalized.to_csv("data/Universities_train_mixed_imputed_normalized.csv", index=False)
+universities_test_mixed_imputed_normalized.to_csv("data/Universities_test_mixed_imputed_normalized.csv", index=False)
+
 
