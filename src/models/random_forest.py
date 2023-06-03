@@ -6,13 +6,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
 from sklearn import metrics
 import os
 import random as rn
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from seed import RANDOM_SEED
+from src.seed import RANDOM_SEED
 
 np.random.seed(RANDOM_SEED)
 rn.seed(RANDOM_SEED)

@@ -1,5 +1,10 @@
+import os
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
+
+os.chdir(Path(__file__).parents[2])
 
 print("Dropping non numeric columns, Id column and columns with NaNs...")
 
@@ -24,9 +29,11 @@ def analyzeDroppedColumns(df):
 
 universities_train_mean = pd.read_csv("data/Universities_train_mean_imputed_normalized.csv")
 universities_train_median = pd.read_csv("data/Universities_train_median_imputed_normalized.csv")
+universities_train_mixed = pd.read_csv("data/Universities_train_mixed_imputed_normalized.csv")
 
 universities_test_mean = pd.read_csv("data/Universities_test_mean_imputed_normalized.csv")
 universities_test_median = pd.read_csv("data/Universities_test_median_imputed_normalized.csv")
+universities_test_mixed = pd.read_csv("data/Universities_test_mixed_imputed_normalized.csv")
 
 
 ################################################################################
@@ -51,6 +58,8 @@ universities_test_median.drop(columns=["Id"], inplace=True)
 # save the data to final train and test files
 universities_train_mean.to_csv("data/Universities_train_mean.csv", index=False)
 universities_train_median.to_csv("data/Universities_train_median.csv", index=False)
+universities_train_mixed.to_csv("data/Universities_train_mixed.csv", index=False)
 
 universities_test_mean.to_csv("data/Universities_test_mean.csv", index=False)
 universities_test_median.to_csv("data/Universities_test_median.csv", index=False)
+universities_test_mixed.to_csv("data/Universities_test_mixed.csv", index=False)

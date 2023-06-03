@@ -10,7 +10,7 @@ import random as rn
 from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from seed import RANDOM_SEED
+from src.seed import RANDOM_SEED
 
 TRAIN_ALL_COLUMNS = True
 TRAIN_ALL_CONTINUOS_COLUMNS = True
