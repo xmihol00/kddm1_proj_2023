@@ -47,6 +47,7 @@ def performGridSearch(X_train, y_train, rf, param_grid, create_Plot = False, plo
 
 def plotBestParams(X_train, y_train):
 
+    ##############################################
     # param: n_estimators
     rf = RandomForestRegressor(random_state=RANDOM_SEED)
     param_grid = {
@@ -55,6 +56,7 @@ def plotBestParams(X_train, y_train):
     print('grid: \n', param_grid)
     best_params = performGridSearch(X_train, y_train, rf, param_grid, create_Plot = True, plotSuffix = 'n_estimators')
     
+    ##############################################
     # # param: max_features, best params: {'max_features': 21}
     # rf = RandomForestRegressor(random_state=RANDOM_SEED)
     # param_grid = {
@@ -63,6 +65,7 @@ def plotBestParams(X_train, y_train):
     # print('grid: \n', param_grid)
     # best_params = performGridSearch(X_train, y_train, rf, param_grid, create_Plot = True, plotSuffix = 'max_features')
     
+    ##############################################
     # # param: mix
     # rf = RandomForestRegressor(random_state=RANDOM_SEED)
     # param_grid = {
@@ -74,32 +77,33 @@ def plotBestParams(X_train, y_train):
 
     return best_params
 
-def printPerformance(rf, X_test, y_test, X_columns):
-    print('random forest accuracy:                   ', rf.score(X_test, y_test))
+def printPerformance(rf: RandomForestRegressor, X_test, y_test, X_columns):
+    # print('random forest accuracy:                   ', rf.score(X_test, y_test))
     # print('prediction:                               ', rf.predict(X_test[0].reshape(1, -1)))
     # print('true value:                               ', y_test[0])
     
+    n = 20
     ft_imp = pd.Series(rf.feature_importances_, index=X_columns).sort_values(ascending=False)
     print()
-    print('feature importance:                   ', ft_imp.head(20), sep='\n')
+    print(pd.DataFrame({'pos':range(1,n+1), 'feature importance':ft_imp.head(n).round(3)}))
     
+    for feature in ft_imp.index:
+        print(columns.index(feature))
+        
     y_pred = rf.predict(X_test)
     y_true = y_test
-    mape = metrics.mean_absolute_percentage_error(y_true, y_pred)
-    accuracy = 1 - mape
     print()
-    print('Mean Absolute Error (MAE):               ', metrics.mean_absolute_error(y_true, y_pred))
-    print('Mean Squared Error (MSE):                ', metrics.mean_squared_error(y_true, y_pred))
-    print('Root Mean Squared Error (RMSE):          ', metrics.mean_squared_error(y_true, y_pred, squared=False))
-    print('Mean Absolute Percentage Error (MAPE):   ', mape)
-    print('Accuracy (1 - MAPE):                     ', accuracy)
-    print('Explained Variance Score:                ', metrics.explained_variance_score(y_true, y_pred))
-    # print('Max Error:                               ', metrics.max_error(y_true, y_pred))
-    # print('Mean Squared Log Error:                  ', metrics.mean_squared_log_error(y_true, y_pred))
-    print('Median Absolute Error:                   ', metrics.median_absolute_error(y_true, y_pred))
-    print('R^2:                                     ', metrics.r2_score(y_true, y_pred))
-    # print('Mean Poisson Deviance:                   ', metrics.mean_poisson_deviance(y_true, y_pred))
-    # print('Mean Gamma Deviance:                     ', metrics.mean_gamma_deviance(y_true, y_pred))
+    print('Accuracy:                                {:16.3f}'.format(rf.score(X_test, y_test)))
+    print()
+    print('Mean Squared Error (MSE):                {:16.3f}'.format(metrics.mean_squared_error(y_true, y_pred)))
+    print('Root Mean Squared Error (RMSE):          {:16.3f}'.format(metrics.mean_squared_error(y_true, y_pred, squared=False)))
+    print('Mean Absolute Error (MAE):               {:16.3f}'.format(metrics.mean_absolute_error(y_true, y_pred)))
+    print('R^2:                                     {:16.3f}'.format(metrics.r2_score(y_true, y_pred)))
+    print()
+    print('Mean Absolute Percentage Error (MAPE):   {:16.3f}'.format(metrics.mean_absolute_percentage_error(y_true, y_pred)))
+    print('Accuracy (1 - MAPE):                     {:16.3f}'.format(1 - metrics.mean_absolute_percentage_error(y_true, y_pred)))
+    print('Explained Variance Score:                {:16.3f}'.format(metrics.explained_variance_score(y_true, y_pred)))
+    print('Median Absolute Error:                   {:16.3f}'.format(metrics.median_absolute_error(y_true, y_pred)))
 
 
 if __name__ == "__main__":
@@ -120,9 +124,9 @@ if __name__ == "__main__":
     results = []
 
     # plotBestParams(X_train_mean, y_train_mean)
-    # best params: {'max_features': 10, 'n_estimators': 22}
+    # best params: {'n_estimators': 22, 'max_features': 10}
     
-    rf = RandomForestRegressor(n_estimators=22, max_features=10)
+    rf = RandomForestRegressor(n_estimators=100, max_features=10)
     rf.fit(X_train_mean, y_train_mean)
 
     y_pred = rf.predict(X_test_mean)

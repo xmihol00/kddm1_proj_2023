@@ -12,7 +12,7 @@ The following sections provide an extensive analysis of the Universities dataset
 4. Which information is missing?
       - 6 out of 22 columns have missing values and the columns, where values miss the most often are `CWUR_score`, `Academic_Calender` and `Campus_setting`.
 
-      |  #  | Column                                         | Non-Null Count  | Null Count | Data Type    | Variable Type
+      |  #  | Column                                         | Non-Null Count  | Null Count | Data Type| Variable Type
       |-----|------------------------------------------------|-----------------|------------|----------|---------------|
       |  0  | Id                                             | 145 non-null    |   0        | int64    | continuous    |
       |  1  | University_name                                | 131 non-null    |  14        | object   | categorical   |
@@ -21,7 +21,7 @@ The following sections provide an extensive analysis of the Universities dataset
       |  4  | Motto                                          | 127 non-null    |  18        | object   | categorical   |
       |  5  | UK_rank                                        | 145 non-null    |   0        | int64    | continuous    |
       |  6  | World_rank                                     | 145 non-null    |   0        | int64    | continuous    |
-      |  7  | CWUR_score                                     | 93 non-null     |  52        | float64  | continuous    |
+      |  7  | CWUR_score                                     |  93 non-null    |  52        | float64  | continuous    |
       |  8  | Minimum_IELTS_score                            | 145 non-null    |   0        | float64  | continuous    |
       |  9  | UG_average_fees_(in_pounds)                    | 145 non-null    |   0        | int64    | continuous    |
       |  10 | PG_average_fees_(in_pounds)                    | 145 non-null    |   0        | int64    | continuous    |
@@ -69,9 +69,38 @@ TODO: comment on the dependencies relationships
 
 ## Knowledge gain from the data set
 
-1. ...
-2. ...
-3. ...
+These insights are partial generated with the open-source tool 'orange' and partial by python libraries.
+
+1. Fees behave similar, with the Average PG fees being higher than Average UG fees.
+      ![image](./plots/orange/scatter_UG_PG_fees_diff.png.png)
+
+2. Most universities are from the capital London. This indicate a data bias.
+      ![image](./plots/knowledge_gained/bar_hist%20region.png)
+
+3. The best 3 universities based on CWUR-score are:
+      | name                         |  UK rank |  world rank  |  CWUR-Score  |
+      |------------------------------|----------|--------------|--------------|
+      | University of Cambridge      |  1       |        4     |       94     |
+      | University of Oxford         |  2       |        2     |       93.3   |
+      | University College London    |  9       |       14     |       88     |
+
+4. Fees tend to rise with CWUR-score.
+      ![image](./plots/orange/scatter_PG_fees_per_CWUR_score.png)
+
+5. UK rank and World rank are similar providing an order where lower values are better, with the best university at rank 1. Private universities tend to be better rated on world rank.
+      ![image](./plots/orange/scatter_world_rank_per_UK_rank.png)
+
+6. The CWUR score provide a metric where a higher value is better with the best UK university of a value of 94.
+      ![image](./plots/orange/scatter_world_rank_per_CWUR.png)
+
+7. Most universities are founded in 1925. This could be related to political action.
+      ![image](./plots/knowledge_gained/bar_top%2010%20hist%20founded.png)
+
+8. The Capital London hold the highest estimated cost of living.
+      ![image](./plots/knowledge_gained/boxplot_Cost%20of%20living%20per%20region.png)
+
+9. Suburban Univserities tend to have the highest estimated cost of living.
+      ![image](./plots/knowledge_gained/boxplot_Cost%20of%20living%20per%20campus_setting.png)
 
 ## Pre-processing
 We have pre-processed the dataset with the following steps:
@@ -82,9 +111,9 @@ We have pre-processed the dataset with the following steps:
       - splitting columns `Student_enrollment` and `Academic_staff` in additional columns with suffixes *from* and *to*,
       - setting value `over` in in the `Academic_staff_from` column to `5000` and value `5000` in the column `Academic_staff_to` to NaN,
       - analyzing the dataset for duplicit entries and filtering them out.
-      
+
 2. Dataset split (`src/preprocessing/02_train_test_split.py`):
-      - splitting the dataset immediately to train set (80 %) and test set (20 %) to ensure the will not be any leakage of the test set to the train set. 
+      - splitting the dataset immediately to train set (80 %) and test set (20 %) to ensure the will not be any leakage of the test set to the train set.
 
 3. Missing value imputation (`src/preprocessing/03_missing_value_imputation.py`):
       - imputing missing entries in continuos columns `CWUR_score` and `Student_satisfaction` the mean and the median computed for the given column (two versions of the dataset, i.e mean imputed and median imputed, are used from now on),
