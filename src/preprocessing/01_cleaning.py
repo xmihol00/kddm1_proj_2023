@@ -27,6 +27,7 @@ def cleaning(df: pd.DataFrame):
     # conversion of percentage to float
     df["International_students"] = df["International_students"].str.rstrip("%").astype("float") / 100
     df["Student_satisfaction"] = df["Student_satisfaction"].str.rstrip("%").astype("float") / 100
+    df['Student_satisfaction'] = df['Student_satisfaction'].replace(0.0, np.NaN)
 
     # conversion of student enrollment to two columns
     df[["Student_enrollment_from", "Student_enrollment_to"]] = df["Student_enrollment"].str.split("-", expand=True)
@@ -48,10 +49,6 @@ def cleaning(df: pd.DataFrame):
 def cleaning_by_thomas(df: pd.DataFrame):
     df_ret = universities.drop(columns='Unnamed: 0')
     deduplication(df_ret)
-    
-    #remove non valuable values with NaN
-    df_ret['Founded_year'] = df_ret['Founded_year'].replace(9999, np.NaN)
-    df_ret['Student_satisfaction'] = df_ret['Student_satisfaction'].replace(0.0, np.NaN)
 
     #remove useless columns
     useless_columns = np.array(['University_name', 'Motto', 'Website'])
@@ -62,7 +59,11 @@ def cleaning_by_thomas(df: pd.DataFrame):
         if (df_ret[column].dtype == object):
             if (df_ret[column].str.contains('%').any()):
                 df_ret[column] = df_ret[column].str.rstrip('%').astype('float') / 100.0
-
+    
+    #remove non valuable values with NaN
+    df_ret['Founded_year'] = df_ret['Founded_year'].replace(9999, np.NaN)
+    df_ret['Student_satisfaction'] = df_ret['Student_satisfaction'].replace(0.0, np.NaN)
+    
     return df_ret
 
 

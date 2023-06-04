@@ -99,12 +99,12 @@ universities_test_median_imputed.to_csv(DATA_PATH[3] + "Universities_test_median
 universities = pd.read_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated_by_thomas.csv")
 universities = universities.drop(columns='Unnamed: 0')
 
-imputation_numeric(universities)
-imputation_founded_year(universities)
+imputation_numeric(universities)                    # FIXME: why not imputation of median over train/test spilt? 
+imputation_founded_year(universities)               # Todo: FIXME, see comparison_preprocessing.ipynb
 imputation_academic_calender(universities)
 imputation_campus_setting(universities)
 
-universities_train = universities.sample(frac=0.8, random_state=RANDOM_SEED)
+universities_train = universities.sample(frac=0.8, random_state=RANDOM_SEED)    # FIXME: why split here again? (already done in 02_train_test_split.py)
 universities_test = universities.drop(universities_train.index)
 
 universities.to_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
