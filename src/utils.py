@@ -5,6 +5,15 @@ from src.seed import RANDOM_SEED
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsClassifier
 
+def get_rel_data_path():
+    return [
+        'data/',
+        'data/01_cleaning/',
+        'data/02_splitting/',
+        'data/03_imputation/',
+        'data/04_normalization/',
+        'data/05_numeric/',
+    ]
 
 def deduplication(df : pd.DataFrame):
     duplicated_rows = df.index[df['Latitude'].duplicated()].to_list()

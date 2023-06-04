@@ -4,12 +4,18 @@ from pathlib import Path
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
-
 from src.utils import imputation_numeric
 from src.utils import imputation_founded_year
 from src.utils import imputation_academic_calender
 from src.utils import imputation_campus_setting
 from src.seed import RANDOM_SEED
+from src.utils import get_rel_data_path
+
+
+DATA_PATH = get_rel_data_path()
+os.makedirs(DATA_PATH[3], exist_ok=True)
+
+
 ################################################################################
 def imputation_mean(df_dst: pd.DataFrame, df_src: pd.DataFrame, columns: str):
     for col in columns: 
@@ -41,10 +47,10 @@ print("Imputing missing values ...")
 
 ################################################################################
 # read
-universities_train = pd.read_csv("data/Universities_train_split.csv")
+universities_train = pd.read_csv(DATA_PATH[2] + "Universities_train_split.csv")
 universities_train.set_index("Id", inplace=True)
 
-universities_test = pd.read_csv("data/Universities_test_split.csv")
+universities_test = pd.read_csv(DATA_PATH[2] + "Universities_test_split.csv")
 universities_test.set_index("Id", inplace=True)
 
 
@@ -64,8 +70,8 @@ universities_train_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True
 universities_test_mean_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 
 # save
-universities_train_mean_imputed.to_csv("data/Universities_train_mean_imputed.csv")
-universities_test_mean_imputed.to_csv("data/Universities_test_mean_imputed.csv")
+universities_train_mean_imputed.to_csv(DATA_PATH[3] + "Universities_train_mean_imputed.csv")
+universities_test_mean_imputed.to_csv(DATA_PATH[3] + "Universities_test_mean_imputed.csv")
 
 
 ################################################################################
@@ -84,13 +90,13 @@ universities_train_median_imputed["Academic_staff_to"].fillna(10_000, inplace=Tr
 universities_test_median_imputed["Academic_staff_to"].fillna(10_000, inplace=True)
 
 # save
-universities_train_median_imputed.to_csv("data/Universities_train_median_imputed.csv")
-universities_test_median_imputed.to_csv("data/Universities_test_median_imputed.csv")
+universities_train_median_imputed.to_csv(DATA_PATH[3] + "Universities_train_median_imputed.csv")
+universities_test_median_imputed.to_csv(DATA_PATH[3] + "Universities_test_median_imputed.csv")
 
 
 ################################################################################
 # by thomas
-universities = pd.read_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
+universities = pd.read_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated_by_thomas.csv")
 universities = universities.drop(columns='Unnamed: 0')
 
 imputation_numeric(universities)
@@ -101,7 +107,7 @@ imputation_campus_setting(universities)
 universities_train = universities.sample(frac=0.8, random_state=RANDOM_SEED)
 universities_test = universities.drop(universities_train.index)
 
-universities.to_csv("data/Universities_mixed_imputed.csv")
-universities_train.to_csv("data/Universities_train_mixed_imputed.csv")
-universities_test.to_csv("data/Universities_test_mixed_imputed.csv")
+universities.to_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
+universities_train.to_csv(DATA_PATH[3] + "Universities_train_mixed_imputed.csv")
+universities_test.to_csv(DATA_PATH[3] + "Universities_test_mixed_imputed.csv")
 

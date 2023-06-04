@@ -59,11 +59,11 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model, optimizer, epoch
     return pred_result, eval_result
 
 if __name__ == "__main__":
-    train_mean = pd.read_csv("data/Universities_train_mean.csv")
-    train_median = pd.read_csv("data/Universities_train_median.csv")
+    train_mean = pd.read_csv("data/05_numeric/Universities_train_mean.csv")
+    train_median = pd.read_csv("data/05_numeric/Universities_train_median.csv")
 
-    test_mean = pd.read_csv("data/Universities_test_mean.csv")
-    test_median = pd.read_csv("data/Universities_test_median.csv")
+    test_mean = pd.read_csv("data/05_numeric/Universities_test_mean.csv")
+    test_median = pd.read_csv("data/05_numeric/Universities_test_median.csv")
 
     # separate data frame to X and y
     target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]

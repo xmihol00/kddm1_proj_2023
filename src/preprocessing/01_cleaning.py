@@ -5,10 +5,15 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 
+
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
-
 from src.utils import deduplication
+from src.utils import get_rel_data_path
+
+
+DATA_PATH = get_rel_data_path()
+os.makedirs(DATA_PATH[1], exist_ok=True)
 
 
 ################################################################################
@@ -72,20 +77,20 @@ print("Cleaning ...")
 
 ################################################################################
 # cleaning
-universities = pd.read_csv("data/Universities.csv")
+universities = pd.read_csv(DATA_PATH[0] + "Universities.csv")
 cleaning(universities)
 
 # store
-universities.to_csv("data/Universities_cleaned_deduplicated.csv")
+universities.to_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated.csv")
 
 
 ################################################################################
 # cleaning by thomas
-universities = pd.read_csv("data/Universities.csv")
+universities = pd.read_csv(DATA_PATH[0] + "Universities.csv")
 universities_deduplicated = cleaning_by_thomas(universities)
 
 #save file
-universities_deduplicated.to_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
+universities_deduplicated.to_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated_by_thomas.csv")
 
 
 ################################################################################
@@ -104,6 +109,6 @@ universities_duplicates_last.sort_values(by=[sort_by_col], inplace=True)
 # print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
 
 # store
-universities_duplicates.to_csv("data/Universities_cleaned_removed_duplicates.csv")
-universities_duplicates_first.to_csv("data/Universities_cleaned_removed_duplicates_first.csv")
-universities_duplicates_last.to_csv("data/Universities_cleaned_removed_duplicates_last.csv")
+universities_duplicates.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates.csv")
+universities_duplicates_first.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates_first.csv")
+universities_duplicates_last.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates_last.csv")

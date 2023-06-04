@@ -2,12 +2,16 @@ import os, sys
 from pathlib import Path
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
-
 from src.seed import RANDOM_SEED
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from src.utils import get_rel_data_path
+
+
+DATA_PATH = get_rel_data_path()
+os.makedirs(DATA_PATH[4], exist_ok=True)
 
 
 ################################################################################
@@ -45,14 +49,14 @@ one_hot_encoded_columns = ["Region",
 ################################################################################
 # make sure test data don't leak to the training data, i.e. mean and variance are calculated only for the training data
 # read 
-universities_train_mean_imputed = pd.read_csv("data/Universities_train_mean_imputed.csv")
+universities_train_mean_imputed = pd.read_csv(DATA_PATH[3] + "Universities_train_mean_imputed.csv")
 universities_train_mean_imputed.set_index("Id", inplace=True)
-universities_train_median_imputed = pd.read_csv("data/Universities_train_median_imputed.csv")
+universities_train_median_imputed = pd.read_csv(DATA_PATH[3] + "Universities_train_median_imputed.csv")
 universities_train_median_imputed.set_index("Id", inplace=True)
 
-universities_test_mean_imputed = pd.read_csv("data/Universities_test_mean_imputed.csv")
+universities_test_mean_imputed = pd.read_csv(DATA_PATH[3] + "Universities_test_mean_imputed.csv")
 universities_test_mean_imputed.set_index("Id", inplace=True)
-universities_test_median_imputed = pd.read_csv("data/Universities_test_median_imputed.csv")
+universities_test_median_imputed = pd.read_csv(DATA_PATH[3] + "Universities_test_median_imputed.csv")
 universities_test_median_imputed.set_index("Id", inplace=True)
 
 # deep copy
@@ -100,18 +104,18 @@ universities_test_mean_imputed_normalized = universities_test_mean_imputed_norma
 universities_test_median_imputed_normalized = universities_test_median_imputed_normalized.reindex(sorted(universities_test_median_imputed_normalized.columns), axis=1)
 
 # save to csv
-universities_train_mean_imputed_normalized.to_csv("data/Universities_train_mean_imputed_normalized.csv")
-universities_train_median_imputed_normalized.to_csv("data/Universities_train_median_imputed_normalized.csv")
+universities_train_mean_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_mean_imputed_normalized.csv")
+universities_train_median_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_median_imputed_normalized.csv")
 
-universities_test_mean_imputed_normalized.to_csv("data/Universities_test_mean_imputed_normalized.csv")
-universities_test_median_imputed_normalized.to_csv("data/Universities_test_median_imputed_normalized.csv")
+universities_test_mean_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_mean_imputed_normalized.csv")
+universities_test_median_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_median_imputed_normalized.csv")
 
 
 ################################################################################
 # by thomas
 
 # read
-universities_mixed_imputed = pd.read_csv("data/Universities_mixed_imputed.csv")
+universities_mixed_imputed = pd.read_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
 universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
 
 # normalization
@@ -130,14 +134,14 @@ for column in universities_mixed_imputed.columns:
         universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_cat], axis=1)
 
 # save
-universities_mixed_imputed_normalized.to_csv("data/Universities_mixed_imputed_normalized.csv", index=False)
+universities_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_mixed_imputed_normalized.csv", index=False)
 
 # split
 universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.sample(frac=0.8, random_state=RANDOM_SEED)
 universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.drop(universities_train_mixed_imputed_normalized.index)
 
 # save
-universities_train_mixed_imputed_normalized.to_csv("data/Universities_train_mixed_imputed_normalized.csv", index=False)
-universities_test_mixed_imputed_normalized.to_csv("data/Universities_test_mixed_imputed_normalized.csv", index=False)
+universities_train_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_mixed_imputed_normalized.csv", index=False)
+universities_test_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_mixed_imputed_normalized.csv", index=False)
 
 

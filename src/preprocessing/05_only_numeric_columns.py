@@ -6,8 +6,10 @@ import numpy as np
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
+from src.utils import get_rel_data_path
 
-
+DATA_PATH = get_rel_data_path()
+os.makedirs(DATA_PATH[5], exist_ok=True)
 
 ################################################################################
 def analyzeDroppedColumns(df: pd.DataFrame):
@@ -37,13 +39,13 @@ print("Dropping non numeric columns, Id column and columns with NaNs...")
 
 ################################################################################
 # read
-universities_train_mean = pd.read_csv("data/Universities_train_mean_imputed_normalized.csv")
-universities_train_median = pd.read_csv("data/Universities_train_median_imputed_normalized.csv")
-universities_train_mixed = pd.read_csv("data/Universities_train_mixed_imputed_normalized.csv")
+universities_train_mean = pd.read_csv(DATA_PATH[4] + "Universities_train_mean_imputed_normalized.csv")
+universities_train_median = pd.read_csv(DATA_PATH[4] + "Universities_train_median_imputed_normalized.csv")
+universities_train_mixed = pd.read_csv(DATA_PATH[4] + "Universities_train_mixed_imputed_normalized.csv")
 
-universities_test_mean = pd.read_csv("data/Universities_test_mean_imputed_normalized.csv")
-universities_test_median = pd.read_csv("data/Universities_test_median_imputed_normalized.csv")
-universities_test_mixed = pd.read_csv("data/Universities_test_mixed_imputed_normalized.csv")
+universities_test_mean = pd.read_csv(DATA_PATH[4] + "Universities_test_mean_imputed_normalized.csv")
+universities_test_median = pd.read_csv(DATA_PATH[4] + "Universities_test_median_imputed_normalized.csv")
+universities_test_mixed = pd.read_csv(DATA_PATH[4] + "Universities_test_mixed_imputed_normalized.csv")
 
 
 ################################################################################
@@ -67,10 +69,10 @@ universities_test_mean.drop(columns=["Id"], inplace=True)
 universities_test_median.drop(columns=["Id"], inplace=True)
 
 # save the data to final train and test files
-universities_train_mean.to_csv("data/Universities_train_mean.csv", index=False)
-universities_train_median.to_csv("data/Universities_train_median.csv", index=False)
-universities_train_mixed.to_csv("data/Universities_train_mixed.csv", index=False)
+universities_train_mean.to_csv(DATA_PATH[5] + "Universities_train_mean.csv", index=False)
+universities_train_median.to_csv(DATA_PATH[5] + "Universities_train_median.csv", index=False)
+universities_train_mixed.to_csv(DATA_PATH[5] + "Universities_train_mixed.csv", index=False)
 
-universities_test_mean.to_csv("data/Universities_test_mean.csv", index=False)
-universities_test_median.to_csv("data/Universities_test_median.csv", index=False)
-universities_test_mixed.to_csv("data/Universities_test_mixed.csv", index=False)
+universities_test_mean.to_csv(DATA_PATH[5] + "Universities_test_mean.csv", index=False)
+universities_test_median.to_csv(DATA_PATH[5] + "Universities_test_median.csv", index=False)
+universities_test_mixed.to_csv(DATA_PATH[5] + "Universities_test_mixed.csv", index=False)

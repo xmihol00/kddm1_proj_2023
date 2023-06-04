@@ -39,8 +39,8 @@ if __name__ == "__main__":
     y_test = []
 
     if usedPreprocessing == PreProcessing.MEAN:
-        train_mean = pd.read_csv("data/Universities_train_mean.csv")
-        test_mean = pd.read_csv("data/Universities_test_mean.csv")
+        train_mean = pd.read_csv("data/05_numeric/Universities_train_mean.csv")
+        test_mean = pd.read_csv("data/05_numeric/Universities_test_mean.csv")
 
         y_test.clear()
         y_pred.clear()
@@ -60,8 +60,8 @@ if __name__ == "__main__":
             y_test.append(y_test_mean)
 
     if usedPreprocessing == PreProcessing.MEDIAN:
-        train_median = pd.read_csv("data/Universities_train_median.csv")
-        test_median = pd.read_csv("data/Universities_test_median.csv")
+        train_median = pd.read_csv("data/05_numeric/Universities_train_median.csv")
+        test_median = pd.read_csv("data/05_numeric/Universities_test_median.csv")
 
         y_test.clear()
         y_pred.clear()
@@ -80,8 +80,8 @@ if __name__ == "__main__":
             y_pred.append(svr_median.predict(X_test_median))
 
     if usedPreprocessing == PreProcessing.MIXED:
-        train_mixed = pd.read_csv("data/Universities_train_mixed.csv")
-        test_mixed = pd.read_csv("data/Universities_test_mixed.csv")
+        train_mixed = pd.read_csv("data/05_numeric/Universities_train_mixed.csv")
+        test_mixed = pd.read_csv("data/05_numeric/Universities_test_mixed.csv")
         universities = pd.read_csv("data/Universities_mixed_imputed.csv")
 
         y_test.clear()
