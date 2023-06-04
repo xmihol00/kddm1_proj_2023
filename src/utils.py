@@ -51,9 +51,9 @@ def imputation_numeric(df: pd.DataFrame):
 
 def imputation_founded_year(df : pd.DataFrame):
     nan_indices = np.where(df['Founded_year'].isna())[0]        # returns tuple(x)
-    founded_years = [1096, 1413, 1964, 1965, 1966, 1904, 1900, 1901, 1862, 1963, 1829, 1920,
-                     1964, 1961, 1872, 1895, 1882, 1844, 1870, 1850, 1840, 1994, 1832, 1891,
-                     1968, 2005, 1822, 2006]
+    founded_years = [1096, 1413, 1964, 1965, 1966, 1904, 1900, 2012, 1952, 1963, 1829, 1920,
+                     1964, 1961, 1872, 1895, 2006, 2005, 1992, 1850, 2005, 1994, 1966, 2007,
+                     1968, 2005, 2007, 2006]
     df.loc[nan_indices, 'Founded_year'] = founded_years
     return df
 
