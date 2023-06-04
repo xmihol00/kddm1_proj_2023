@@ -6,11 +6,13 @@ import pandas as pd
 from src.utils import split
 from src.utils import RANDOM_SEED
 
+################################################################################
 #sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(Path(__file__).parents[2])
-
 print("Splitting data into train and test sets...")
 
+
+################################################################################
 universities = pd.read_csv("data/Universities_cleaned_deduplicated.csv")
 universities.set_index("Id", inplace=True)
 
@@ -21,6 +23,9 @@ universities_test = universities.drop(universities_train.index)
 universities_train.to_csv("data/Universities_train_split.csv")
 universities_test.to_csv("data/Universities_test_split.csv")
 
+
+################################################################################
+# by thomas
 universities = pd.read_csv("data/Universities_cleaned_deduplicated_new.csv")
 universities = universities.drop(columns='Unnamed: 0')
 

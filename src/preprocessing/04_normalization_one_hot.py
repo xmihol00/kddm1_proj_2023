@@ -14,7 +14,7 @@ os.chdir(Path(__file__).parents[2])
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
-print("Normaling continuous features and one-hot encoding categorical features ...")
+print("Normalization of continuous features and one-hot encoding categorical features ...")
 
 # zero mean and unit variance normalization for continuous features (apart from the target variables)
 # normalized columns (continuous features):
@@ -100,7 +100,8 @@ universities_train_median_imputed_normalized.to_csv("data/Universities_train_med
 universities_test_mean_imputed_normalized.to_csv("data/Universities_test_mean_imputed_normalized.csv")
 universities_test_median_imputed_normalized.to_csv("data/Universities_test_median_imputed_normalized.csv")
 
-
+################################################################################
+# by thomas
 universities_mixed_imputed = pd.read_csv("data/Universities_mixed_imputed.csv")
 universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
 

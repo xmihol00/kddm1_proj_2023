@@ -40,6 +40,7 @@ universities_test_mixed = pd.read_csv("data/Universities_test_mixed_imputed_norm
 # analyze
 # analyzeDroppedColumns(universities_train_mean)
 
+################################################################################
 # drop non numeric columns, columns with NaNs and the Id column
 universities_train_mean = universities_train_mean.select_dtypes(include=['float64', 'int64'])
 universities_train_median = universities_train_median.select_dtypes(include=['float64', 'int64'])
