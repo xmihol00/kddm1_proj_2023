@@ -1,32 +1,42 @@
-import os
+import os, sys
 from pathlib import Path
 
 import pandas as pd
 import numpy as np
 
 os.chdir(Path(__file__).parents[2])
+sys.path.append(os.getcwd())
 
-print("Dropping non numeric columns, Id column and columns with NaNs...")
 
-def analyzeDroppedColumns(df):
+
+################################################################################
+def analyzeDroppedColumns(df: pd.DataFrame):
   # Dropped non numeric columns ("object")
   print('\n' + '#'*120)
   print("Dropped non numeric columns:")
-  logic_mask = [t not in ['float64', 'int64'] for t in df.dtypes]
-  print(df.columns[logic_mask])
+  print(df.select_dtypes(exclude='number').columns)
 
   # Dropped columns contain NaN
   print('\n' + '#'*120)
-  print("Dropped null columns:")
+  print("Dropped null rows:")
   
   nan_col_count = df.isna().sum()
+  nan_row_count = df.isna().sum(axis=1)
   for i, x in enumerate(nan_col_count):
     if x != 0:
-      print("{:3} {:50} {:3}".format(i, df.columns[i], x))
-  print("total Null columns:   {:}".format(nan_col_count.sum()))
-  print("nr columns with null: {:}".format(np.sum(nan_col_count != 0)))
+      print("{:5} {:50} {:3}".format(i, df.columns[i], x))
+  print('-'*120)
+  print("nr Null columns:    {:40}".format(np.sum(nan_col_count != 0)))
+  print("nr Null rows:       {:40}".format(np.sum(nan_row_count != 0).sum()))
+  print("sum Null values:    {:40}".format(nan_col_count.sum()))
 
 
+################################################################################
+print("Dropping non numeric columns, Id column and columns with NaNs...")
+
+
+################################################################################
+# read
 universities_train_mean = pd.read_csv("data/Universities_train_mean_imputed_normalized.csv")
 universities_train_median = pd.read_csv("data/Universities_train_median_imputed_normalized.csv")
 universities_train_mixed = pd.read_csv("data/Universities_train_mixed_imputed_normalized.csv")

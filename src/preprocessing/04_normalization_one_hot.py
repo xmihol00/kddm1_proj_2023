@@ -1,12 +1,17 @@
-import os
+import os, sys
 from pathlib import Path
 import pandas as pd
 import numpy as np
 
+os.chdir(Path(__file__).parents[2])
+sys.path.append(os.getcwd())
+
 from src.seed import RANDOM_SEED
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-os.chdir(Path(__file__).parents[2])
+
+################################################################################
+print("Normalization of continuous features and one-hot encoding categorical features ...")
 
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -14,8 +19,7 @@ os.chdir(Path(__file__).parents[2])
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
-print("Normalization of continuous features and one-hot encoding categorical features ...")
-
+################################################################################
 # zero mean and unit variance normalization for continuous features (apart from the target variables)
 # normalized columns (continuous features):
 normalized_continuous_columns = ["UK_rank", 
@@ -38,8 +42,9 @@ one_hot_encoded_columns = ["Region",
                            "Campus_setting"]
 
 
+################################################################################
 # make sure test data don't leak to the training data, i.e. mean and variance are calculated only for the training data
-
+# read 
 universities_train_mean_imputed = pd.read_csv("data/Universities_train_mean_imputed.csv")
 universities_train_mean_imputed.set_index("Id", inplace=True)
 universities_train_median_imputed = pd.read_csv("data/Universities_train_median_imputed.csv")
@@ -57,6 +62,7 @@ universities_train_median_imputed_normalized = universities_train_median_imputed
 universities_test_mean_imputed_normalized = universities_test_mean_imputed.copy()
 universities_test_median_imputed_normalized = universities_test_median_imputed.copy()
 
+################################################################################
 # normalization for continuous features
 mean = universities_train_mean_imputed[normalized_continuous_columns].mean()
 std = universities_train_mean_imputed[normalized_continuous_columns].std()
@@ -100,11 +106,15 @@ universities_train_median_imputed_normalized.to_csv("data/Universities_train_med
 universities_test_mean_imputed_normalized.to_csv("data/Universities_test_mean_imputed_normalized.csv")
 universities_test_median_imputed_normalized.to_csv("data/Universities_test_median_imputed_normalized.csv")
 
+
 ################################################################################
 # by thomas
+
+# read
 universities_mixed_imputed = pd.read_csv("data/Universities_mixed_imputed.csv")
 universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
 
+# normalization
 universities_mixed_imputed_normalized = pd.DataFrame()
 for column in universities_mixed_imputed.columns:
     if((universities_mixed_imputed[column].dtype == 'int') | (universities_mixed_imputed[column].dtype == 'float')):
@@ -119,11 +129,14 @@ for column in universities_mixed_imputed.columns:
         df_cat = df_cat.set_axis(column_names.flatten(), axis=1, copy=False)
         universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_cat], axis=1)
 
+# save
 universities_mixed_imputed_normalized.to_csv("data/Universities_mixed_imputed_normalized.csv", index=False)
 
+# split
 universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.sample(frac=0.8, random_state=RANDOM_SEED)
 universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.drop(universities_train_mixed_imputed_normalized.index)
 
+# save
 universities_train_mixed_imputed_normalized.to_csv("data/Universities_train_mixed_imputed_normalized.csv", index=False)
 universities_test_mixed_imputed_normalized.to_csv("data/Universities_test_mixed_imputed_normalized.csv", index=False)
 

@@ -1,18 +1,20 @@
-import os
+import os, sys
 from pathlib import Path
 
 import pandas as pd
 import datetime as dt
 import numpy as np
 
-from src.utils import deduplication
 os.chdir(Path(__file__).parents[2])
+sys.path.append(os.getcwd())
+
+from src.utils import deduplication
 
 
 ################################################################################
 def cleaning(df: pd.DataFrame):    
-    universities.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
-    universities.set_index("Id", inplace=True)
+    df.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
+    df.set_index("Id", inplace=True)
     
     # correction of "9999" to "" in the founded year column
     df["Founded_year"].mask(df["Founded_year"] > dt.datetime.now().year, None, inplace=True)
@@ -39,22 +41,24 @@ def cleaning(df: pd.DataFrame):
     df.drop_duplicates(keep="first", inplace=True)
 
 def cleaning_by_thomas(df: pd.DataFrame):
-    universities_deduplicated = universities.drop(columns='Unnamed: 0')
-    deduplication(universities_deduplicated)
+    df_ret = universities.drop(columns='Unnamed: 0')
+    deduplication(df_ret)
     
     #remove non valuable values with NaN
-    universities_deduplicated['Founded_year'] = universities_deduplicated['Founded_year'].replace(9999, np.NaN)
-    universities_deduplicated['Student_satisfaction'] = universities_deduplicated['Student_satisfaction'].replace(0.0, np.NaN)
+    df_ret['Founded_year'] = df_ret['Founded_year'].replace(9999, np.NaN)
+    df_ret['Student_satisfaction'] = df_ret['Student_satisfaction'].replace(0.0, np.NaN)
 
     #remove useless columns
     useless_columns = np.array(['University_name', 'Motto', 'Website'])
-    universities_deduplicated = universities_deduplicated.drop(columns=useless_columns)
+    df_ret = df_ret.drop(columns=useless_columns)
 
     #% string into float
-    for column in universities_deduplicated.columns:
-        if (universities_deduplicated[column].dtype == object):
-            if (universities_deduplicated[column].str.contains('%').any()):
-                universities_deduplicated[column] = universities_deduplicated[column].str.rstrip('%').astype('float') / 100.0
+    for column in df_ret.columns:
+        if (df_ret[column].dtype == object):
+            if (df_ret[column].str.contains('%').any()):
+                df_ret[column] = df_ret[column].str.rstrip('%').astype('float') / 100.0
+
+    return df_ret
 
 
 ################################################################################
@@ -78,10 +82,10 @@ universities.to_csv("data/Universities_cleaned_deduplicated.csv")
 ################################################################################
 # cleaning by thomas
 universities = pd.read_csv("data/Universities.csv")
-cleaning_by_thomas(universities)
+universities_deduplicated = cleaning_by_thomas(universities)
 
 #save file
-universities.to_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
+universities_deduplicated.to_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
 
 
 ################################################################################

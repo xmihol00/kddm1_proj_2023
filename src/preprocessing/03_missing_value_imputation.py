@@ -1,6 +1,9 @@
-import os
+import os, sys
 import pandas as pd
 from pathlib import Path
+
+os.chdir(Path(__file__).parents[2])
+sys.path.append(os.getcwd())
 
 from src.utils import imputation_numeric
 from src.utils import imputation_founded_year
@@ -20,15 +23,13 @@ def imputation_median(df_dst: pd.DataFrame, df_src: pd.DataFrame, columns: str):
 
 def imputation_mode(df_dst: pd.DataFrame, df_src: pd.DataFrame, columns: str):
     for col in columns: 
-        median = df_src[col].mode()
-        df_dst[col].fillna(median, inplace=True)
+        mode = df_src[col].mode()[0]
+        df_dst[col].fillna(mode, inplace=True)
+
     
 ################################################################################
-os.chdir(Path(__file__).parents[2])
 print("Imputing missing values ...")
 
-
-################################################################################
 # header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
 # PG_average_fees_(in_pounds), International_students, Student_satisfaction, Control_type, Academic_Calender, Campus_setting, 
@@ -36,6 +37,7 @@ print("Imputing missing values ...")
 # Academic_staff_from, Academic_staff_to
 
 # make sure test data don't leak to the training data, i.e. mean, median, mode are calculated separately
+
 
 ################################################################################
 # read
@@ -88,7 +90,7 @@ universities_test_median_imputed.to_csv("data/Universities_test_median_imputed.c
 
 ################################################################################
 # by thomas
-universities = pd.read_csv("data/Universities_cleaned_deduplicated_new.csv")
+universities = pd.read_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
 universities = universities.drop(columns='Unnamed: 0')
 
 imputation_numeric(universities)

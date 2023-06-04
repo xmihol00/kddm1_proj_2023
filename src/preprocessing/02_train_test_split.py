@@ -1,14 +1,16 @@
-import os
-import sys
+import os, sys
 from pathlib import Path
 import pandas as pd
+
+os.chdir(Path(__file__).parents[2])
+sys.path.append(os.getcwd())
 
 from src.utils import split
 from src.utils import RANDOM_SEED
 
+
 ################################################################################
 #sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-os.chdir(Path(__file__).parents[2])
 print("Splitting data into train and test sets...")
 
 
@@ -26,7 +28,7 @@ universities_test.to_csv("data/Universities_test_split.csv")
 
 ################################################################################
 # by thomas
-universities = pd.read_csv("data/Universities_cleaned_deduplicated_new.csv")
+universities = pd.read_csv("data/Universities_cleaned_deduplicated_by_thomas.csv")
 universities = universities.drop(columns='Unnamed: 0')
 
 # split 80 % for training and 20 % for testing
