@@ -41,6 +41,32 @@ The performance of this model is summarized in the following table:
 
 ### Random Forest
 
+In Random Forest Regression, each tree in the ensemble is built from a sample drawn with replacement from the training set.
+It combines multiple decision trees to make predictions.
+
+Advantages of Random Forest Regression:
+
+- Perform on large data sets with high dimensionality
+- Less prone to overfitting, than single decision trees.
+- Capture complex nonlinear relationships.
+- Estimates of feature importance.
+
+Disadvantages of Random Forest Regression:
+
+- Bad on noisy or irrelevant features.
+- Computationally expensive for complex datasets.
+
+We applied `GridSearchCV` to find the best parameter for the number of estimators by the negative mean squared error.
+The best parameters found at single parameter search are `n_estimators=29` and `max_features=8`
+For combine parameter search `n_estimators=39` and `max_features=17` yield the best performance.
+We also performed some empirical approaches.
+The overall best result was gained by `n_estimators=100` and `max_features=10`.
+Thus we trained with this parameters. The returned accuracy is 0.780.
+
+| Model                    | Training Column Indices                            |        MSE |    RMSE |     MAE | R2 score |
+| -------------------------|----------------------------------------------------|-----------:|--------:|--------:|---------:|
+| Random Forest            | 6, 5, 7, 8, 11, 18, 14, 16, 12, 13                 | 1771101.19 | 1297.59 |  981.13 |   0.783  |
+
 ### Support Vector Machine
 
 ### Neural Network
@@ -75,7 +101,7 @@ We decided to further improve the prediction by creating an ensemble simply by a
 | baseline - linear        | 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 | 3654911.02 | 1886.08 | 1384.17 |   0.5416 |
 | x                        |                                                    |            |         |         |          |
 | Neural Network           | 5, 6, 7, 8, 11, 12, 13, 14, 18                     | 2739160.15 | 1652.33 | 1264.20 |   0.6422 |
-| Random Forest            |                                                    | 2379330.21 | 1521.14 | 1071.26 |   0.7019 |
+| Random Forest            | 6, 5, 7, 8, 11, 18, 14, 16, 12, 13                 | 1771101.19 | 1297.59 |  981.13 |   0.783  |
 | Support Vector Machine   |                                                    |            |         |         |          |
 | Ensemble                 |                                                    |            |         |         |          |
 
