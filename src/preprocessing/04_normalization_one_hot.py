@@ -4,7 +4,7 @@ import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from src.utils import DATA_PATH
+from constants import DATA_PATH
 
 # file header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -57,7 +57,7 @@ def one_hot_encode(df_train: pd.DataFrame, df_test):
     for column in missing_train_columns:
         df_train[column] = 0
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Normalization of continuous features and one-hot encoding categorical features ...")
     os.makedirs(DATA_PATH["normalization"], exist_ok=True)
 

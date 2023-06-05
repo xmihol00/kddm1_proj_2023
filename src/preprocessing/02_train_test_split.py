@@ -4,7 +4,7 @@ import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..")) # ensure includes of our files work
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from src.utils import RANDOM_SEED, DATA_PATH
+from constants import RANDOM_SEED, DATA_PATH
 
 if __name__ == "__main__":
     print("Splitting data into train and test sets...")
