@@ -45,19 +45,18 @@ if __name__ == "__main__":
         y_test.clear()
         y_pred.clear()
         # separate data frame to X and y
+        X_train_mean = train_mean.drop(columns=target_columns).to_numpy()
+        y_train_mean = train_mean[target_columns]
+
+        X_test_mean = test_mean.drop(columns=target_columns).to_numpy()
+        y_test_mean = test_mean[target_columns]
+
         for target in target_columns:
-            X_train_mean = train_mean.drop(columns=target).to_numpy()
-            y_train_mean = train_mean[target].to_numpy().ravel()
-
-            degree, epsilon, kernel = plotBestParams(X_train_mean, y_train_mean)
-
-            X_test_mean = test_mean.drop(columns=target).to_numpy()
-            y_test_mean = test_mean[target].to_numpy().ravel()
-
+            degree, epsilon, kernel = plotBestParams(X_train_mean, y_train_mean[target].to_numpy())
             svr_mean = SVR(kernel=kernel, degree=degree, epsilon=epsilon)
-            svr_mean.fit(X_train_mean, y_train_mean)
+            svr_mean.fit(X_train_mean, y_train_mean[target].to_numpy())
             y_pred.append(svr_mean.predict(X_test_mean))
-            y_test.append(y_test_mean)
+            y_test.append(y_test_mean[target].to_numpy())
 
     if usedPreprocessing == PreProcessing.MEDIAN:
         train_median = pd.read_csv("data/05_numeric/Universities_train_median.csv")
@@ -66,42 +65,38 @@ if __name__ == "__main__":
         y_test.clear()
         y_pred.clear()
         # separate data frame to X and y
+        X_train_median = train_median.drop(columns=target_columns).to_numpy()
+        y_train_median = train_median[target_columns]
+
+        X_test_median = test_median.drop(columns=target_columns).to_numpy()
+        y_test_median = test_median[target_columns]
+
         for target in target_columns:
-            X_train_median = train_median.drop(columns=target).to_numpy()
-            y_train_median = train_median[target].to_numpy()
-
-            degree, epsilon, kernel = plotBestParams(X_train_median, y_train_median)
-
-            X_test_median = test_median.drop(columns=target).to_numpy()
-            y_test_median = test_median[target].to_numpy()
-
+            degree, epsilon, kernel = plotBestParams(X_train_median, y_train_median[target].to_numpy())
             svr_median = SVR(kernel=kernel, degree=degree, epsilon=epsilon)
-            svr_median.fit(X_train_median, y_train_median)
+            svr_median.fit(X_train_median, y_train_median[target].to_numpy())
             y_pred.append(svr_median.predict(X_test_median))
+            y_test.append(y_test_median[target].to_numpy())
 
     if usedPreprocessing == PreProcessing.MIXED:
         train_mixed = pd.read_csv("data/05_numeric/Universities_train_mixed.csv")
         test_mixed = pd.read_csv("data/05_numeric/Universities_test_mixed.csv")
-        universities = pd.read_csv("data/04_normalization/Universities_mixed_imputed_normalized.csv")
 
         y_test.clear()
         y_pred.clear()
         # separate data frame to X and y
+        X_train_mixed = train_mixed.drop(columns=target_columns).to_numpy()
+        y_train_mixed = train_mixed[target_columns]
+
+        X_test_mixed = test_mixed.drop(columns=target_columns).to_numpy()
+        y_test_mixed = test_mixed[target_columns]
+
         for target in target_columns:
-            scaler = StandardScaler()
-            scaler.fit_transform(universities[target].array.reshape(-1, 1))
-            X_train_mixed = train_mixed.drop(columns=target).to_numpy()
-            y_train_mixed = train_mixed[target].to_numpy()
-
-            degree, epsilon, kernel = plotBestParams(X_train_mixed, y_train_mixed)
-
-            X_test_mixed = test_mixed.drop(columns=target).to_numpy()
-            y_test_mixed = test_mixed[target].to_numpy()
-
+            degree, epsilon, kernel = plotBestParams(X_train_mixed, y_train_mixed[target].to_numpy())
             svr_mixed = SVR(kernel=kernel, degree=degree, epsilon=epsilon)
-            svr_mixed.fit(X_train_mixed, y_train_mixed)
-            y_pred.append(scaler.inverse_transform(svr_mixed.predict(X_test_mixed)))
-            y_test.append(scaler.inverse_transform(y_test_mixed))
+            svr_mixed.fit(X_train_mixed, y_train_mixed[target].to_numpy())
+            y_pred.append(svr_mixed.predict(X_test_mixed))
+            y_test.append(y_test_mixed[target].to_numpy())
 
     predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[0],
                                     "predicted PG_average_fees_(in_pounds)": y_pred[1],
