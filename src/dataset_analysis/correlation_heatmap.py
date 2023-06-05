@@ -21,7 +21,7 @@ def cramers_v(x, y):
 
 os.makedirs("plots", exist_ok=True)
 
-data_df = pd.read_csv("data/Universities_cleaned_deduplicated.csv")
+data_df = pd.read_csv("data/01_cleaning/Universities_cleaned_deduplicated.csv")
 
 continuous_cols = ["UK_rank", 
                    "World_rank", 
@@ -35,7 +35,8 @@ continuous_cols = ["UK_rank",
                    "Student_enrollment_from", 
                    "Student_enrollment_to", 
                    "Academic_staff_from", 
-                   "Academic_staff_to"]
+                   "Academic_staff_to",
+                   "Founded_year"]
 
 categorical_cols = ["Control_type",
                     "Academic_Calender",

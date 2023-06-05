@@ -25,7 +25,10 @@ NORMALIZED_CONTINUOUS_COLUMNS = ["UK_rank",
                                  "Student_enrollment_from", 
                                  "Student_enrollment_to", 
                                  "Academic_staff_from", 
-                                 "Academic_staff_to"]
+                                 "Academic_staff_to",
+                                 "Founded_year",
+                                 "Latitude",
+                                 "Longitude"]
 
 # one-hot encoding for categorical features
 # one-hot encoded columns (categorical features):

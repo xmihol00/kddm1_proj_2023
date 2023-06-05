@@ -32,15 +32,14 @@ We used 80/20 dataset split to train and evaluate all models. Additionally, we i
 We describe how we trained and found the best hyper-parameters for our models in the following sections.
 
 ### Baseline - Linear Regression
-We trained the simples possible model, i.e. linear regression model, on all the continuous and categorical columns excluding the `Founded_year` column to have a baseline for comparing our more advanced models. No hyper-parameter tuning was necessary for this model.
+We trained the simples possible model, i.e. linear regression model, on all the continuous and categorical columns column to have a baseline for comparing our more advanced models. No hyper-parameter tuning was necessary for this model.
 
 The performance of this model is summarized in the following table:
-| Training Column Indices                            |         MSE |    RMSE |     MAE | R2 score |
-|----------------------------------------------------|------------:|--------:|--------:|---------:|
-| 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 |  3654911.02 | 1886.08 | 1384.17 |   0.5416 |
+| Training Column Indices                               |         MSE |    RMSE |     MAE | R2 score |
+|-------------------------------------------------------|------------:|--------:|--------:|---------:|
+| 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 |  2647955.42 | 1595.23 | 1172.27 |   0.6722 |
 
 ### Random Forest
-
 In Random Forest Regression, each tree in the ensemble is built from a sample drawn with replacement from the training set.
 It combines multiple decision trees to make predictions.
 
@@ -70,24 +69,23 @@ Thus we trained with this parameters. The returned accuracy is 0.780.
 ### Support Vector Machine
 
 ### Neural Network
-First, we defined 4 neural network architectures listed below:
-    - linear with 1 hidden layer with linear activation,
+First, we defined 3 neural network architectures listed below:
     - non-linear with 2 hidden layers, first with a ReLU activation and second with a linear activation,
     - non-linear with 3 hidden layers, first two with a ReLU activation and last with a linear activation,
     - non-linear with 4 hidden layers, first three with a ReLU activation and last with a linear activation,
 The number of neurons in the input layer varies based on the selected subset of used columns for training, see below. The numbers of neurons in the following hidden layers is the same as in the input layer. The output layer has 2 neurons given the two predicted variables.
 
-Second, we trained the defined models using a 3-fold cross validation scheme with an early stopping with patience for 25 epochs as the stopping criterion. The batch size was set to 8, since the dataset is very small. Several optimizers with different learning rate configurations were tested, the best performing was the Adam optimizer with quite high learning rate of 0.05. Each of the models was trained on both the training datasets with missing values imputed with the mean and the median. Additionally, we selected 3 subsets of the available columns in the training dataset to repeatably train. The subsets are the following:
+Second, we trained the defined models using a 3-fold cross validation scheme with an early stopping with patience for 25 epochs as the stopping criterion. The batch size was set to 8, since the dataset is very small. Several optimizers with different learning rate configurations were tested, the best performing was the Adam optimizer with quite high learning rate of 0.05. Each of the models was trained on all the training datasets, i.e. with missing values imputed with the mean, the median and with mixed missing value imputation using various techniques. Additionally, we selected 3 subsets of the available columns in the training dataset to repeatably train on. The subsets are the following:
     - all continuous and categorical columns,
     - only continuous columns excluding the columns `Latitude` and `Longitude`,
-    - columns with absolute value of correlation higher than 0.5 (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `International_students`, `Academic_staff_from`, `Academic_staff_to`).
+    - columns with absolute value of correlation higher than 0.5 (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `International_students`, `Academic_staff_from`, `Academic_staff_to`) with the target variables.
 
-Third, we trained the on average best performing model on the cross validation folds, which reached its best average performance after more than 10 epochs on average. The requirement was employed to ensure that the model does not start overfitting the data too soon. Subsequently, the selected model was trained using the whole training dataset with the on average best performing subset of columns and the average number of epochs recorder during the cross validation runs as the stopping criterion.
+Third, we re-trained the on average best performing model on the cross validation folds. The selected model was trained using the whole training dataset with the on average best performing subset of columns and the average number of epochs recorder during the cross validation runs as the stopping criterion.
 
-The best performing model was the non-linear model with 3 hidden layers trained using continuous columns excluding the columns `Latitude` and `Longitude` from the dataset with missing values imputed with the median. The performance of this model is summarized in the following table:
-| Training Column Indices        |        MSE |    RMSE |     MAE | R2 score |
-|--------------------------------|-----------:|--------:|--------:|---------:|
-| 5, 6, 7, 8, 11, 12, 13, 14, 18 | 2739160.15 | 1652.33 | 1264.20 |   0.6422 |
+The best performing model was the non-linear model with 2 hidden layers trained using the selected columns from the mixed missing value imputed dataset. The performance of this model is summarized in the following table:
+| Training Column Indices |        MSE |    RMSE |    MAE | R2 score |
+|-------------------------|-----------:|--------:|-------:|---------:|
+| 5, 6, 7, 8, 11, 14      | 1789915.76 | 1309.89 | 983.00 |   0.7789 |
 
 ## Ensemble
 We decided to further improve the prediction by creating an ensemble simply by averaging the predictions outputs of our models. The performance of the ensemble is summarized in the following table:
@@ -96,13 +94,12 @@ We decided to further improve the prediction by creating an ensemble simply by a
 |            |         |         |          |
 
 ## Performance Comparison Table
-| Model                    | Training Column Indices                            |        MSE |    RMSE |     MAE | R2 score |
-| -------------------------|----------------------------------------------------|-----------:|--------:|--------:|---------:|
-| baseline - linear        | 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 | 3654911.02 | 1886.08 | 1384.17 |   0.5416 |
-| x                        |                                                    |            |         |         |          |
-| Neural Network           | 5, 6, 7, 8, 11, 12, 13, 14, 18                     | 2739160.15 | 1652.33 | 1264.20 |   0.6422 |
-| Random Forest            | 6, 5, 7, 8, 11, 18, 14, 16, 12, 13                 | 1771101.19 | 1297.59 |  981.13 |   0.783  |
-| Support Vector Machine   |                                                    |            |         |         |          |
-| Ensemble                 |                                                    |            |         |         |          |
+| Model                    | Training Column Indices                               |        MSE |    RMSE |     MAE | R2 score |
+| -------------------------|-------------------------------------------------------|-----------:|--------:|--------:|---------:|
+| baseline - linear        | 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 | 3654911.02 | 1886.08 | 1384.17 |   0.5416 |
+| Neural Network           | 5, 6, 7, 8, 11, 14                                    | 1789915.76 | 1309.89 |  983.00 |   0.7789 |
+| Random Forest            | 6, 5, 7, 8, 11, 18, 14, 16, 12, 13                    | 1771101.19 | 1297.59 |  981.13 |   0.783  |
+| Support Vector Machine   |                                                       |            |         |         |          |
+| Ensemble                 |                                                       |            |         |         |          |
 
 ## Summary

@@ -1,12 +1,13 @@
 import os
-from pathlib import Path
+import sys
 import numpy as np
 from sklearn import metrics
 
-os.chdir(Path(__file__).parents[2])
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 # read the test predictions of all models and calculate the mean (skip the first row)
-y_pred_truth_NN = np.loadtxt("results/DNN_predicted_truth.csv", delimiter=",", skiprows=1)
+y_pred_truth_NN = np.loadtxt("results/NN_predicted_truth.csv", delimiter=",", skiprows=1)
 y_pred_truth_RF = np.loadtxt("results/RF_predicted_truth.csv", delimiter=",", skiprows=1)
 y_pred_truth_SVR = np.loadtxt("results/SVR_predicted_truth.csv", delimiter=",", skiprows=1)
 
