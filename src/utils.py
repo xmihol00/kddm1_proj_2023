@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-
-from src.seed import RANDOM_SEED
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsClassifier
+
+RANDOM_SEED = 14 # our group number
 
 DATA_PATH = {
     "original":      "data/",
