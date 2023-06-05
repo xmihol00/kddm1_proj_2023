@@ -36,11 +36,9 @@ def performGridSearch(X_train, y_train, param_grid, create_Plot = False, dataset
     return gs.best_params_
 
 def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_params: dict, datasetSuffix: str):
-    #TODO: perform cross validation on 3 folds and average the results, print (use printPerformance) the results to stdout and 
-    # then store them to logs/, visually inspect the results and rerun final training with best params and best dataset
-
     # 3-fold cross validation
-    results = []
+    results_mse = []
+    results_mae = []
     for train_index, test_index in ms.KFold(n_splits=3, shuffle=True, random_state=RANDOM_SEED).split(X_train):
         X_train_fold, X_val_fold = X_train[train_index], X_train[test_index]
         y_train_fold, y_val_fold = y_train[train_index], y_train[test_index]
@@ -52,11 +50,14 @@ def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_param
         # evaluate model
         y_pred = rf.predict(X_val_fold)
         mse = metrics.mean_squared_error(y_val_fold, y_pred)
-        results.append(mse)
+        mae = metrics.mean_absolute_error(y_val_fold, y_pred)
+        results_mse.append(mse)
+        results_mae.append(mae)
     
     # average results
-    avg_mse = np.mean(results)
-    print(f'{datasetSuffix} avg mse: ', avg_mse)
+    avg_mse = np.mean(results_mse)
+    avg_mae = np.mean(results_mae)
+    print(f'{datasetSuffix} average MSE: {avg_mse}, average MEA: {avg_mae}', )
 
 def plotBestParams(X_train: np.ndarray, y_train: np.ndarray):
     # param: max_features, best params: {'max_features': 21}
@@ -115,29 +116,19 @@ def print_index_of_origin_column(ft_imp, n):
     print('column index of   origin by order:            ', sorted(feature_column_idx))
     print('column index of   origin by order     unique: ', sorted(set(feature_column_idx)))
 
-def printPerformance(rf: RandomForestRegressor, X_test, y_test, columns: list):
-    n = rf.max_features
-    ft_imp = pd.Series(rf.feature_importances_, index=X_columns).sort_values(ascending=False)
-    feature_column_idx = [list(columns).index(feature) if feature in columns else None for feature in ft_imp[:n].index]
-    print(pd.DataFrame({
-        'pos':range(1, n+1),
-        'feature importance':ft_imp.head(n).round(3),
-        'column_index': feature_column_idx
-        }))
-    
-    print('column index of features by relevance: ', feature_column_idx[:n])
-    print('column index of features by order:     ', sorted(feature_column_idx[:n]))
-    print_index_of_origin_column(ft_imp, n)
-    
+def printPerformance(rf: RandomForestRegressor, X_test, y_test):
     y_pred = rf.predict(X_test)
     y_true = y_test
     print()
-    print('Accuracy:                                {:16.3f}'.format(rf.score(X_test, y_test)))
+    print('Performance of the best model on the test set:')
+    print('  Accuracy:                                {:16.3f}'.format(rf.score(X_test, y_test)))
     print()
-    print('Mean Squared Error (MSE):                {:16.2f}'.format(metrics.mean_squared_error(y_true, y_pred)))
-    print('Root Mean Squared Error (RMSE):          {:16.2f}'.format(metrics.mean_squared_error(y_true, y_pred, squared=False)))
-    print('Mean Absolute Error (MAE):               {:16.2f}'.format(metrics.mean_absolute_error(y_true, y_pred)))
-    print('R^2:                                     {:16.3f}'.format(metrics.r2_score(y_true, y_pred)))
+    print('  Mean Squared Error (MSE):                {:16.2f}'.format(metrics.mean_squared_error(y_true, y_pred)))
+    print('  Root Mean Squared Error (RMSE):          {:16.2f}'.format(metrics.mean_squared_error(y_true, y_pred, squared=False)))
+    print('  Mean Absolute Error (MAE):               {:16.2f}'.format(metrics.mean_absolute_error(y_true, y_pred)))
+    print('  R^2:                                     {:16.3f}'.format(metrics.r2_score(y_true, y_pred)))
+
+    return y_pred
     
 if __name__ == "__main__":
     os.makedirs("plots", exist_ok=True)
@@ -169,44 +160,43 @@ if __name__ == "__main__":
     X_test_mixed = test_mixed.drop(columns=target_columns).to_numpy()
     y_test_mixed = test_mixed[target_columns].to_numpy()
 
-    # TODO: specify meaningful parameter grid
     param_grid = {
-        'max_features': list(range(1, 101, 10)),
-        'n_estimators': list(range(1, 101, 10)),
+        'max_features': list(range(1, 11, 1)),
+        'n_estimators': list(range(1, 100, 3)),
     }
 
     # grid search and cross validation evaluation on all columns
     best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean')
+    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean all columns')
     best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median')
+    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median all columns')
     best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed')
+    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed all columns')
 
     # grid search and cross validation evaluation on selected columns
-    selected_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
-                        "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
-                        "International_students", "Academic_staff_from", "Academic_staff_to"]
-    X_train_mean = train_mean[selected_columns].to_numpy()
+    continuous_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
+                          "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
+                          "International_students", "Academic_staff_from", "Academic_staff_to"]
+    X_train_mean = train_mean[continuous_columns].to_numpy()
     y_train_mean = train_mean[target_columns].to_numpy()
-    X_train_median = train_median[selected_columns].to_numpy()
+    X_train_median = train_median[continuous_columns].to_numpy()
     y_train_median = train_median[target_columns].to_numpy()
-    X_train_mixed = train_mixed[selected_columns].to_numpy()
+    X_train_mixed = train_mixed[continuous_columns].to_numpy()
     y_train_mixed = train_mixed[target_columns].to_numpy()
 
-    X_test_mean = test_mean[selected_columns].to_numpy()
+    X_test_mean = test_mean[continuous_columns].to_numpy()
     y_test_mean = test_mean[target_columns].to_numpy()
-    X_test_median = test_median[selected_columns].to_numpy()
+    X_test_median = test_median[continuous_columns].to_numpy()
     y_test_median = test_median[target_columns].to_numpy()
-    X_test_mixed = test_mixed[selected_columns].to_numpy()
+    X_test_mixed = test_mixed[continuous_columns].to_numpy()
     y_test_mixed = test_mixed[target_columns].to_numpy()
 
-    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_selected')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean_selected')
-    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_selected')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median_selected')
-    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_selected')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed_selected')
+    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_continuous')
+    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean continuous columns')
+    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_continuous')
+    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median continuous columns')
+    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_continuous')
+    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed continuous columns')
 
     # grid search and cross validation evaluation on selected columns
     selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
@@ -226,30 +216,32 @@ if __name__ == "__main__":
     X_test_mixed = test_mixed[selected_columns].to_numpy()
     y_test_mixed = test_mixed[target_columns].to_numpy()
 
-    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_corr')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean_corr')
-    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_corr')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median_corr')
-    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_corr')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed_corr')
-
-    # TODO: find the best parameters and best dataset and perform the final training and evaluation
+    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_selected')
+    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean selected columns')
+    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_selected')
+    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median selected columns')
+    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_selected')
+    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed selected columns')
 
 
-    ## best params: {'max_features': 8}
-    ## best params: {'n_estimators': 29}
-    ## best params: {'max_features': 17, 'n_estimators': 37}
-    #plotBestParams(X_train, y_train)
-    #
-    #rf = RandomForestRegressor(max_features=10, n_estimators=80)
-    #rf.fit(X_train, y_train)
-#
-    #y_pred = rf.predict(X_test)
-    #printPerformance(rf, X_test, y_test, columns)
-#
-    ## crate a data frame with the results of the selected model
-    #predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[:, 0], "predicted PG_average_fees_(in_pounds)": y_pred[:, 1],
-    #                                "truth UG_average_fees_(in_pounds)": y_test[:, 0], "truth PG_average_fees_(in_pounds)": y_test[:, 1]})
-    #
-    ## print(predicted_truth)
-    #predicted_truth.to_csv("results/RF_predicted_truth.csv", index=False)
+    X_train_mixed = train_mixed[continuous_columns].to_numpy()
+    y_train_mixed = train_mixed[target_columns].to_numpy()
+    X_test_mixed = test_mixed[continuous_columns].to_numpy()
+    y_test_mixed = test_mixed[target_columns].to_numpy()
+
+    # fit RF with best parameters found during cross validation
+    rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=3, n_estimators=82)
+    rf.fit(X_train_mixed, y_train_mixed)
+
+    # evaluate performance on test set
+    y_pred = printPerformance(rf, X_test_mixed, y_test_mixed)
+
+    # crate a data frame with the results of the selected model
+    predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[:, 0], "predicted PG_average_fees_(in_pounds)": y_pred[:, 1],
+                                    "truth UG_average_fees_(in_pounds)": y_test_mixed[:, 0], "truth PG_average_fees_(in_pounds)": y_test_mixed[:, 1]})
+    
+    # print(predicted_truth)
+    print(predicted_truth)
+
+    # save the results
+    predicted_truth.to_csv("results/RF_predicted_truth.csv", index=False)
