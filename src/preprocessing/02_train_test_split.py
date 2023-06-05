@@ -4,6 +4,7 @@ import pandas as pd
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.utils import split, RANDOM_SEED
 from src.utils import get_rel_data_path
 
@@ -12,7 +13,6 @@ os.makedirs(DATA_PATH[2], exist_ok=True)
 
 
 ################################################################################
-#sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 print("Splitting data into train and test sets...")
 
 

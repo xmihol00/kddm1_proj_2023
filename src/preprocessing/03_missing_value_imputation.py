@@ -4,6 +4,7 @@ from pathlib import Path
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.utils import imputation_numeric
 from src.utils import imputation_founded_year
 from src.utils import imputation_academic_calender

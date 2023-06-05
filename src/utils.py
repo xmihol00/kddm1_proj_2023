@@ -5,6 +5,15 @@ from src.seed import RANDOM_SEED
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsClassifier
 
+DATA_PATH = {
+    "original":      "data/",
+    "cleaning":      "data/01_cleaning/",
+    "split":         "data/02_splitting/",
+    "imputation":    "data/03_imputation/",
+    "normalization": "data/04_normalization/",
+    "numeric":       "data/05_numeric/",
+}
+
 def get_rel_data_path():
     return [
         'data/',
@@ -14,11 +23,6 @@ def get_rel_data_path():
         'data/04_normalization/',
         'data/05_numeric/',
     ]
-
-def deduplication(df : pd.DataFrame):
-    duplicated_rows = df.index[df['Latitude'].duplicated()].to_list()
-    df.drop(duplicated_rows, axis=0, inplace=True)
-    return df
 
 def split(df : pd.DataFrame, test_size : float):
     np.random.seed(RANDOM_SEED)

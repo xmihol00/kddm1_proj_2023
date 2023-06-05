@@ -6,6 +6,7 @@ import numpy as np
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.utils import get_rel_data_path
 
 DATA_PATH = get_rel_data_path()

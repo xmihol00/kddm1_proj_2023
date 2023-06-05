@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 os.chdir(Path(__file__).parents[2])
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.seed import RANDOM_SEED
 from src.utils import get_rel_data_path
 
