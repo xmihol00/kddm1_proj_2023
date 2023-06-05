@@ -48,10 +48,6 @@ def clean_and_deduplicate(df: pd.DataFrame):
     unused_columns = np.array(["Motto", "Website"])
     df.drop(columns=unused_columns, inplace=True)
 
-    # print university names where the founded year is not a number
-    nan_indices = np.where(df['Founded_year'].isna())[0]
-    print(df.loc[nan_indices, "University_name"], nan_indices.shape[0])
-
 if __name__ == "__main__":
     print("Cleaning ...")
     os.makedirs(DATA_PATH["cleaning"], exist_ok=True)    # make sure the output directory exists
