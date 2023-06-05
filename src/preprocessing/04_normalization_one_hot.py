@@ -1,33 +1,21 @@
-import os, sys
-from pathlib import Path
+import os
+import sys
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-os.chdir(Path(__file__).parents[2])
-sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from src.seed import RANDOM_SEED
-from src.utils import get_rel_data_path
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from src.utils import DATA_PATH
 
-
-DATA_PATH = get_rel_data_path()
-os.makedirs(DATA_PATH[4], exist_ok=True)
-
-
-################################################################################
-print("Normalization of continuous features and one-hot encoding categorical features ...")
-
-# header:
+# file header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
 # PG_average_fees_(in_pounds), International_students, Student_satisfaction, Control_type, Academic_Calender, Campus_setting, 
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
-################################################################################
+
 # zero mean and unit variance normalization for continuous features (apart from the target variables)
 # normalized columns (continuous features):
-normalized_continuous_columns = ["UK_rank", 
+NORMALIZED_CONTINUOUS_COLUMNS = ["UK_rank", 
                                  "World_rank", 
                                  "CWUR_score", 
                                  "Minimum_IELTS_score", 
@@ -41,108 +29,72 @@ normalized_continuous_columns = ["UK_rank",
 
 # one-hot encoding for categorical features
 # one-hot encoded columns (categorical features):
-one_hot_encoded_columns = ["Region",
+ONE_HOT_ENCODED_COLUMNS = ["Region",
                            "Control_type",
                            "Academic_Calender",
                            "Campus_setting"]
 
+def normalize_train(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    mean = df[NORMALIZED_CONTINUOUS_COLUMNS].mean()
+    std = df[NORMALIZED_CONTINUOUS_COLUMNS].std()
+    df[NORMALIZED_CONTINUOUS_COLUMNS] = (df[NORMALIZED_CONTINUOUS_COLUMNS] - mean) / std
 
-################################################################################
-# make sure test data don't leak to the training data, i.e. mean and variance are calculated only for the training data
-# read 
-universities_train_mean_imputed = pd.read_csv(DATA_PATH[3] + "Universities_train_mean_imputed.csv")
-universities_train_mean_imputed.set_index("Id", inplace=True)
-universities_train_median_imputed = pd.read_csv(DATA_PATH[3] + "Universities_train_median_imputed.csv")
-universities_train_median_imputed.set_index("Id", inplace=True)
+    return mean, std
 
-universities_test_mean_imputed = pd.read_csv(DATA_PATH[3] + "Universities_test_mean_imputed.csv")
-universities_test_mean_imputed.set_index("Id", inplace=True)
-universities_test_median_imputed = pd.read_csv(DATA_PATH[3] + "Universities_test_median_imputed.csv")
-universities_test_median_imputed.set_index("Id", inplace=True)
+def normalize_test(df: pd.DataFrame, mean: pd.Series, std: pd.Series) -> None:
+    df[NORMALIZED_CONTINUOUS_COLUMNS] = (df[NORMALIZED_CONTINUOUS_COLUMNS] - mean) / std
 
-# deep copy
-universities_train_mean_imputed_normalized = universities_train_mean_imputed.copy()
-universities_train_median_imputed_normalized = universities_train_median_imputed.copy()
+def one_hot_encode(df_train: pd.DataFrame, df_test):
+    df_train = pd.get_dummies(df_train, columns=ONE_HOT_ENCODED_COLUMNS)
+    df_test = pd.get_dummies(df_test, columns=ONE_HOT_ENCODED_COLUMNS)
 
-universities_test_mean_imputed_normalized = universities_test_mean_imputed.copy()
-universities_test_median_imputed_normalized = universities_test_median_imputed.copy()
+    # make sure that the one-hot encoded columns are the same for both dataframes
+    missing_test_columns = set(df_train.columns) - set(df_test.columns)
+    for column in missing_test_columns:
+        df_test[column] = 0
+    
+    missing_train_columns = set(df_test.columns) - set(df_train.columns)
+    for column in missing_train_columns:
+        df_train[column] = 0
 
-################################################################################
-# normalization for continuous features
-mean = universities_train_mean_imputed[normalized_continuous_columns].mean()
-std = universities_train_mean_imputed[normalized_continuous_columns].std()
+if __name__ == '__main__':
+    print("Normalization of continuous features and one-hot encoding categorical features ...")
+    os.makedirs(DATA_PATH["normalization"], exist_ok=True)
 
-universities_train_mean_imputed_normalized[normalized_continuous_columns] = (universities_train_mean_imputed[normalized_continuous_columns] - mean) / std
-universities_train_median_imputed_normalized[normalized_continuous_columns] = (universities_train_median_imputed[normalized_continuous_columns] - mean) / std
+    # ensure that the test set is normalized by the statistics of the training set, in order to avoid data leakage
 
-universities_test_mean_imputed_normalized[normalized_continuous_columns] = (universities_test_mean_imputed[normalized_continuous_columns] - mean) / std
-universities_test_median_imputed_normalized[normalized_continuous_columns] = (universities_test_median_imputed[normalized_continuous_columns] - mean) / std
+    # normalize the mean imputed data set
+    df_train = pd.read_csv(DATA_PATH["imputation"] + "Universities_train_mean_imputed.csv")
+    df_train.set_index("Id", inplace=True)
+    df_test = pd.read_csv(DATA_PATH["imputation"] + "Universities_test_mean_imputed.csv")
+    df_test.set_index("Id", inplace=True)
 
-# one-hot encoding for categorical features
-universities_train_mean_imputed_normalized = pd.get_dummies(universities_train_mean_imputed_normalized, columns=one_hot_encoded_columns)
-universities_train_median_imputed_normalized = pd.get_dummies(universities_train_median_imputed_normalized, columns=one_hot_encoded_columns)
+    mean, std = normalize_train(df_train)
+    normalize_test(df_test, mean, std)
+    one_hot_encode(df_train, df_test)
+    df_train.to_csv(DATA_PATH["normalization"] + "Universities_train_mean_imputed_normalized.csv")
+    df_test.to_csv(DATA_PATH["normalization"] + "Universities_test_mean_imputed_normalized.csv")
 
-universities_test_mean_imputed_normalized = pd.get_dummies(universities_test_mean_imputed_normalized, columns=one_hot_encoded_columns)
-universities_test_median_imputed_normalized = pd.get_dummies(universities_test_median_imputed_normalized, columns=one_hot_encoded_columns)
+    # normalize the median imputed data set
+    df_train = pd.read_csv(DATA_PATH["imputation"] + "Universities_train_median_imputed.csv")
+    df_train.set_index("Id", inplace=True)
+    df_test = pd.read_csv(DATA_PATH["imputation"] + "Universities_test_median_imputed.csv")
+    df_test.set_index("Id", inplace=True)
 
-# add columns that might be missing in the test data due to one-hot encoding
-missing_test_columns = set(universities_train_mean_imputed_normalized.columns) - set(universities_test_mean_imputed_normalized.columns)
-for missing_test_column in missing_test_columns:
-    universities_test_mean_imputed_normalized[missing_test_column] = 0
-    universities_test_median_imputed_normalized[missing_test_column] = 0
+    mean, std = normalize_train(df_train)
+    normalize_test(df_test, mean, std)
+    one_hot_encode(df_train, df_test)
+    df_train.to_csv(DATA_PATH["normalization"] + "Universities_train_median_imputed_normalized.csv")
+    df_test.to_csv(DATA_PATH["normalization"] + "Universities_test_median_imputed_normalized.csv")
 
-# add columns that might be missing in the training data due to one-hot encoding
-missing_train_columns = set(universities_test_mean_imputed_normalized.columns) - set(universities_train_mean_imputed_normalized.columns)
-for missing_train_column in missing_train_columns:
-    universities_train_mean_imputed_normalized[missing_train_column] = 0
-    universities_train_median_imputed_normalized[missing_train_column] = 0
+    # normalize the mixed imputed data set
+    df_train = pd.read_csv(DATA_PATH["imputation"] + "Universities_train_mixed_imputed.csv")
+    df_train.set_index("Id", inplace=True)
+    df_test = pd.read_csv(DATA_PATH["imputation"] + "Universities_test_mixed_imputed.csv")
+    df_test.set_index("Id", inplace=True)
 
-# order columns alphabetically for both train and test data
-universities_train_mean_imputed_normalized = universities_train_mean_imputed_normalized.reindex(sorted(universities_train_mean_imputed_normalized.columns), axis=1)
-universities_train_median_imputed_normalized = universities_train_median_imputed_normalized.reindex(sorted(universities_train_median_imputed_normalized.columns), axis=1)
-
-universities_test_mean_imputed_normalized = universities_test_mean_imputed_normalized.reindex(sorted(universities_test_mean_imputed_normalized.columns), axis=1)
-universities_test_median_imputed_normalized = universities_test_median_imputed_normalized.reindex(sorted(universities_test_median_imputed_normalized.columns), axis=1)
-
-# save to csv
-universities_train_mean_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_mean_imputed_normalized.csv")
-universities_train_median_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_median_imputed_normalized.csv")
-
-universities_test_mean_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_mean_imputed_normalized.csv")
-universities_test_median_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_median_imputed_normalized.csv")
-
-
-################################################################################
-# by thomas
-
-# read
-universities_mixed_imputed = pd.read_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
-universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
-
-# normalization
-universities_mixed_imputed_normalized = pd.DataFrame()
-for column in universities_mixed_imputed.columns:
-    if((universities_mixed_imputed[column].dtype == 'int') | (universities_mixed_imputed[column].dtype == 'float')):
-        scaler = StandardScaler()
-        df_num = pd.DataFrame(scaler.fit_transform(universities_mixed_imputed[[column]]))
-        df_num.rename(columns={0 : column}, inplace=True)
-        universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_num], axis=1)
-    else:
-        encoder = OneHotEncoder()
-        df_cat = pd.DataFrame(encoder.fit_transform(universities_mixed_imputed[[column]]).toarray())
-        column_names = np.array(encoder.categories_)
-        df_cat = df_cat.set_axis(column_names.flatten(), axis=1, copy=False)
-        universities_mixed_imputed_normalized = pd.concat([universities_mixed_imputed_normalized, df_cat], axis=1)
-
-# save
-universities_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_mixed_imputed_normalized.csv", index=False)
-
-# split
-universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.sample(frac=0.8, random_state=RANDOM_SEED)
-universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.drop(universities_train_mixed_imputed_normalized.index)
-
-# save
-universities_train_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_mixed_imputed_normalized.csv", index=False)
-universities_test_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_test_mixed_imputed_normalized.csv", index=False)
-
-
+    mean, std = normalize_train(df_train)
+    normalize_test(df_test, mean, std)
+    one_hot_encode(df_train, df_test)
+    df_train.to_csv(DATA_PATH["normalization"] + "Universities_train_mixed_imputed_normalized.csv")
+    df_test.to_csv(DATA_PATH["normalization"] + "Universities_test_mixed_imputed_normalized.csv")
