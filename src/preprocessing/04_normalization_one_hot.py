@@ -115,8 +115,14 @@ universities_test_median_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_
 # by thomas
 
 # read
-universities_mixed_imputed = pd.read_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
-universities_mixed_imputed = universities_mixed_imputed.drop(columns='Unnamed: 0')
+universities_train_mixed_imputed = pd.read_csv(DATA_PATH[3] + "Universities_train_mixed_imputed.csv")
+universities_test_mixed_imputed = pd.read_csv(DATA_PATH[3] + "Universities_test_mixed_imputed.csv")
+train_size = universities_train_mixed_imputed.shape[0]
+
+# concat for normalization
+universities_mixed_imputed = pd.concat([universities_train_mixed_imputed, universities_test_mixed_imputed])
+universities_mixed_imputed.drop(columns= ['Unnamed: 0.1', 'Unnamed: 0'], inplace=True)
+
 
 # normalization
 universities_mixed_imputed_normalized = pd.DataFrame()
@@ -136,9 +142,9 @@ for column in universities_mixed_imputed.columns:
 # save
 universities_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_mixed_imputed_normalized.csv", index=False)
 
-# split
-universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.sample(frac=0.8, random_state=RANDOM_SEED)
-universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.drop(universities_train_mixed_imputed_normalized.index)
+# split back to train test
+universities_train_mixed_imputed_normalized = universities_mixed_imputed_normalized.iloc[:train_size]
+universities_test_mixed_imputed_normalized = universities_mixed_imputed_normalized.iloc[train_size:]
 
 # save
 universities_train_mixed_imputed_normalized.to_csv(DATA_PATH[4] + "Universities_train_mixed_imputed_normalized.csv", index=False)

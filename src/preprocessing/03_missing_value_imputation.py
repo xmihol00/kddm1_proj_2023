@@ -96,18 +96,14 @@ universities_test_median_imputed.to_csv(DATA_PATH[3] + "Universities_test_median
 
 ################################################################################
 # by thomas
-universities = pd.read_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated_by_thomas.csv")
-universities = universities.drop(columns='Unnamed: 0')
+universities_train_mixed_imputed = pd.read_csv(DATA_PATH[2] + "Universities_train_split_non_biased.csv")
+universities_test_mixed_imputed = pd.read_csv(DATA_PATH[2] + "Universities_test_split_non_biased.csv")
 
-imputation_numeric(universities)                    # FIXME: why not imputation of median over train/test spilt? 
-imputation_founded_year(universities)               # Todo: FIXME, see comparison_preprocessing.ipynb
-imputation_academic_calender(universities)
-imputation_campus_setting(universities)
+imputation_numeric(universities_train_mixed_imputed)                    # FIXME: why not imputation of median over train/test spilt?
+imputation_founded_year(universities_train_mixed_imputed)               # Todo: FIXME, see comparison_preprocessing.ipynb
+imputation_academic_calender(universities_train_mixed_imputed)
+imputation_campus_setting(universities_train_mixed_imputed)
 
-universities_train = universities.sample(frac=0.8, random_state=RANDOM_SEED)    # FIXME: why split here again? (already done in 02_train_test_split.py)
-universities_test = universities.drop(universities_train.index)
-
-universities.to_csv(DATA_PATH[3] + "Universities_mixed_imputed.csv")
-universities_train.to_csv(DATA_PATH[3] + "Universities_train_mixed_imputed.csv")
-universities_test.to_csv(DATA_PATH[3] + "Universities_test_mixed_imputed.csv")
+universities_train_mixed_imputed.to_csv(DATA_PATH[3] + "Universities_train_mixed_imputed.csv")
+universities_test_mixed_imputed.to_csv(DATA_PATH[3] + "Universities_test_mixed_imputed.csv")
 

@@ -82,7 +82,7 @@ if __name__ == "__main__":
     if usedPreprocessing == PreProcessing.MIXED:
         train_mixed = pd.read_csv("data/05_numeric/Universities_train_mixed.csv")
         test_mixed = pd.read_csv("data/05_numeric/Universities_test_mixed.csv")
-        universities = pd.read_csv("data/03_imputation/Universities_mixed_imputed.csv")
+        universities = pd.read_csv("data/04_normalization/Universities_mixed_imputed_normalized.csv")
 
         y_test.clear()
         y_pred.clear()
