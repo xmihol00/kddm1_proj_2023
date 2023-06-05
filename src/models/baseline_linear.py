@@ -1,15 +1,20 @@
-import numpy as np
+import os
+import sys
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 
-train_mean = pd.read_csv("data/05_numeric/Universities_train_mean.csv")
-train_median = pd.read_csv("data/05_numeric/Universities_train_median.csv")
-train_mixed = pd.read_csv("data/05_numeric/Universities_train_mixed.csv")
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from constants import DATA_PATH
 
-test_mean = pd.read_csv("data/05_numeric/Universities_test_mean.csv")
-test_median = pd.read_csv("data/05_numeric/Universities_test_median.csv")
-test_mixed = pd.read_csv("data/05_numeric/Universities_test_mixed.csv")
+train_mean = pd.read_csv(DATA_PATH["numeric"] + "Universities_train_mean.csv")
+train_median = pd.read_csv(DATA_PATH["numeric"] + "Universities_train_median.csv")
+train_mixed = pd.read_csv(DATA_PATH["numeric"] + "Universities_train_mixed.csv")
+
+test_mean = pd.read_csv(DATA_PATH["numeric"] + "Universities_test_mean.csv")
+test_median = pd.read_csv(DATA_PATH["numeric"] + "Universities_test_median.csv")
+test_mixed = pd.read_csv(DATA_PATH["numeric"] + "Universities_test_mixed.csv")
 
 # separate data frame to X and y
 target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
