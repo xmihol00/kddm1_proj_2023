@@ -1,5 +1,5 @@
 
-RANDOM_SEED = 14 # our group number
+RANDOM_SEED = 0 # try 0-4 
 
 DATA_PATH = {
     "original":      "data/",

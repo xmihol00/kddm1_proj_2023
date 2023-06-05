@@ -159,7 +159,7 @@ if __name__ == "__main__":
     if TRAIN_ALL_CONTINUOS_COLUMNS:
         selected_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
                             "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
-                            "International_students", "Academic_staff_from", "Academic_staff_to"]
+                            "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
 
         X_train_mean = train_mean[selected_columns].to_numpy()
         y_train_mean = train_mean[target_columns].to_numpy()
