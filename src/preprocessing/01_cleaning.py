@@ -1,28 +1,29 @@
-import os, sys
-from pathlib import Path
-
+import os
+import sys
 import pandas as pd
 import datetime as dt
 import numpy as np
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "..")) # ensure includes of our files work
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from constants import DATA_PATH
 
-os.chdir(Path(__file__).parents[2])
-sys.path.append(os.getcwd())
-from src.utils import deduplication
-from src.utils import get_rel_data_path
+# data set header:
+# Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
+# PG_average_fees_(in_pounds), International_students, Student_satisfaction, Student_enrollment, Academic_staff, Control_type, 
+# Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
 
-
-DATA_PATH = get_rel_data_path()
-os.makedirs(DATA_PATH[1], exist_ok=True)
-
-
-################################################################################
-def cleaning(df: pd.DataFrame):    
+def clean_and_deduplicate(df: pd.DataFrame):
+    # set the first column as index    
     df.rename(columns={"Unnamed: 0": "Id"}, inplace=True)
     df.set_index("Id", inplace=True)
+
+    # deduplication
+    duplicated_rows = df.index[df['Latitude'].duplicated()].to_list()
+    df.drop(duplicated_rows, axis=0, inplace=True)
     
-    # correction of "9999" to "" in the founded year column
-    df["Founded_year"].mask(df["Founded_year"] > dt.datetime.now().year, None, inplace=True)
+    # correction of dates in the future, i.e. "9999", to NaN in the founded year column
+    df["Founded_year"].mask(df["Founded_year"] > dt.datetime.now().year, np.NaN, inplace=True)
 
     # conversion of percentage to float
     df["International_students"] = df["International_students"].str.rstrip("%").astype("float") / 100
@@ -37,79 +38,22 @@ def cleaning(df: pd.DataFrame):
 
     # conversion of academic staff to two columns
     df[["Academic_staff_from", "Academic_staff_to"]] = df["Academic_staff"].str.split("-", expand=True)
-    df.loc[df["Academic_staff_from"] == "over", ["Academic_staff_to"]] = None
+    df.loc[df["Academic_staff_from"] == "over", ["Academic_staff_to"]] = np.NaN
     df.loc[df["Academic_staff_from"] == "over", ["Academic_staff_from"]] = "5000"
     df["Academic_staff_from"] = df["Academic_staff_from"].str.replace(",", "").astype("float")
     df["Academic_staff_to"] = df["Academic_staff_to"].str.replace(",", "").astype("float")
     df.drop(columns=["Academic_staff"], inplace=True)
 
-    # drop duplicates
-    df.drop_duplicates(keep="first", inplace=True)
+    # removal of unused columns
+    unused_columns = np.array(["Motto", "Website"])
+    df.drop(columns=unused_columns, inplace=True)
 
-def cleaning_by_thomas(df: pd.DataFrame):
-    df_ret = universities.drop(columns='Unnamed: 0')
-    deduplication(df_ret)
-
-    #remove useless columns
-    useless_columns = np.array(['University_name', 'Motto', 'Website'])
-    df_ret = df_ret.drop(columns=useless_columns)
-
-    #% string into float
-    for column in df_ret.columns:
-        if (df_ret[column].dtype == object):
-            if (df_ret[column].str.contains('%').any()):
-                df_ret[column] = df_ret[column].str.rstrip('%').astype('float') / 100.0
+if __name__ == "__main__":
+    print("Cleaning ...")
+    os.makedirs(DATA_PATH["cleaning"], exist_ok=True)    # make sure the output directory exists
     
-    #remove non valuable values with NaN
-    df_ret['Founded_year'] = df_ret['Founded_year'].replace(9999, np.NaN)
-    df_ret['Student_satisfaction'] = df_ret['Student_satisfaction'].replace(0.0, np.NaN)
-    
-    return df_ret
+    universities = pd.read_csv(DATA_PATH["original"] + "Universities.csv")
 
+    clean_and_deduplicate(universities)
 
-################################################################################
-print("Cleaning ...")
-
-# header:
-# Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
-# PG_average_fees_(in_pounds), International_students, Student_satisfaction, Student_enrollment, Academic_staff, Control_type, 
-# Academic_Calender, Campus_setting, Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website
-
-
-################################################################################
-# cleaning
-universities = pd.read_csv(DATA_PATH[0] + "Universities.csv")
-cleaning(universities)
-
-# store
-universities.to_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated.csv")
-
-
-################################################################################
-# cleaning by thomas
-universities = pd.read_csv(DATA_PATH[0] + "Universities.csv")
-universities_deduplicated = cleaning_by_thomas(universities)
-
-#save file
-universities_deduplicated.to_csv(DATA_PATH[1] + "Universities_cleaned_deduplicated_by_thomas.csv")
-
-
-################################################################################
-# compare duplicates
-universities_duplicates       = universities.drop(universities.drop_duplicates(keep=False  , inplace=False, ignore_index=False).index)
-universities_duplicates_first = universities.drop(universities.drop_duplicates(keep="last" , inplace=False, ignore_index=False).index)
-universities_duplicates_last  = universities.drop(universities.drop_duplicates(keep="first", inplace=False, ignore_index=False).index)
-
-sort_by_col = "University_name"
-universities_duplicates.sort_values(by=[sort_by_col], inplace=True)
-universities_duplicates_first.sort_values(by=[sort_by_col], inplace=True)
-universities_duplicates_last.sort_values(by=[sort_by_col], inplace=True)
-# universities_duplicates_first.set_index(sort_by_col, inplace=True)
-# universities_duplicates_last.set_index(sort_by_col, inplace=True)
-
-# print("comparison of duplicates: \n", universities_duplicates_first.compare(universities_duplicates_last))
-
-# store
-universities_duplicates.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates.csv")
-universities_duplicates_first.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates_first.csv")
-universities_duplicates_last.to_csv(DATA_PATH[1] + "Universities_cleaned_removed_duplicates_last.csv")
+    universities.to_csv(DATA_PATH["cleaning"] + "Universities_cleaned_deduplicated.csv")
