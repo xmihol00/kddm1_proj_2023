@@ -7,6 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 models = [
+    "baseline",
     "NN", 
     "RF", 
     #"SVR"

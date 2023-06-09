@@ -12,7 +12,7 @@ from sklearn import model_selection as ms
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED
+from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, PREPROCESSING_SEED
 
 def performGridSearch(X_train, y_train, param_grid, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
@@ -130,7 +130,7 @@ def printPerformance(rf: RandomForestRegressor, X_test, y_test):
 
     return y_pred
 
-PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
+PERFORM_CROSS_VALIDATION = PREPROCESSING_SEED == CROSS_VALIDATION_SEED
     
 if __name__ == "__main__":
     os.makedirs("plots", exist_ok=True)

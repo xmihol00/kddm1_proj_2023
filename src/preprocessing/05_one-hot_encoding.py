@@ -4,8 +4,8 @@ import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import DATA_PATH
 
+from constants import DATA_PATH
 # one-hot encoding for categorical features
 # one-hot encoded columns (categorical features):
 ONE_HOT_ENCODED_COLUMNS = ["Region",

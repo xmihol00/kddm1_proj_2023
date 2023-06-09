@@ -11,12 +11,12 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import CROSS_VALIDATION_SEED, RANDOM_SEED, DATA_PATH
+from constants import CROSS_VALIDATION_SEED, RANDOM_SEED, DATA_PATH, PREPROCESSING_SEED
 
 TRAIN_ALL_COLUMNS = True
 TRAIN_ALL_CONTINUOS_COLUMNS = True
 TRAIN_SELECTED_COLUMNS = True
-PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
+PERFORM_CROSS_VALIDATION = PREPROCESSING_SEED == CROSS_VALIDATION_SEED
 
 def run_cross_validation(optimizer, X_train, y_train, model, verbose=0):
     cv_results = []

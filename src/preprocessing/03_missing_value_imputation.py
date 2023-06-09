@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..")) # ensure includes of our files work
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH
+from constants import DATA_PATH
 
 # file header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 

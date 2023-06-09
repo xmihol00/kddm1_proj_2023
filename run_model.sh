@@ -5,8 +5,8 @@
 
 for i in {0..4}
 do
-    echo "Running with RANDOM_SEED=$i ..."
-    export RANDOM_SEED=$i
+    echo "Running with PREPROCESSING_SEED=$i ..."
+    export PREPROCESSING_SEED=$i
     # preprocess data set with the corresponding seed
     ./run_preprocessing.sh
     # run a model with the corresponding seed (python3 -u <path/model_name.py> >./logs/<model_name>_seed<seed>.txt)
