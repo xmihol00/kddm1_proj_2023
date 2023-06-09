@@ -30,7 +30,7 @@ NORMALIZED_CONTINUOUS_COLUMNS = ["UK_rank",
                                  "Latitude",
                                  "Longitude"]
 
-def normalize_train(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+def normalize_train(df: pd.DataFrame) -> "tuple[pd.Series, pd.Series]":
     mean = df[NORMALIZED_CONTINUOUS_COLUMNS].mean()
     std = df[NORMALIZED_CONTINUOUS_COLUMNS].std()
     df[NORMALIZED_CONTINUOUS_COLUMNS] = (df[NORMALIZED_CONTINUOUS_COLUMNS] - mean) / std

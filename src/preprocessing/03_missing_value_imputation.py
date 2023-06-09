@@ -15,7 +15,7 @@ from constants import DATA_PATH
 # Estimated_cost_of_living_per_year_(in_pounds), Latitude, Longitude, Website, Student_enrollment_from, Student_enrollment_to,
 # Academic_staff_from, Academic_staff_to
 
-def impute_train_mean(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
+def impute_train_mean(df: pd.DataFrame, columns: "list[str]") -> "dict[str, float]":
     column_mean_dict = {}
     for col in columns: 
         mean = df[col].mean()
@@ -24,11 +24,11 @@ def impute_train_mean(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
     
     return column_mean_dict
 
-def impute_test_mean(df: pd.DataFrame, column_mean_dict: dict[str, float]) -> None:
+def impute_test_mean(df: pd.DataFrame, column_mean_dict: "dict[str, float]") -> None:
     for col, mean in column_mean_dict.items(): 
         df[col].fillna(mean, inplace=True)
 
-def impute_train_median(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
+def impute_train_median(df: pd.DataFrame, columns: "list[str]") -> "dict[str, float]":
     column_median_dict = {}
     for col in columns: 
         median = df[col].median()
@@ -37,11 +37,11 @@ def impute_train_median(df: pd.DataFrame, columns: list[str]) -> dict[str, float
     
     return column_median_dict
 
-def impute_test_median(df: pd.DataFrame, column_median_dict: dict[str, float]) -> None:
+def impute_test_median(df: pd.DataFrame, column_median_dict: "dict[str, float]") -> None:
     for col, median in column_median_dict.items(): 
         df[col].fillna(median, inplace=True)
 
-def impute_train_mode(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
+def impute_train_mode(df: pd.DataFrame, columns: "list[str]") -> "dict[str, float]":
     column_mode_dict = {}
     for col in columns: 
         mode = df[col].mode()[0]
@@ -50,11 +50,11 @@ def impute_train_mode(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
 
     return column_mode_dict
 
-def impute_test_mode(df: pd.DataFrame, column_mode_dict: dict[str, float]) -> None:
+def impute_test_mode(df: pd.DataFrame, column_mode_dict: "dict[str, float]") -> None:
     for col, mode in column_mode_dict.items(): 
         df[col].fillna(mode, inplace=True)
 
-def impute_constant(df: pd.DataFrame, columns: list[str], constant: float) -> None:
+def impute_constant(df: pd.DataFrame, columns: "list[str]", constant: float) -> None:
     for col in columns: 
         df[col].fillna(constant, inplace=True)
 
@@ -95,7 +95,7 @@ def impute_founded_year(df : pd.DataFrame):
         university_name = df.loc[nan_index, "University_name"]
         df.loc[nan_index, "Founded_year"] = founded_years[university_name]
 
-def impute_train_CWUR_score(df: pd.DataFrame) -> tuple[float, float]:
+def impute_train_CWUR_score(df: pd.DataFrame) -> "tuple[float, float]":
     lm = LinearRegression()
     df_regression = df[df["CWUR_score"].notna()]
     lm.fit(df_regression["UG_average_fees_(in_pounds)"].to_numpy().reshape(-1, 1), df_regression["CWUR_score"])
