@@ -11,11 +11,12 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH
+from constants import CROSS_VALIDATION_SEED, RANDOM_SEED, DATA_PATH
 
 TRAIN_ALL_COLUMNS = True
 TRAIN_ALL_CONTINUOS_COLUMNS = True
 TRAIN_SELECTED_COLUMNS = True
+PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
 
 def run_cross_validation(optimizer, X_train, y_train, model, verbose=0):
     cv_results = []
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     results = []
 
 ########################################### All columns ###########################################
-    if TRAIN_ALL_COLUMNS:
+    if TRAIN_ALL_COLUMNS and PERFORM_CROSS_VALIDATION:
         tf.random.set_seed(RANDOM_SEED)
         np.random.seed(RANDOM_SEED)
         rn.seed(RANDOM_SEED)
@@ -156,7 +157,7 @@ if __name__ == "__main__":
         results.append("")
 
 ########################################### Continuous columns ###########################################   
-    if TRAIN_ALL_CONTINUOS_COLUMNS:
+    if TRAIN_ALL_CONTINUOS_COLUMNS and PERFORM_CROSS_VALIDATION:
         selected_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
                             "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
                             "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
@@ -241,7 +242,7 @@ if __name__ == "__main__":
         results.append("")
 
 ########################################### selected columns ###########################################
-    if TRAIN_SELECTED_COLUMNS:
+    if TRAIN_SELECTED_COLUMNS and PERFORM_CROSS_VALIDATION:
         selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
                             "Academic_staff_from", "Academic_staff_to"]
 
@@ -268,7 +269,6 @@ if __name__ == "__main__":
             nn.layers.Dense(X_train_mean.shape[1], activation="linear"),
             nn.layers.Dense(2)
         ])
-        best_model_weights = model.get_weights()
         
         optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
         train_result, epochs = run_cross_validation(optimizer, X_train_mean, y_train_mean, model, verbose=0)
@@ -325,9 +325,10 @@ if __name__ == "__main__":
 
         results.append("")
 
-    print("Cross-validation results:")
-    for result in results:
-        print(result)
+    if PERFORM_CROSS_VALIDATION:
+        print("Cross-validation results:")
+        for result in results:
+            print(result)
 
 ########################################## model selected based on cross-validation results ##########################################
 
@@ -339,12 +340,15 @@ if __name__ == "__main__":
     X_test_mixed = test_mixed[selected_columns].to_numpy()
     y_test_mixed = test_mixed[target_columns].to_numpy()
     
+    tf.random.set_seed(RANDOM_SEED)
+    np.random.seed(RANDOM_SEED)
+    rn.seed(RANDOM_SEED)
+    
     model = nn.Sequential([
-            nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
-            nn.layers.Dense(X_train_mean.shape[1], activation="linear"),
+            nn.layers.Dense(X_train_mixed.shape[1], activation="relu", input_shape=[X_train_mixed.shape[1]]),
+            nn.layers.Dense(X_train_mixed.shape[1], activation="linear"),
             nn.layers.Dense(2)
     ])
-    model.set_weights(best_model_weights)
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
     test_pred, test_result = train_and_evaluate(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, model, optimizer, 90, verbose=0)
@@ -360,4 +364,7 @@ if __name__ == "__main__":
     
     print("Predicted vs. ground truth values:")
     print(predicted_truth)
-    predicted_truth.to_csv("results/NN_predicted_truth.csv", index=False)
+    if PERFORM_CROSS_VALIDATION:
+        predicted_truth.to_csv(f"results/NN_predicted_truth_CV.csv", index=False)
+    else:
+        predicted_truth.to_csv(f"results/NN_predicted_truth_seed{RANDOM_SEED}.csv", index=False)

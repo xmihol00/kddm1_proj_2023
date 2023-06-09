@@ -1,5 +1,8 @@
+import os
 
-RANDOM_SEED = 0 # try 0-4 
+CROSS_VALIDATION_SEED = 14
+RANDOM_SEED = int(os.environ.get("RANDOM_SEED", CROSS_VALIDATION_SEED))
+# RANDOM_SEED = CROSS_VALIDATION_SEED # use our group number for the cross-validation
 
 DATA_PATH = {
     "original":      "data/",

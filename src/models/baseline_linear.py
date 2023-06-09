@@ -6,7 +6,7 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import DATA_PATH
+from constants import DATA_PATH, RANDOM_SEED, CROSS_VALIDATION_SEED
 
 train_mean = pd.read_csv(DATA_PATH["numeric"] + "Universities_train_mean.csv")
 train_median = pd.read_csv(DATA_PATH["numeric"] + "Universities_train_median.csv")
@@ -93,7 +93,11 @@ predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[
 
 print("Predicted vs. ground truth values mixed imputed:")
 print(predicted_truth)
-predicted_truth.to_csv("results/baseline_predicted_truth.csv", index=False)
+
+if RANDOM_SEED == CROSS_VALIDATION_SEED:
+    predicted_truth.to_csv(f"results/baseline_predicted_truth_CV.csv", index=False)
+else:
+    predicted_truth.to_csv(f"results/baseline_predicted_truth_seed{RANDOM_SEED}.csv", index=False)
 
 # print results table
 results = pd.DataFrame({"MSE": [mse], "RMSE": [rmse], "MAE": [mae], "R2 Score": [r2]})
