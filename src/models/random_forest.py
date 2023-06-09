@@ -12,7 +12,7 @@ from sklearn import model_selection as ms
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH
+from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED
 
 def performGridSearch(X_train, y_train, param_grid, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
@@ -129,6 +129,8 @@ def printPerformance(rf: RandomForestRegressor, X_test, y_test):
     print('  R^2:                                     {:16.3f}'.format(metrics.r2_score(y_true, y_pred)))
 
     return y_pred
+
+PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
     
 if __name__ == "__main__":
     os.makedirs("plots", exist_ok=True)
@@ -143,87 +145,92 @@ if __name__ == "__main__":
     test_mean = pd.read_csv(DATA_PATH["numeric"] + 'Universities_test_mean.csv')
     test_median = pd.read_csv(DATA_PATH["numeric"] + 'Universities_test_median.csv')
     test_mixed = pd.read_csv(DATA_PATH["numeric"] + 'Universities_test_mixed.csv')
-
-    # separate data frame to X and y
+    
     target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
-    X_train_mean = train_mean.drop(columns=target_columns).to_numpy()
-    y_train_mean = train_mean[target_columns].to_numpy()
-    X_train_median = train_median.drop(columns=target_columns).to_numpy()
-    y_train_median = train_median[target_columns].to_numpy()
-    X_train_mixed = train_mixed.drop(columns=target_columns).to_numpy()
-    y_train_mixed = train_mixed[target_columns].to_numpy()
 
-    X_test_mean = test_mean.drop(columns=target_columns).to_numpy()
-    y_test_mean = test_mean[target_columns].to_numpy()
-    X_test_median = test_median.drop(columns=target_columns).to_numpy()
-    y_test_median = test_median[target_columns].to_numpy()
-    X_test_mixed = test_mixed.drop(columns=target_columns).to_numpy()
-    y_test_mixed = test_mixed[target_columns].to_numpy()
+    if PERFORM_CROSS_VALIDATION:
+        # separate data frame to X and y
+        X_train_mean = train_mean.drop(columns=target_columns).to_numpy()
+        y_train_mean = train_mean[target_columns].to_numpy()
+        X_train_median = train_median.drop(columns=target_columns).to_numpy()
+        y_train_median = train_median[target_columns].to_numpy()
+        X_train_mixed = train_mixed.drop(columns=target_columns).to_numpy()
+        y_train_mixed = train_mixed[target_columns].to_numpy()
 
-    param_grid = {
-        'max_features': list(range(1, 11, 1)),
-        'n_estimators': list(range(1, 100, 3)),
-    }
+        X_test_mean = test_mean.drop(columns=target_columns).to_numpy()
+        y_test_mean = test_mean[target_columns].to_numpy()
+        X_test_median = test_median.drop(columns=target_columns).to_numpy()
+        y_test_median = test_median[target_columns].to_numpy()
+        X_test_mixed = test_mixed.drop(columns=target_columns).to_numpy()
+        y_test_mixed = test_mixed[target_columns].to_numpy()
 
-    # grid search and cross validation evaluation on all columns
-    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean all columns')
-    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median all columns')
-    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed all columns')
+        param_grid = {
+            'max_features': list(range(1, 11, 1)),
+            'n_estimators': list(range(1, 100, 3)),
+        }
 
-    # grid search and cross validation evaluation on selected columns
+        # grid search and cross validation evaluation on all columns
+        best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean')
+        evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean all columns')
+        best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median')
+        evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median all columns')
+        best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed')
+        evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed all columns')
+
+        # grid search and cross validation evaluation on selected columns
+        continuous_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
+                            "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
+                            "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
+        
+        X_train_mean = train_mean[continuous_columns].to_numpy()
+        y_train_mean = train_mean[target_columns].to_numpy()
+        X_train_median = train_median[continuous_columns].to_numpy()
+        y_train_median = train_median[target_columns].to_numpy()
+        X_train_mixed = train_mixed[continuous_columns].to_numpy()
+        y_train_mixed = train_mixed[target_columns].to_numpy()
+
+        X_test_mean = test_mean[continuous_columns].to_numpy()
+        y_test_mean = test_mean[target_columns].to_numpy()
+        X_test_median = test_median[continuous_columns].to_numpy()
+        y_test_median = test_median[target_columns].to_numpy()
+        X_test_mixed = test_mixed[continuous_columns].to_numpy()
+        y_test_mixed = test_mixed[target_columns].to_numpy()
+
+        best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_continuous')
+        evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean continuous columns')
+        best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_continuous')
+        evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median continuous columns')
+        best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_continuous')
+        evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed continuous columns')
+
+        # grid search and cross validation evaluation on selected columns
+        selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
+                            "Academic_staff_from", "Academic_staff_to"]
+
+        X_train_mean = train_mean[selected_columns].to_numpy()
+        y_train_mean = train_mean[target_columns].to_numpy()
+        X_train_median = train_median[selected_columns].to_numpy()
+        y_train_median = train_median[target_columns].to_numpy()
+        X_train_mixed = train_mixed[selected_columns].to_numpy()
+        y_train_mixed = train_mixed[target_columns].to_numpy()
+
+        X_test_mean = test_mean[selected_columns].to_numpy()
+        y_test_mean = test_mean[target_columns].to_numpy()
+        X_test_median = test_median[selected_columns].to_numpy()
+        y_test_median = test_median[target_columns].to_numpy()
+        X_test_mixed = test_mixed[selected_columns].to_numpy()
+        y_test_mixed = test_mixed[target_columns].to_numpy()
+
+        best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_selected')
+        evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean selected columns')
+        best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_selected')
+        evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median selected columns')
+        best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_selected')
+        evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed selected columns')
+
     continuous_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
                           "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
                           "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
-    
-    X_train_mean = train_mean[continuous_columns].to_numpy()
-    y_train_mean = train_mean[target_columns].to_numpy()
-    X_train_median = train_median[continuous_columns].to_numpy()
-    y_train_median = train_median[target_columns].to_numpy()
-    X_train_mixed = train_mixed[continuous_columns].to_numpy()
-    y_train_mixed = train_mixed[target_columns].to_numpy()
-
-    X_test_mean = test_mean[continuous_columns].to_numpy()
-    y_test_mean = test_mean[target_columns].to_numpy()
-    X_test_median = test_median[continuous_columns].to_numpy()
-    y_test_median = test_median[target_columns].to_numpy()
-    X_test_mixed = test_mixed[continuous_columns].to_numpy()
-    y_test_mixed = test_mixed[target_columns].to_numpy()
-
-    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_continuous')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean continuous columns')
-    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_continuous')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median continuous columns')
-    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_continuous')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed continuous columns')
-
-    # grid search and cross validation evaluation on selected columns
-    selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
-                        "Academic_staff_from", "Academic_staff_to"]
-
-    X_train_mean = train_mean[selected_columns].to_numpy()
-    y_train_mean = train_mean[target_columns].to_numpy()
-    X_train_median = train_median[selected_columns].to_numpy()
-    y_train_median = train_median[target_columns].to_numpy()
-    X_train_mixed = train_mixed[selected_columns].to_numpy()
-    y_train_mixed = train_mixed[target_columns].to_numpy()
-
-    X_test_mean = test_mean[selected_columns].to_numpy()
-    y_test_mean = test_mean[target_columns].to_numpy()
-    X_test_median = test_median[selected_columns].to_numpy()
-    y_test_median = test_median[target_columns].to_numpy()
-    X_test_mixed = test_mixed[selected_columns].to_numpy()
-    y_test_mixed = test_mixed[target_columns].to_numpy()
-
-    best_parameters = performGridSearch(X_train_mean, y_train_mean, param_grid, create_Plot=True, datasetSuffix='mean_selected')
-    evaluatePerformanceOnCV(X_train_mean, y_train_mean, best_parameters, datasetSuffix='mean selected columns')
-    best_parameters = performGridSearch(X_train_median, y_train_median, param_grid, create_Plot=True, datasetSuffix='median_selected')
-    evaluatePerformanceOnCV(X_train_median, y_train_median, best_parameters, datasetSuffix='median selected columns')
-    best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_selected')
-    evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed selected columns')
-
 
     X_train_mixed = train_mixed[continuous_columns].to_numpy()
     y_train_mixed = train_mixed[target_columns].to_numpy()
@@ -245,4 +252,7 @@ if __name__ == "__main__":
     print(predicted_truth)
 
     # save the results
-    predicted_truth.to_csv("results/RF_predicted_truth.csv", index=False)
+    if PERFORM_CROSS_VALIDATION:
+        predicted_truth.to_csv("results/RF_predicted_truth_CV.csv", index=False)
+    else:
+        predicted_truth.to_csv(f"results/RF_predicted_truth_seed{RANDOM_SEED}.csv", index=False)

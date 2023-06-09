@@ -1,0 +1,36 @@
+Test results:
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: 2266786.3092498966
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: 1501.4887837159276
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: 1137.0074181189905
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: 0.4599632150749975
+
+Predicted vs. ground truth values:
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            13185.356445  ...                              16400
+1                            14989.215820  ...                              14200
+2                            15291.672852  ...                              14500
+3                            14609.086914  ...                              14420
+4                            14442.670898  ...                              14200
+5                            13625.256836  ...                              13300
+6                            13977.731445  ...                              13430
+7                            14736.247070  ...                              14450
+8                            11418.393555  ...                              12117
+9                            10580.028320  ...                              12500
+10                           12292.465820  ...                              16880
+11                           12453.761719  ...                              13500
+12                           10894.526367  ...                              10689
+13                            9104.986328  ...                              10995
+14                           11357.450195  ...                              12580
+15                           11232.020508  ...                              12710
+16                           12003.962891  ...                              14000
+17                           11171.996094  ...                              13250
+18                           10720.809570  ...                              11500
+19                           10735.995117  ...                              10500
+20                           10732.869141  ...                              11440
+21                           12538.720703  ...                              14500
+22                            9560.425781  ...                               6000
+23                            9229.695312  ...                               9250
+24                           10544.872070  ...                              12650
+25                           11471.954102  ...                              13500
+
+[26 rows x 4 columns]

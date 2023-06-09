@@ -1,18 +1,18 @@
 Test results:
-  - baseline linear model trained on all columns with mean value imputation MSE: 2904891.1256123977
-  - baseline linear model trained on all columns with mean value imputation RMSE: 1700.7549003320767
-  - baseline linear model trained on all columns with mean value imputation MAE: 1233.1146448603477
-  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.6369935685849776
+  - baseline linear model trained on all columns with mean value imputation MSE: 2904891.1256123846
+  - baseline linear model trained on all columns with mean value imputation RMSE: 1700.7549003320723
+  - baseline linear model trained on all columns with mean value imputation MAE: 1233.114644860339
+  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.6369935685849794
 
-  - baseline linear model trained on all columns with median value imputation MSE: 2751146.3176650726
+  - baseline linear model trained on all columns with median value imputation MSE: 2751146.317665073
   - baseline linear model trained on all columns with median value imputation RMSE: 1656.9901277715385
-  - baseline linear model trained on all columns with median value imputation MAE: 1212.3380987657488
+  - baseline linear model trained on all columns with median value imputation MAE: 1212.338098765746
   - baseline linear model trained on all columns with median value imputation R2 Score: 0.6556130358041586
 
-  - baseline linear model trained on all columns with mixed value imputation MSE: 2469208.128565425
-  - baseline linear model trained on all columns with mixed value imputation RMSE: 1566.3173313977234
-  - baseline linear model trained on all columns with mixed value imputation MAE: 1150.7421001936261
-  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.6876217828911395
+  - baseline linear model trained on all columns with mixed value imputation MSE: 2469208.1285654213
+  - baseline linear model trained on all columns with mixed value imputation RMSE: 1566.317331397722
+  - baseline linear model trained on all columns with mixed value imputation MAE: 1150.7421001936254
+  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.68762178289114
 
 Predicted vs. ground truth values mixed imputed:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)

@@ -1,0 +1,5 @@
+Random forest average performance across random seeds 0-4:
+  - MSE: 3476075.028570448
+  - MAE: 1162.2779549718575
+  - RMSE: 1791.574322204046
+  - R2 Score: 0.6199915907032418

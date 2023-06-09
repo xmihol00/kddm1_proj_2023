@@ -1,18 +1,18 @@
 Test results:
-  - baseline linear model trained on all columns with mean value imputation MSE: 4805432.618969006
+  - baseline linear model trained on all columns with mean value imputation MSE: 4805432.618969005
   - baseline linear model trained on all columns with mean value imputation RMSE: 2148.45395373662
-  - baseline linear model trained on all columns with mean value imputation MAE: 1667.9493455239804
-  - baseline linear model trained on all columns with mean value imputation R2 Score: -0.10601971103615787
+  - baseline linear model trained on all columns with mean value imputation MAE: 1667.9493455239813
+  - baseline linear model trained on all columns with mean value imputation R2 Score: -0.10601971103615748
 
   - baseline linear model trained on all columns with median value imputation MSE: 4845703.324543489
   - baseline linear model trained on all columns with median value imputation RMSE: 2164.6060129952184
-  - baseline linear model trained on all columns with median value imputation MAE: 1696.2310858880144
+  - baseline linear model trained on all columns with median value imputation MAE: 1696.2310858880164
   - baseline linear model trained on all columns with median value imputation R2 Score: -0.12041958698000971
 
-  - baseline linear model trained on all columns with mixed value imputation MSE: 4144023.5073198215
+  - baseline linear model trained on all columns with mixed value imputation MSE: 4144023.507319821
   - baseline linear model trained on all columns with mixed value imputation RMSE: 2003.2377917446483
-  - baseline linear model trained on all columns with mixed value imputation MAE: 1552.2646402462929
-  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.04077739201570696
+  - baseline linear model trained on all columns with mixed value imputation MAE: 1552.2646402462935
+  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.04077739201570679
 
 Predicted vs. ground truth values mixed imputed:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)

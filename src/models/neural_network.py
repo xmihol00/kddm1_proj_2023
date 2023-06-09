@@ -354,8 +354,8 @@ if __name__ == "__main__":
     test_pred, test_result = train_and_evaluate(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, model, optimizer, 90, verbose=0)
     print("Test results:")
     print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: {metrics.mean_squared_error(y_test_mixed, test_pred)}")
-    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_mixed, test_pred, squared=False)}")
     print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: {metrics.mean_absolute_error(y_test_mixed, test_pred)}")
+    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_mixed, test_pred, squared=False)}")
     print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: {metrics.r2_score(y_test_mixed, test_pred)}", end="\n\n")
 
     # store predicted and ground truth values
