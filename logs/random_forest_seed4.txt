@@ -1,37 +1,28 @@
+RF model on mixed dataset with max_features: 14, n_estimators: 100
+
+Feature importance:
+                                               pos  ...  column_index
+CWUR_score                                       1  ...             6
+World_rank                                       2  ...            35
+UK_rank                                          3  ...            19
+International_students                           4  ...             5
+Student_satisfaction                             5  ...            34
+Estimated_cost_of_living_per_year_(in_pounds)    6  ...            32
+Founded_year                                     7  ...            28
+Minimum_IELTS_score                              8  ...             9
+Academic_staff_to                                9  ...            18
+Academic_staff_from                             10  ...            20
+Latitude                                        11  ...             0
+Student_enrollment_to                           12  ...             3
+Longitude                                       13  ...            14
+Student_enrollment_from                         14  ...            24
+
+[14 rows x 3 columns]
 
 Performance of the best model on the test set:
-  Accuracy:                                           0.641
+  Accuracy:                                           0.614
 
-  Mean Squared Error (MSE):                      6871801.31
-  Root Mean Squared Error (RMSE):                   2506.41
-  Mean Absolute Error (MAE):                        1596.86
-  R^2:                                                0.641
-    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                            19830.000000  ...                              23187
-1                            17842.371134  ...                              29900
-2                            15083.917526  ...                              24500
-3                            14150.618557  ...                              18240
-4                            13297.432990  ...                              14450
-5                            13921.340206  ...                              14165
-6                            12926.659794  ...                              11250
-7                            11362.752577  ...                              15700
-8                            10966.701031  ...                              12500
-9                            13616.134021  ...                              10500
-10                           12043.051546  ...                              11250
-11                           11665.402062  ...                              12495
-12                           13295.701031  ...                              14000
-13                           11460.721649  ...                              12000
-14                           11226.876289  ...                              11500
-15                            9951.649485  ...                               9250
-16                           10479.865979  ...                              12650
-17                           11669.020619  ...                              13000
-18                           11030.463918  ...                              11300
-19                           10774.030928  ...                              12500
-20                           11860.257732  ...                              14000
-21                           11299.536082  ...                              10500
-22                           11258.917526  ...                              11500
-23                           10944.484536  ...                              13500
-24                           10177.835052  ...                               9495
-25                           10611.989691  ...                              10500
-
-[26 rows x 4 columns]
+  Mean Squared Error (MSE):                      7312476.69
+  Root Mean Squared Error (RMSE):                   2598.37
+  Mean Absolute Error (MAE):                        1617.77
+  R^2:                                                0.614

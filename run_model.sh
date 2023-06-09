@@ -2,6 +2,7 @@
 
 # Usage:
 # run_model.sh <path/model_name.py, e.g. src/models/neural_network.py> <start of names of files in results/, e.g. NN_predicted_truth> <model name, e.g. "Neural network">
+# e.g.: ./run_model.sh ./src/models/random_forest.py RF_predicted_truth RF
 
 for i in {0..4}
 do
