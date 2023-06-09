@@ -117,9 +117,15 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Prediction Performance and Ensemble}
+\begin{frame}{Prediction Performance, Ensemble}
+\vspace{-1cm}
+ Consistently all models perform:
+  \begin{itemize}
+      \item best on the mixed imputed data set,
+      \item worse on the mean imputed data set.
+  \end{itemize}
   \begin{table}[ht!]
-    \hspace{-0.9cm}
+    \hspace{-0.7cm}
     \begin{tabular}{|c|c|c|c|c|}
         \hline
         & MSE & MAE & RMSE & R2 score\\
@@ -128,9 +134,10 @@
         FCNN & 3024218.6 & 1167.42 & 1703.25 & 0.643 \\
         RF &  &  &  &  \\
         SVR &  &  &  &  \\
+        Ensemble &  &  &  &  \\
         \hline
     \end{tabular}
-    \caption{Average prediction performance across random seeds $[0, 4]$ analyzed with different metrics}
+    \caption{Average prediction performance across random seeds $[0, 4]$ on the mixed imputed data set}
     \label{tab:pred_perf}
 \end{table}
 \end{frame}
