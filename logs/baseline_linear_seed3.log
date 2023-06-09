@@ -1,50 +1,50 @@
 Test results:
-  - baseline linear model trained on all columns with mean value imputation MSE: 3241164.119254699
-  - baseline linear model trained on all columns with mean value imputation RMSE: 1799.3526534625648
-  - baseline linear model trained on all columns with mean value imputation MAE: 1279.8767469345744
-  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.5938588850942672
+  - baseline linear model trained on all columns with mean value imputation MSE: 2904891.1256123977
+  - baseline linear model trained on all columns with mean value imputation RMSE: 1700.7549003320767
+  - baseline linear model trained on all columns with mean value imputation MAE: 1233.1146448603477
+  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.6369935685849776
 
-  - baseline linear model trained on all columns with median value imputation MSE: 3156753.001271568
-  - baseline linear model trained on all columns with median value imputation RMSE: 1776.346339992922
-  - baseline linear model trained on all columns with median value imputation MAE: 1279.0736897488978
-  - baseline linear model trained on all columns with median value imputation R2 Score: 0.6040264842815277
+  - baseline linear model trained on all columns with median value imputation MSE: 2751146.3176650726
+  - baseline linear model trained on all columns with median value imputation RMSE: 1656.9901277715385
+  - baseline linear model trained on all columns with median value imputation MAE: 1212.3380987657488
+  - baseline linear model trained on all columns with median value imputation R2 Score: 0.6556130358041586
 
-  - baseline linear model trained on all columns with mixed value imputation MSE: 2396353.6675125873
-  - baseline linear model trained on all columns with mixed value imputation RMSE: 1547.9172705276283
-  - baseline linear model trained on all columns with mixed value imputation MAE: 1236.2557979803028
-  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.6985919771947107
+  - baseline linear model trained on all columns with mixed value imputation MSE: 2469208.128565425
+  - baseline linear model trained on all columns with mixed value imputation RMSE: 1566.3173313977234
+  - baseline linear model trained on all columns with mixed value imputation MAE: 1150.7421001936261
+  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.6876217828911395
 
 Predicted vs. ground truth values mixed imputed:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                            20768.942140  ...                              23187
-1                            17611.997073  ...                              15440
-2                            15026.975187  ...                              15000
-3                            15433.988009  ...                              14800
-4                            15697.805045  ...                              15160
-5                            14901.912722  ...                              14420
-6                            15201.059297  ...                              18240
-7                            14920.220429  ...                              14200
-8                            15964.197908  ...                              13000
-9                            15064.839003  ...                              14165
-10                           10804.029021  ...                              12117
-11                           12445.578320  ...                              12150
-12                           13295.862242  ...                              11250
-13                           11834.534862  ...                              12580
-14                           14331.330756  ...                              16500
-15                           10317.240566  ...                              11950
-16                           10851.616926  ...                              11000
-17                           11184.558523  ...                              11440
-18                           11226.183833  ...                              12750
-19                           10010.409036  ...                              11133
-20                           11196.621984  ...                              13000
-21                            9666.816069  ...                              11000
-22                           10867.952494  ...                              10500
-23                           11404.337890  ...                              12830
-24                           13039.772053  ...                              13500
-25                            8715.869826  ...                               9495
+0                            21195.450709  ...                              23187
+1                            17217.826332  ...                              15440
+2                            15220.131620  ...                              15000
+3                            15594.322600  ...                              14800
+4                            14869.121392  ...                              15160
+5                            15178.025615  ...                              14420
+6                            15685.184616  ...                              18240
+7                            14370.556021  ...                              14200
+8                            15831.561208  ...                              13000
+9                            13438.548074  ...                              14165
+10                           11989.561132  ...                              12117
+11                           12121.474926  ...                              12150
+12                           12726.122210  ...                              11250
+13                           11659.859985  ...                              12580
+14                           14510.016436  ...                              16500
+15                           10456.893546  ...                              11950
+16                           10619.386406  ...                              11000
+17                           11305.151196  ...                              11440
+18                           11291.125144  ...                              12750
+19                           10816.211838  ...                              11133
+20                           11525.794337  ...                              13000
+21                           10486.194817  ...                              11000
+22                           10789.997372  ...                              10500
+23                           11633.823990  ...                              12830
+24                           14255.012664  ...                              13500
+25                            8349.186681  ...                               9495
 
 [26 rows x 4 columns]
 
 |    |         MSE |    RMSE |     MAE |   R2 Score |
 |---:|------------:|--------:|--------:|-----------:|
-|  0 | 2.39635e+06 | 1547.92 | 1236.26 |   0.698592 |
+|  0 | 2.46921e+06 | 1566.32 | 1150.74 |   0.687622 |
