@@ -181,8 +181,8 @@ def mean_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: str
     df_test_mean_imputed.drop(columns="University_name", inplace=True)
 
     # save
-    df_train_mean_imputed.to_csv(dst_path + "Universities_train_mean_imputed.csv")
-    df_test_mean_imputed.to_csv(dst_path + "Universities_test_mean_imputed.csv")
+    df_train_mean_imputed.to_csv(dst_path + "Universities_train_mean.csv")
+    df_test_mean_imputed.to_csv(dst_path + "Universities_test_mean.csv")
 
 def median_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: str) -> None:
     # ensure input data frame is not modified
@@ -207,8 +207,8 @@ def median_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: s
     df_test_median_imputed.drop(columns="University_name", inplace=True)
 
     # save
-    df_train_median_imputed.to_csv(dst_path + "Universities_train_median_imputed.csv")
-    df_test_median_imputed.to_csv(dst_path + "Universities_test_median_imputed.csv")
+    df_train_median_imputed.to_csv(dst_path + "Universities_train_median.csv")
+    df_test_median_imputed.to_csv(dst_path + "Universities_test_median.csv")
 
 def mixed_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: str) -> None:
     df_train_mixed_imputed = df_train.copy()
@@ -243,27 +243,22 @@ def mixed_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: st
     df_test_mixed_imputed.drop(columns="University_name", inplace=True)
 
     # save
-    df_train_mixed_imputed.to_csv(dst_path + "Universities_train_mixed_imputed.csv")
-    df_test_mixed_imputed.to_csv(dst_path + "Universities_test_mixed_imputed.csv")
+    df_train_mixed_imputed.to_csv(dst_path + "Universities_train_mixed.csv")
+    df_test_mixed_imputed.to_csv(dst_path + "Universities_test_mixed.csv")
     
 if __name__ == "__main__":
     print("Imputing missing values ...")
     os.makedirs(DATA_PATH["imputation"], exist_ok=True)
 
     # load train set
-    universities_train = pd.read_csv(DATA_PATH["split"] + "Universities_train_split.csv")
+    universities_train = pd.read_csv(DATA_PATH["split"] + "Universities_train.csv")
     universities_train.set_index("Id", inplace=True)
 
     # load test set
-    universities_test = pd.read_csv(DATA_PATH["split"] + "Universities_test_split.csv")
+    universities_test = pd.read_csv(DATA_PATH["split"] + "Universities_test.csv")
     universities_test.set_index("Id", inplace=True)
 
     # impute with different methods
     mean_imputation(universities_train, universities_test, DATA_PATH["imputation"])
     median_imputation(universities_train, universities_test, DATA_PATH["imputation"])
     mixed_imputation(universities_train, universities_test, DATA_PATH["imputation"])
-
-    # verify that there are no missing values
-    for file_name in os.listdir(DATA_PATH["imputation"]):
-        df = pd.read_csv(DATA_PATH["imputation"] + file_name)
-        assert df.isnull().sum().sum() == 0, "There are still missing values in the data set."

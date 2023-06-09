@@ -44,10 +44,6 @@ def clean_and_deduplicate(df: pd.DataFrame):
     df["Academic_staff_to"] = df["Academic_staff_to"].str.replace(",", "").astype("float")
     df.drop(columns=["Academic_staff"], inplace=True)
 
-    # removal of unused columns
-    unused_columns = np.array(["Motto", "Website"])
-    df.drop(columns=unused_columns, inplace=True)
-
 if __name__ == "__main__":
     print("Cleaning ...")
     os.makedirs(DATA_PATH["cleaning"], exist_ok=True)    # make sure the output directory exists
@@ -56,4 +52,4 @@ if __name__ == "__main__":
 
     clean_and_deduplicate(universities)
 
-    universities.to_csv(DATA_PATH["cleaning"] + "Universities_cleaned_deduplicated.csv")
+    universities.to_csv(DATA_PATH["cleaning"] + "Universities.csv")

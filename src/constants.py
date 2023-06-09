@@ -7,5 +7,6 @@ DATA_PATH = {
     "split":         "data/02_splitting/",
     "imputation":    "data/03_imputation/",
     "normalization": "data/04_normalization/",
-    "numeric":       "data/05_numeric/",
+    "one-hot":       "data/05_one-hot/",
+    "numeric":       "data/06_numeric/",
 }

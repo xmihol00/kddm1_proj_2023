@@ -17,17 +17,17 @@ def finalize_data_set(df_train: pd.DataFrame, df_test: pd.DataFrame, type: str):
     df_test.to_csv(DATA_PATH["numeric"] + f"Universities_test_{type}.csv", index=False)
 
 if __name__ == "__main__":
-    print("Dropping non numeric columns and the Id column...")
+    print("Dropping non numeric columns and the Id column ...")
     os.makedirs(DATA_PATH["numeric"], exist_ok=True)
 
-    df_train = pd.read_csv(DATA_PATH["normalization"] + "Universities_train_mean_imputed_normalized.csv")
-    df_test = pd.read_csv(DATA_PATH["normalization"] + "Universities_test_mean_imputed_normalized.csv")
+    df_train = pd.read_csv(DATA_PATH["one-hot"] + "Universities_train_mean.csv")
+    df_test = pd.read_csv(DATA_PATH["one-hot"] + "Universities_test_mean.csv")
     finalize_data_set(df_train, df_test, "mean")
 
-    df_train = pd.read_csv(DATA_PATH["normalization"] + "Universities_train_median_imputed_normalized.csv")
-    df_test = pd.read_csv(DATA_PATH["normalization"] + "Universities_test_median_imputed_normalized.csv")
+    df_train = pd.read_csv(DATA_PATH["one-hot"] + "Universities_train_median.csv")
+    df_test = pd.read_csv(DATA_PATH["one-hot"] + "Universities_test_median.csv")
     finalize_data_set(df_train, df_test, "median")
 
-    df_train = pd.read_csv(DATA_PATH["normalization"] + "Universities_train_mixed_imputed_normalized.csv")
-    df_test = pd.read_csv(DATA_PATH["normalization"] + "Universities_test_mixed_imputed_normalized.csv")
+    df_train = pd.read_csv(DATA_PATH["one-hot"] + "Universities_train_mixed.csv")
+    df_test = pd.read_csv(DATA_PATH["one-hot"] + "Universities_test_mixed.csv")
     finalize_data_set(df_train, df_test, "mixed")
