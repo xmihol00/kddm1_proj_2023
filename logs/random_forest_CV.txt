@@ -1,0 +1,55 @@
+mean best params: {'max_features': 9, 'n_estimators': 79}
+mean all columns average MSE: 3872944.263497913, average MEA: 1236.626943942134
+median best params: {'max_features': 7, 'n_estimators': 19}
+median all columns average MSE: 4121164.6991821653, average MEA: 1255.8468671679198
+mixed best params: {'max_features': 7, 'n_estimators': 97}
+mixed all columns average MSE: 4064390.3206959893, average MEA: 1231.4660775650468
+mean_continuous best params: {'max_features': 2, 'n_estimators': 82}
+mean continuous columns average MSE: 3758053.153655704, average MEA: 1240.8261324041812
+median_continuous best params: {'max_features': 2, 'n_estimators': 85}
+median continuous columns average MSE: 3826277.8556777067, average MEA: 1237.0483473389356
+mixed_continuous best params: {'max_features': 3, 'n_estimators': 85}
+mixed continuous columns average MSE: 3711408.474562531, average MEA: 1193.6994957983195
+mean_selected best params: {'max_features': 1, 'n_estimators': 94}
+mean selected columns average MSE: 3986490.0575405806, average MEA: 1217.4323201621073
+median_selected best params: {'max_features': 1, 'n_estimators': 94}
+median selected columns average MSE: 3979148.9998857495, average MEA: 1225.3211752786221
+mixed_selected best params: {'max_features': 2, 'n_estimators': 97}
+mixed selected columns average MSE: 3623366.680566225, average MEA: 1151.584683357879
+
+Performance of the best model on the test set:
+  Accuracy:                                           0.822
+
+  Mean Squared Error (MSE):                      1477584.72
+  Root Mean Squared Error (RMSE):                   1170.94
+  Mean Absolute Error (MAE):                         881.99
+  R^2:                                                0.822
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            20553.658537  ...                              23187
+1                            14398.231707  ...                              16400
+2                            14679.390244  ...                              15000
+3                            14497.317073  ...                              14000
+4                            14343.536585  ...                              14200
+5                            14855.731707  ...                              14500
+6                            14315.000000  ...                              13000
+7                            14120.000000  ...                              16200
+8                            13124.524390  ...                              13420
+9                            11383.134146  ...                              11500
+10                           11522.134146  ...                              12500
+11                           11704.268293  ...                              11000
+12                           10812.890244  ...                              10000
+13                           10935.121951  ...                              13000
+14                           10839.719512  ...                              10950
+15                           11619.695122  ...                              12000
+16                           10684.841463  ...                              11000
+17                           10765.060976  ...                               6000
+18                           10778.463415  ...                              12650
+19                           11761.536585  ...                              13000
+20                           10275.280488  ...                              11000
+21                           11168.646341  ...                              11300
+22                           10785.512195  ...                               9500
+23                           11616.353659  ...                              12830
+24                           11282.073171  ...                              13500
+25                           11085.243902  ...                               9250
+
+[26 rows x 4 columns]

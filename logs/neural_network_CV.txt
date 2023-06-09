@@ -31,8 +31,8 @@ Cross-validation results:
 
 Test results:
   - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: 1789915.7561178207
-  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: 1309.8887234416702
   - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: 983.0002629206731
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: 1309.8887234416702
   - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: 0.7789266239631705
 
 Predicted vs. ground truth values:

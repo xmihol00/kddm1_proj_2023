@@ -12,7 +12,7 @@ from sklearn import model_selection as ms
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, PREPROCESSING_SEED
+from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED
 
 def performGridSearch(X_train, y_train, param_grid, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
@@ -130,7 +130,7 @@ def printPerformance(rf: RandomForestRegressor, X_test, y_test):
 
     return y_pred
 
-PERFORM_CROSS_VALIDATION = PREPROCESSING_SEED == CROSS_VALIDATION_SEED
+PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
     
 if __name__ == "__main__":
     os.makedirs("plots", exist_ok=True)
@@ -228,17 +228,16 @@ if __name__ == "__main__":
         best_parameters = performGridSearch(X_train_mixed, y_train_mixed, param_grid, create_Plot=True, datasetSuffix='mixed_selected')
         evaluatePerformanceOnCV(X_train_mixed, y_train_mixed, best_parameters, datasetSuffix='mixed selected columns')
 
-    continuous_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
-                          "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
-                          "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
+    selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
+                        "Academic_staff_from", "Academic_staff_to"]
 
-    X_train_mixed = train_mixed[continuous_columns].to_numpy()
+    X_train_mixed = train_mixed[selected_columns].to_numpy()
     y_train_mixed = train_mixed[target_columns].to_numpy()
-    X_test_mixed = test_mixed[continuous_columns].to_numpy()
+    X_test_mixed = test_mixed[selected_columns].to_numpy()
     y_test_mixed = test_mixed[target_columns].to_numpy()
 
     # fit RF with best parameters found during cross validation
-    rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=3, n_estimators=82)
+    rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=2, n_estimators=97)
     rf.fit(X_train_mixed, y_train_mixed)
 
     # evaluate performance on test set

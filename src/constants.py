@@ -2,7 +2,6 @@ import os
 
 CROSS_VALIDATION_SEED = 14
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", CROSS_VALIDATION_SEED))
-PREPROCESSING_SEED = int(os.environ.get("PREPROCESSING_SEED", CROSS_VALIDATION_SEED))
 
 DATA_PATH = {
     "original":      "data/",

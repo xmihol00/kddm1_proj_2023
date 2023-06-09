@@ -1,36 +1,36 @@
 Test results:
-  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: 3108549.3319708384
-  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: 1762.3261649403016
-  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: 1225.584209735577
-  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: 0.6084012105465488
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: 3108550.613591414
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: 1225.5843224158655
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: 1762.3265275824765
+  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: 0.6084010486837877
 
 Predicted vs. ground truth values:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                            19567.353516  ...                              23187
-1                            19600.310547  ...                              15440
+0                            19567.357422  ...                              23187
+1                            19600.314453  ...                              15440
 2                            14587.683594  ...                              15000
-3                            14867.469727  ...                              14800
-4                            14982.737305  ...                              15160
-5                            14593.100586  ...                              14420
-6                            14738.758789  ...                              18240
-7                            14557.336914  ...                              14200
-8                            15260.486328  ...                              13000
-9                            14126.375977  ...                              14165
+3                            14867.473633  ...                              14800
+4                            14982.739258  ...                              15160
+5                            14593.101562  ...                              14420
+6                            14738.759766  ...                              18240
+7                            14557.337891  ...                              14200
+8                            15260.488281  ...                              13000
+9                            14126.377930  ...                              14165
 10                           11409.376953  ...                              12117
-11                           11460.238281  ...                              12150
-12                           12616.060547  ...                              11250
-13                           11426.323242  ...                              12580
+11                           11460.237305  ...                              12150
+12                           12616.061523  ...                              11250
+13                           11426.324219  ...                              12580
 14                           13002.102539  ...                              16500
-15                           10884.222656  ...                              11950
-16                           10486.937500  ...                              11000
+15                           10884.223633  ...                              11950
+16                           10486.936523  ...                              11000
 17                           10845.871094  ...                              11440
 18                           11329.286133  ...                              12750
 19                           10567.627930  ...                              11133
-20                           11242.348633  ...                              13000
-21                           10055.416992  ...                              11000
+20                           11242.349609  ...                              13000
+21                           10055.416016  ...                              11000
 22                           11073.342773  ...                              10500
-23                           11372.089844  ...                              12830
-24                           11432.844727  ...                              13500
-25                           11749.890625  ...                               9495
+23                           11372.088867  ...                              12830
+24                           11432.843750  ...                              13500
+25                           11749.894531  ...                               9495
 
 [26 rows x 4 columns]
