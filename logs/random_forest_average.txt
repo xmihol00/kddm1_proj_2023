@@ -1,5 +1,5 @@
-RF average performance across random seeds 0-4:
-  - MSE: 3379839.454085
-  - MAE: 1133.0883461538463
-  - RMSE: 1765.1445798380719
-  - R2 Score: 0.6312045916840355
+RF average performance across random seeds 0-9:
+  - MSE: 3034398.1108240383
+  - MAE: 1117.7656730769231
+  - RMSE: 1681.7793489676228
+  - R2 Score: 0.6114842426808212

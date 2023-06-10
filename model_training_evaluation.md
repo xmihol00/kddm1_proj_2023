@@ -56,15 +56,15 @@ Disadvantages of Random Forest Regression:
 - Computationally expensive for complex datasets.
 
 We applied `GridSearchCV` to find the best parameter for the number of estimators by the negative mean squared error.
-The best parameters found at single parameter search are `n_estimators=29` and `max_features=8`
+The best parameters found at single parameter search for `n_estimators` are above 80 and for `max_features` are in the interval [5, 15].
 For combine parameter search `n_estimators=39` and `max_features=17` yield the best performance.
 We also performed some empirical approaches.
 The overall best result was gained by `n_estimators=100` and `max_features=10`.
-Thus we trained with this parameters. The returned accuracy is 0.780.
+Thus we trained with this parameters. The returned accuracy averaged over 10 different seeds is 0.611.
 
 | Model                    | Training Column Indices                            |        MSE |    RMSE |     MAE | R2 score |
 | -------------------------|----------------------------------------------------|-----------:|--------:|--------:|---------:|
-| Random Forest            | 6, 5, 7, 8, 11, 18, 14, 16, 12, 13                 | 1771101.19 | 1297.59 |  981.13 |   0.783  |
+| Random Forest            | 7, 6, 5, 11, 8, 18, 14, 16, 12, 13, 3              | 3034398.11 | 1117.76 | 1681.78 |   0.611  |
 
 ### Support Vector Machine
 

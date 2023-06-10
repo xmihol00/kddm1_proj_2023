@@ -29,11 +29,11 @@ def average_model_performance(file_name: str):
             R2s.append(metrics.r2_score(predicted_truth[:, 2:], predicted_truth[:, :2]))
             seed_counter += 1
     
-    return np.mean(MSEs), np.mean(MAEs), np.mean(RMSEs), np.mean(R2s)
+    return np.mean(MSEs), np.mean(MAEs), np.mean(RMSEs), np.mean(R2s), seed_counter
 
 if __name__ == "__main__":
-    MSE, MAE, RMSE, R2 = average_model_performance(args.file_name)
-    print(f"{args.model_name} average performance across random seeds 0-4:")
+    MSE, MAE, RMSE, R2, seed_counter = average_model_performance(args.file_name)
+    print(f"{args.model_name} average performance across random seeds 0-{seed_counter - 1}:")
     print(f"  - MSE: {MSE}")
     print(f"  - MAE: {MAE}")
     print(f"  - RMSE: {RMSE}")
