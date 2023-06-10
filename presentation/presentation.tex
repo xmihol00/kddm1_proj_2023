@@ -28,7 +28,7 @@
 \setlength{\belowcaptionskip}{2pt}
 
 %% Enter presentation metadata
-\title[Prediction with Regression on Universities Data Set]{Prediction with Regression\\on Universities Data Set\\\normalsize \\}
+\title[Prediction Using Regression on Universities Data Set]{Prediction Using Regression\\on Universities Data Set\\\normalsize \\}
 \author{\textbf{Group 14}: \\David Mihola, \\Ronald Infanger, \\Thomas Sterner}
 \date{18. 06. 2023}
 
@@ -59,8 +59,8 @@
 \begin{frame}{Data Set Analysis 1}
   \vspace{-1cm}
   \begin{itemize}
-  \item The dataset is about Universities from the United Kingdom
-  \item It contains 21 columns and 147 row (131 unique rows)
+  \item Universities from the United Kingdom,
+  \item 21 columns and 147 row (131 unique rows).
     \begin{table}[h]
       \centering
       \tiny
@@ -75,8 +75,8 @@
         6   & World\_rank                     & 17  & Campus\_setting                                 \\
         7   & CWUR\_score                     & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
         8   & Minimum\_IELTS\_score           & 19  & Latitude                                       \\
-        9   & UG\_average\_fees\_(in\_pounds) & 20  & Longitude                                      \\
-        10  & PG\_average\_fees\_(in\_pounds) & 21  & Website                                        \\
+        9   & \textbf{UG\_average\_fees\_(in\_pounds)} & 20  & Longitude                                      \\
+        10  & \textbf{PG\_average\_fees\_(in\_pounds)} & 21  & Website                                        \\
         11  & International\_students         &     & \\
       \end{tabular}\hfill\
       %\caption{Missing Values}
@@ -98,21 +98,22 @@
         1  & University\_name   & 14 & dropped \\
         3  & Founded\_year      & 15 & researched online \\
         4  & Motto              & 18 & dropped \\
-        7  & CWUR\_score        & 52 & linear model based on "UG\_average\_fees\_(in\_pounds)" \\
-        16 & Academic\_Calender & 29 & max value "Semesters" \\
-        17 & Campus\_setting    & 19 & kNeighbors based on "Latitude", "Longitude"
+        7  & CWUR\_score        & 52 & linear regression based on "World\_rank" \\
+        16 & Academic\_Calender & 29 & mode \\
+        17 & Campus\_setting    & 19 & KNN based on "Latitude" and "Longitude"
       \end{tabular}\hfill\
       % \caption{Missing Nan}
       \label{tab:missing_values_nan}
     \end{table}
-  \item zero values  (1 out of 21 columns)
+  \item suspicious values (2 out of 21 columns)
     \begin{table}[h]
       \centering
       \tiny
-      \begin{tabular}{l|l|l|l}
-        Idx & Column & Zero Count & Imuptation Approach \\
+      \begin{tabular}{l|l|l|l|l}
+        Idx & Column & Suspicious Value & Count & Imuptation Approach \\
         \hline
-        12  & Student\_satisfaction & 6 & median imputaion \\
+        3  & Founded\_year & 9999 & 16 & researched online \\
+        12  & Student\_satisfaction & 0 & 6 & median \\
       \end{tabular}\hfill\
       % \caption{Missing Zero}
       \label{tab:missing_values_zero}
@@ -122,12 +123,8 @@
 
 \begin{frame}{Data Set Analysis 3}
   \vspace{-1cm}
-  \begin{itemize}
-    \item Linear dependency of PG fees, UG fees and CWUR.
-  \end{itemize}
   \begin{figure}
       \centering
-      
       \begin{subfigure}[b]{0.48\textwidth}
           \centering
           \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_UG_PG_fees_diff.png}
@@ -141,19 +138,15 @@
           % \caption{$2$}
           \label{fig:sfig2}
       \end{subfigure}
-
       \label{fig:analysis_3}
+      \caption{Linear dependency of PG fees, UG fees and CWUR}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Data Set Analysis 4}
   \vspace{-1cm}
-  \begin{itemize}
-    \item Linear dependency of World-rank, UK-rank and CWUR.
-  \end{itemize}
   \begin{figure}
       \centering
-      
       \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_UK_rank.png}
@@ -167,9 +160,19 @@
           % \caption{$4$}
           \label{fig:sfig4}
       \end{subfigure}
-
+    \caption{Linear dependency of World-rank, UK-rank and CWUR}
       \label{fig:analysis_4}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Data Set Analysis 5}
+  \vspace{-1.25cm}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.92 \textwidth]{figs/correlation_heatmap.png}
+    \caption{Correlation heat map}
+    \label{fig:corr_heatmap}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Cleaning and Pre-processing}
@@ -195,7 +198,7 @@
             \item columns with absolute value of correlation higher than 0.5 with the target variables
         \end{itemize}
       \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
-      \item average performance across random seeds $[0, 9]$.
+      \item average performance across random seeds $[40, 49]$.
   \end{itemize}
 \end{frame}
 
@@ -250,7 +253,7 @@
         Ensemble &  &  &  &  \\
         \hline
     \end{tabular}
-    \caption{Average prediction performance across random seeds $[0, 4]$ on the mixed imputed data set}
+    \caption{Average prediction performance across random seeds $[40, 49]$ on the mixed imputed data set}
     \label{tab:pred_perf}
 \end{table}
 \end{frame}

@@ -98,21 +98,21 @@ def impute_founded_year(df : pd.DataFrame):
 def impute_train_CWUR_score(df: pd.DataFrame) -> "tuple[float, float]":
     lm = LinearRegression()
     df_regression = df[df["CWUR_score"].notna()]
-    lm.fit(df_regression["UG_average_fees_(in_pounds)"].to_numpy().reshape(-1, 1), df_regression["CWUR_score"])
+    lm.fit(df_regression["World_rank"].to_numpy().reshape(-1, 1), df_regression["CWUR_score"])
     slope = lm.coef_[0]
     intercept = lm.intercept_
 
     # get indices of rows with missing CWUR_score
     nan_indices = df[df["CWUR_score"].isnull()].index
     for nan_index in nan_indices:
-        df.loc[nan_index, "CWUR_score"] = df.loc[nan_index, "UG_average_fees_(in_pounds)"] * slope + intercept
+        df.loc[nan_index, "CWUR_score"] = df.loc[nan_index, "World_rank"] * slope + intercept
     
     return slope, intercept
 
 def impute_test_CWUR_score(df: pd.DataFrame, slope: float, intercept: float) -> None:
     nan_indices = df[df["CWUR_score"].isnull()].index
     for nan_index in nan_indices:
-        df.loc[nan_index, "CWUR_score"] = df.loc[nan_index, "UG_average_fees_(in_pounds)"] * slope + intercept
+        df.loc[nan_index, "CWUR_score"] = df.loc[nan_index, "World_rank"] * slope + intercept
 
 def impute_train_student_satisfaction(df: pd.DataFrame) -> float:
     median = df["Student_satisfaction"].median()
