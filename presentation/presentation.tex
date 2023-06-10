@@ -65,19 +65,19 @@
       \centering
       \tiny
       \begin{tabular}{l|l||l|l}
-        Idx & Column                          & Idx & Column \\
+        Idx & Column                                   & Idx & Column \\
         \hline
-        1   & University\_name                & 12  & Student\_satisfaction                           \\
-        2   & Region                          & 13  & Student\_enrollment                             \\
-        3   & Founded\_year                   & 14  & Academic\_staff                                 \\
-        4   & Motto                           & 15  & Control\_type                                   \\
-        5   & UK\_rank                        & 16  & Academic\_Calender                              \\
-        6   & World\_rank                     & 17  & Campus\_setting                                 \\
-        7   & CWUR\_score                     & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
-        8   & Minimum\_IELTS\_score           & 19  & Latitude                                       \\
+        1   & University\_name                         & 12  & Student\_satisfaction                           \\
+        2   & Region                                   & 13  & Student\_enrollment                             \\
+        3   & Founded\_year                            & 14  & Academic\_staff                                 \\
+        4   & Motto                                    & 15  & Control\_type                                   \\
+        5   & UK\_rank                                 & 16  & Academic\_Calender                              \\
+        6   & World\_rank                              & 17  & Campus\_setting                                 \\
+        7   & CWUR\_score                              & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
+        8   & Minimum\_IELTS\_score                    & 19  & Latitude                                       \\
         9   & \textbf{UG\_average\_fees\_(in\_pounds)} & 20  & Longitude                                      \\
         10  & \textbf{PG\_average\_fees\_(in\_pounds)} & 21  & Website                                        \\
-        11  & International\_students         &     & \\
+        11  & International\_students                  &     & \\
       \end{tabular}\hfill\
       %\caption{Missing Values}
       \label{tab:missing_values}
@@ -93,14 +93,14 @@
       \centering
       \tiny
       \begin{tabular}{l|l|l|l}
-        Idx & Column & NaN Count & Imuptation Approach \\
+        Idx & Column             & NaN Count & Imuptation Approach \\
         \hline
-        1  & University\_name   & 14 & dropped \\
-        3  & Founded\_year      & 15 & researched online \\
-        4  & Motto              & 18 & dropped \\
-        7  & CWUR\_score        & 52 & linear regression based on "World\_rank" \\
-        16 & Academic\_Calender & 29 & mode \\
-        17 & Campus\_setting    & 19 & KNN based on "Latitude" and "Longitude"
+        1   & University\_name   & 14        & dropped \\
+        3   & Founded\_year      & 15        & researched online \\
+        4   & Motto              & 18        & dropped \\
+        7   & CWUR\_score        & 52        & linear regression based on "World\_rank" \\
+        16  & Academic\_Calender & 29        & mode \\
+        17  & Campus\_setting    & 19        & KNN based on "Latitude" and "Longitude"
       \end{tabular}\hfill\
       % \caption{Missing Nan}
       \label{tab:missing_values_nan}
@@ -110,10 +110,11 @@
       \centering
       \tiny
       \begin{tabular}{l|l|l|l|l}
-        Idx & Column & Suspicious Value & Count & Imuptation Approach \\
+        Idx & Column                & Suspicious Value & Count & Imuptation Approach \\
         \hline
-        3  & Founded\_year & 9999 & 16 & researched online \\
-        12  & Student\_satisfaction & 0 & 6 & median \\
+        3   & Founded\_year         & 9999             & 16    & researched online \\
+        12  & Student\_satisfaction & 0                & 7     & median \\
+        12  & Academic\_staff       & over             & 7     & 5000 \\
       \end{tabular}\hfill\
       % \caption{Missing Zero}
       \label{tab:missing_values_zero}
