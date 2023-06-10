@@ -12,15 +12,14 @@ from sklearn import model_selection as ms
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED
+from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, CV_SPLITS
 
 PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
-CV_SPILT = 5
 
 def performGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
     rf = RandomForestRegressor(random_state=RANDOM_SEED)
-    gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPILT)
+    gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
     gs.fit(X_train, y_train)
     print(f'{datasetSuffix} best params:', gs.best_params_)
 
@@ -50,7 +49,7 @@ def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_param
     # 3-fold cross validation
     results_mse = []
     results_mae = []
-    for train_index, test_index in ms.KFold(n_splits=CV_SPILT, shuffle=True, random_state=RANDOM_SEED).split(X_train):
+    for train_index, test_index in ms.KFold(n_splits=CV_SPLITS, shuffle=True, random_state=RANDOM_SEED).split(X_train):
         X_train_fold, X_val_fold = X_train[train_index], X_train[test_index]
         y_train_fold, y_val_fold = y_train[train_index], y_train[test_index]
         

@@ -19,7 +19,7 @@ def average_model_performance(file_name: str):
     RMSEs = []
     R2s = []
 
-    seed_counter = 0
+    seed_counter = 40
     for listed_file_name in os.listdir("results"):
         if listed_file_name.startswith(file_name):
             predicted_truth = np.loadtxt(os.path.join("results", f"{file_name}{seed_counter}.csv"), delimiter=",", skiprows=1)
@@ -33,7 +33,7 @@ def average_model_performance(file_name: str):
 
 if __name__ == "__main__":
     MSE, MAE, RMSE, R2, seed_counter = average_model_performance(args.file_name)
-    print(f"{args.model_name} average performance across random seeds 0-{seed_counter - 1}:")
+    print(f"{args.model_name} average performance across random seeds 40-{seed_counter - 1}:")
     print(f"  - MSE: {MSE}")
     print(f"  - MAE: {MAE}")
     print(f"  - RMSE: {RMSE}")

@@ -1,5 +1,5 @@
-Baseline linear average performance across random seeds 0-4:
-  - MSE: 4057470.462616571
-  - MAE: 1351.39192240389
-  - RMSE: 1969.3787656909863
-  - R2 Score: 0.5011681279670525
+Baseline average performance across random seeds 40-49:
+  - MSE: 3622585.6718937582
+  - MAE: 1363.6557432045165
+  - RMSE: 1870.9542733026399
+  - R2 Score: 0.36688826887002307

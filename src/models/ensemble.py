@@ -17,7 +17,7 @@ MAEs = []
 RMSEs = []
 R2s = []
 
-for i in range(5):
+for i in range(40, 50):
     y_preds_truths = []
     for model in models:
         y_preds_truths.append(np.loadtxt(os.path.join("results", f"{model}_predicted_truth_seed{i}.csv"), delimiter=",", skiprows=1))

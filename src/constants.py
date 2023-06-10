@@ -2,6 +2,7 @@ import os
 
 CROSS_VALIDATION_SEED = 14
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", CROSS_VALIDATION_SEED))
+CV_SPLITS = 5
 
 DATA_PATH = {
     "original":      "data/",

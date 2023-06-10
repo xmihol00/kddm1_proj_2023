@@ -1,0 +1,50 @@
+Test results:
+  - baseline linear model trained on all columns with mean value imputation MSE: 3850902.826923077
+  - baseline linear model trained on all columns with mean value imputation RMSE: 1961.6780000608044
+  - baseline linear model trained on all columns with mean value imputation MAE: 1267.673076923077
+  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.026518023198883633
+
+  - baseline linear model trained on all columns with median value imputation MSE: 3926381.192307692
+  - baseline linear model trained on all columns with median value imputation RMSE: 1978.599398772907
+  - baseline linear model trained on all columns with median value imputation MAE: 1303.9615384615386
+  - baseline linear model trained on all columns with median value imputation R2 Score: 0.007392328995165509
+
+  - baseline linear model trained on all columns with mixed value imputation MSE: 2932464.057692308
+  - baseline linear model trained on all columns with mixed value imputation RMSE: 1664.7881182532583
+  - baseline linear model trained on all columns with mixed value imputation MAE: 1252.5961538461538
+  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.2584458930570912
+
+Predicted vs. ground truth values mixed imputed:
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                                 16504.0  ...                              14200
+1                                 16928.0  ...                              17250
+2                                 14568.0  ...                              14000
+3                                 16016.0  ...                              14800
+4                                 15320.0  ...                              15160
+5                                 13624.0  ...                              15050
+6                                 14072.0  ...                              13300
+7                                 10048.0  ...                              10689
+8                                 11352.0  ...                              15700
+9                                 11080.0  ...                              12500
+10                                12544.0  ...                              12890
+11                                12368.0  ...                              10500
+12                                13040.0  ...                              10800
+13                                10168.0  ...                              12700
+14                                10616.0  ...                              10250
+15                                13112.0  ...                              12500
+16                                11656.0  ...                              12200
+17                                10832.0  ...                              11950
+18                                15760.0  ...                              17250
+19                                11648.0  ...                              11700
+20                                13176.0  ...                              14140
+21                                10392.0  ...                              11400
+22                                11040.0  ...                              11133
+23                                11560.0  ...                              12650
+24                                 9368.0  ...                              10500
+25                                10040.0  ...                              11250
+
+[26 rows x 4 columns]
+
+|    |         MSE |    RMSE |    MAE |   R2 Score |
+|---:|------------:|--------:|-------:|-----------:|
+|  0 | 2.93246e+06 | 1664.79 | 1252.6 |   0.258446 |

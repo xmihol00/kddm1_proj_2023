@@ -11,7 +11,7 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import CROSS_VALIDATION_SEED, RANDOM_SEED, DATA_PATH
+from constants import CROSS_VALIDATION_SEED, RANDOM_SEED, DATA_PATH, CV_SPLITS
 
 TRAIN_ALL_COLUMNS = True
 TRAIN_ALL_CONTINUOS_COLUMNS = True
@@ -24,7 +24,7 @@ def run_cross_validation(optimizer, X_train, y_train, model, verbose=0):
     patience = 25
     weights = model.get_weights()
     
-    for train_index, test_index in ms.KFold(n_splits=3, shuffle=True, random_state=RANDOM_SEED).split(X_train):
+    for train_index, test_index in ms.KFold(n_splits=CV_SPLITS, shuffle=True, random_state=RANDOM_SEED).split(X_train):
         X_train_fold, X_val_fold = X_train[train_index], X_train[test_index]
         y_train_fold, y_val_fold = y_train[train_index], y_train[test_index]
         
@@ -351,12 +351,12 @@ if __name__ == "__main__":
     ])
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
-    test_pred, test_result = train_and_evaluate(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, model, optimizer, 90, verbose=0)
+    test_pred, test_result = train_and_evaluate(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, model, optimizer, 71, verbose=0)
     print("Test results:")
-    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MSE: {metrics.mean_squared_error(y_test_mixed, test_pred)}")
-    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test MAE: {metrics.mean_absolute_error(y_test_mixed, test_pred)}")
-    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_mixed, test_pred, squared=False)}")
-    print(f"  - model with 2 hidden layer trained for 90 epochs trained on selected columns with mixed value imputation test R2 Score: {metrics.r2_score(y_test_mixed, test_pred)}", end="\n\n")
+    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test MSE: {metrics.mean_squared_error(y_test_mixed, test_pred)}")
+    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test MAE: {metrics.mean_absolute_error(y_test_mixed, test_pred)}")
+    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_mixed, test_pred, squared=False)}")
+    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test R2 Score: {metrics.r2_score(y_test_mixed, test_pred)}", end="\n\n")
 
     # store predicted and ground truth values
     predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": test_pred[:, 0], "predicted PG_average_fees_(in_pounds)": test_pred[:, 1], 
