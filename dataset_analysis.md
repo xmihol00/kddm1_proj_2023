@@ -71,10 +71,10 @@ TODO: comment on the dependencies relationships
 
 These insights are partial generated with the open-source tool 'orange' and partial by python libraries.
 
-1. Fees behave similar, with the Average PG fees being higher than Average UG fees.
-      ![image](./plots/orange/scatter_UG_PG_fees_diff.png.png)
+1. Fees behave similar, with the Average PG fees being higher than Average UG fees.  
+      ![image](./plots/orange/scatter_UG_PG_fees_diff.png)
 
-2. Most universities are from the capital London. This indicate a data bias.
+2. Most universities are from the capital London. This indicate a data bias.  
       ![image](./plots/knowledge_gained/bar_hist%20region.png)
 
 3. The best 3 universities based on CWUR-score are:
@@ -84,22 +84,22 @@ These insights are partial generated with the open-source tool 'orange' and part
       | University of Oxford         |  2       |        2     |       93.3   |
       | University College London    |  9       |       14     |       88     |
 
-4. Fees tend to rise with CWUR-score.
+4. Fees tend to rise with CWUR-score.  
       ![image](./plots/orange/scatter_PG_fees_per_CWUR_score.png)
 
-5. UK rank and World rank are similar providing an order where lower values are better, with the best university at rank 1. Private universities tend to be better rated on world rank.
+5. UK rank and World rank are similar providing an order where lower values are better, with the best university at rank 1. Private universities tend to be better rated on world rank.  
       ![image](./plots/orange/scatter_world_rank_per_UK_rank.png)
 
-6. The CWUR score provide a metric where a higher value is better with the best UK university of a value of 94.
+6. The CWUR score provide a metric where a higher value is better with the best UK university of a value of 94.  
       ![image](./plots/orange/scatter_world_rank_per_CWUR.png)
 
-7. Most universities are founded in 1925. This could be related to political action.
+7. Most universities are founded in 1925. This could be related to political action.  
       ![image](./plots/knowledge_gained/bar_top%2010%20hist%20founded.png)
 
-8. The Capital London hold the highest estimated cost of living.
+8. The Capital London hold the highest estimated cost of living.  
       ![image](./plots/knowledge_gained/boxplot_Cost%20of%20living%20per%20region.png)
 
-9. Suburban Univserities tend to have the highest estimated cost of living.
+9. Suburban Univserities tend to have the highest estimated cost of living.  
       ![image](./plots/knowledge_gained/boxplot_Cost%20of%20living%20per%20campus_setting.png)
 
 ## Pre-processing

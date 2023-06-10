@@ -15,7 +15,17 @@
 \usepackage[english]{babel}
 
 %% Add your own packages, macros, etc.
-% ...
+\usepackage{graphicx}           % figure
+\usepackage{caption}            % for sub-figure
+\usepackage{subcaption}         % for sub-figure
+
+%% spacing
+\let\OLDitemize\itemize
+\renewcommand\itemize{\OLDitemize\setlength{\itemsep}{0pt}}
+\renewcommand\itemize{\OLDitemize\setlength{\topsep }{-0pt}}
+\setlength{\intextsep}{6pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{2pt}
 
 %% Enter presentation metadata
 \title[Prediction with Regression on Universities Data Set]{Prediction with Regression\\on Universities Data Set\\\normalsize \\}
@@ -46,17 +56,120 @@
 \end{frame}
 
 
-\begin{frame}{Data Set Analysis}
-  TODO
+\begin{frame}{Data Set Analysis 1}
+  \vspace{-1cm}
+  \begin{itemize}
+  \item The dataset is about Universities from the United Kingdom
+  \item It contains 21 columns and 147 row (131 unique rows)
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l||l|l}
+        Idx & Column                          & Idx & Column \\
+        \hline
+        1   & University\_name                & 12  & Student\_satisfaction                           \\
+        2   & Region                          & 13  & Student\_enrollment                             \\
+        3   & Founded\_year                   & 14  & Academic\_staff                                 \\
+        4   & Motto                           & 15  & Control\_type                                   \\
+        5   & UK\_rank                        & 16  & Academic\_Calender                              \\
+        6   & World\_rank                     & 17  & Campus\_setting                                 \\
+        7   & CWUR\_score                     & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
+        8   & Minimum\_IELTS\_score           & 19  & Latitude                                       \\
+        9   & UG\_average\_fees\_(in\_pounds) & 20  & Longitude                                      \\
+        10  & PG\_average\_fees\_(in\_pounds) & 21  & Website                                        \\
+        11  & International\_students         &     & \\
+      \end{tabular}\hfill\
+      %\caption{Missing Values}
+      \label{tab:missing_values}
+    \end{table}
+  \end{itemize}
 \end{frame}
-\begin{frame}{}
-  \vspace{-0.3cm}
+
+\begin{frame}{Data Set Analysis 2}
+  \vspace{-1cm}
+  \begin{itemize}
+  \item missing values (6 out of 21 columns)
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l|l|l}
+        Idx & Column & NaN Count & Imuptation Approach \\
+        \hline
+        1  & University\_name   & 14 & dropped \\
+        3  & Founded\_year      & 15 & researched online \\
+        4  & Motto              & 18 & dropped \\
+        7  & CWUR\_score        & 52 & linear model based on "UG\_average\_fees\_(in\_pounds)" \\
+        16 & Academic\_Calender & 29 & max value "Semesters" \\
+        17 & Campus\_setting    & 19 & kNeighbors based on "Latitude", "Longitude"
+      \end{tabular}\hfill\
+      % \caption{Missing Nan}
+      \label{tab:missing_values_nan}
+    \end{table}
+  \item zero values  (1 out of 21 columns)
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l|l|l}
+        Idx & Column & Zero Count & Imuptation Approach \\
+        \hline
+        12  & Student\_satisfaction & 6 & median imputaion \\
+      \end{tabular}\hfill\
+      % \caption{Missing Zero}
+      \label{tab:missing_values_zero}
+    \end{table}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Data Set Analysis 3}
+  \vspace{-1cm}
+  \begin{itemize}
+    \item Linear dependency of PG fees, UG fees and CWUR.
+  \end{itemize}
   \begin{figure}
-    \centering
-    \includegraphics[width=0.94 \textwidth]{figs/correlation_heatmap.png}
-    \caption{Correlation heat map}
-    \label{fig:corr_heatmap}
-\end{figure}
+      \centering
+      
+      \begin{subfigure}[b]{0.48\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_UG_PG_fees_diff.png}
+          % \caption{$1$}
+          \label{fig:sfig1}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.48\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_PG_fees_per_CWUR_score.png}
+          % \caption{$2$}
+          \label{fig:sfig2}
+      \end{subfigure}
+
+      \label{fig:analysis_3}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Data Set Analysis 4}
+  \vspace{-1cm}
+  \begin{itemize}
+    \item Linear dependency of World-rank, UK-rank and CWUR.
+  \end{itemize}
+  \begin{figure}
+      \centering
+      
+      \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_UK_rank.png}
+        % \caption{$3$}
+        \label{fig:sfig3}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.48\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_CWUR.png}
+          % \caption{$4$}
+          \label{fig:sfig4}
+      \end{subfigure}
+
+      \label{fig:analysis_4}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Cleaning and Pre-processing}
@@ -74,7 +187,7 @@
 \begin{frame}{Training and Evaluation}
   \vspace{-1cm}
   \begin{itemize}
-      \item 3-fold cross validation (only on seed 14),
+      \item 5-fold cross validation (only on seed 14),
       \item 3 subsets of the data set:
         \begin{itemize}
             \item all continuous and categorical columns,
@@ -82,7 +195,7 @@
             \item columns with absolute value of correlation higher than 0.5 with the target variables
         \end{itemize}
       \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
-      \item average performance across random seeds $[0, 4]$.
+      \item average performance across random seeds $[0, 9]$.
   \end{itemize}
 \end{frame}
 
