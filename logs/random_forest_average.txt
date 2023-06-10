@@ -1,5 +1,5 @@
-Random forest average performance across random seeds 40-49:
-  - MSE: 2694280.6473955773
-  - MAE: 1083.1328653846153
-  - RMSE: 1603.9318173047272
-  - R2 Score: 0.5297914409541158
+RF average performance across random seeds 40-49:
+  - MSE: 3120651.1558738877
+  - MAE: 1176.4707875457877
+  - RMSE: 1735.376744080121
+  - R2 Score: 0.4271566932831982

@@ -15,6 +15,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, CV_SPLITS
 
 PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
+IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD = False
 
 def performGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
@@ -70,27 +71,28 @@ def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_param
     print(f'{datasetSuffix} average MSE: {avg_mse}, average MEA: {avg_mae}', )
 
 def plotBestParams(X_train: np.ndarray, y_train: np.ndarray, suffix: str):
+    print()
     # param: max_features, best params: {'max_features': 12}
     param_grid = {
         'max_features': list(range(1, X_train.shape[1], 1))
     }
-    print('grid: \n', param_grid)
+    # print('grid: \n', param_grid)
     performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_max_features')
     
     # param: n_estimators, best params: {'n_estimators': 88}
     param_grid = {
         'n_estimators': list(range(10, 101, 1)),
     }
-    print('grid: \n', param_grid)
+    # print('grid: \n', param_grid)
     performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_n_estimators')
     
     # param: mix, best params: {'max_features': 17, 'n_estimators': 18}
-    max_features_upper_limit = np.min((X_train.shape[1], 17))
+    max_features_upper_limit = np.min((X_train.shape[1], 18))
     param_grid = {
         'max_features': list(range(1, max_features_upper_limit)),
         'n_estimators': list(range(10, 101, 5)),
     }
-    print('grid: \n', param_grid)
+    # print('grid: \n', param_grid)
     best_params = performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_mix')
     return best_params
 
@@ -185,10 +187,9 @@ if __name__ == "__main__":
         # grid search and cross validation evaluation on selected columns
         X_columns = list(set(data["train_mean"].columns) - set(target_columns))
         param_grid = {
-            'max_features': list(range(5, 15, 1)),
-            'n_estimators': list([25, 100]),
+            'max_features': list(range(5, 18, 1)),
+            'n_estimators': list(range(80, 100, 2)),
         }
-        # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_all")
         evaluateMean(data, X_columns, target_columns, param_grid, "all")
         evaluateMedian(data, X_columns, target_columns, param_grid, "all")
         evaluateMix(data, X_columns, target_columns, param_grid, "all")
@@ -198,7 +199,7 @@ if __name__ == "__main__":
                             "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
-            'n_estimators': list([25, 100]),
+            'n_estimators': list(range(80, 100, 2)),
         }
         # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_continuous")
         evaluateMean(data, X_columns, target_columns, param_grid, "continuous")
@@ -209,13 +210,12 @@ if __name__ == "__main__":
                             "Academic_staff_from", "Academic_staff_to"]
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
-            'n_estimators': list([25, 100]),
+            'n_estimators': list(range(80, 100, 2)),
         }
         # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_selected")
         evaluateMean(data, X_columns, target_columns, param_grid, "selected")
         evaluateMedian(data, X_columns, target_columns, param_grid, "selected")
         evaluateMix(data, X_columns, target_columns, param_grid, "selected")
-
 
     selected_columns = list(set(data["train_mixed"].columns) - set(target_columns))
 
@@ -224,12 +224,17 @@ if __name__ == "__main__":
     X_test  = data["test_mixed"][selected_columns].to_numpy()
     y_test  = data["test_mixed"][target_columns].to_numpy()
 
+    if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
+        # analyses singe parameter performance by plots
+        # best performance on centered max_features and n_estimators above 80
+        plotBestParams(X_train[selected_columns], y_train[target_columns], suffix="mixed_all")
+
     # fit RF with best parameters found during cross validation
-    # plotBestParams(data["train_mixed"][selected_columns], data["train_mixed"][target_columns], suffix="mixed_all")
-    max_features=10
-    n_estimators=100
+    max_features=16
+    n_estimators=92
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
+    print()
     print(f"RF model on mixed dataset with max_features: {max_features}, n_estimators: {n_estimators}")
     
     # evaluate performance on test set

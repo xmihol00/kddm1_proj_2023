@@ -1,54 +1,61 @@
 shape: (105, 38)
-RF model on mixed dataset with max_features: 10, n_estimators: 100
+
+RF model on mixed dataset with max_features: 16, n_estimators: 63
 
 Feature importance:
                                                pos  ft_imp  column_index
-CWUR_score                                       1   0.179            19
-UK_rank                                          2   0.166            22
-World_rank                                       3   0.159            20
-International_students                           4   0.093             3
-Minimum_IELTS_score                              5   0.079            12
-Estimated_cost_of_living_per_year_(in_pounds)    6   0.061             4
-Student_satisfaction                             7   0.038            29
-Academic_staff_from                              8   0.035             2
-Academic_staff_to                                9   0.027            26
-Founded_year                                    10   0.023            35
-column index of features by relevance:    [19, 22, 20, 3, 12, 4, 29, 2, 26, 35]
-column index of features by index order:  [2, 3, 4, 12, 19, 20, 22, 26, 29, 35]
+World_rank                                       1   0.220            27
+CWUR_score                                       2   0.171            16
+UK_rank                                          3   0.163            31
+International_students                           4   0.089            33
+Minimum_IELTS_score                              5   0.076            26
+Estimated_cost_of_living_per_year_(in_pounds)    6   0.046            28
+Academic_staff_to                                7   0.041             9
+Student_satisfaction                             8   0.033             3
+Latitude                                         9   0.021             5
+Academic_staff_from                             10   0.020             2
+Founded_year                                    11   0.020            24
+Academic_Calender_Trimesters                    12   0.016            22
+Longitude                                       13   0.014            30
+Student_enrollment_from                         14   0.012             1
+Student_enrollment_to                           15   0.010            35
+Academic_Calender_Continuous                    16   0.009            29
+column index of features by relevance:    [27, 16, 31, 33, 26, 28, 9, 3, 5, 2, 24, 22, 30, 1, 35, 29]
+column index of features by index order:  [1, 2, 3, 5, 9, 16, 22, 24, 26, 27, 28, 29, 30, 31, 33, 35]
 
 Performance of the best model on the test set:
-  Accuracy:                                           0.793
+  Accuracy:                                           0.775
 
-  Mean Squared Error (MSE):                      1714138.45
-  Root Mean Squared Error (RMSE):                   1309.15
-  Mean Absolute Error (MAE):                        1015.37
-  R^2:                                                0.793
+  Mean Squared Error (MSE):                      1852888.62
+  Root Mean Squared Error (RMSE):                   1361.17
+  Mean Absolute Error (MAE):                        1027.45
+  R^2:                                                0.775
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                                20055.50  ...                              23187
-1                                16046.20  ...                              18000
-2                                15092.60  ...                              14500
-3                                14057.10  ...                              16200
-4                                15917.50  ...                              17040
-5                                13549.46  ...                              15050
-6                                14286.60  ...                              13300
-7                                13617.86  ...                              13430
-8                                12332.38  ...                              11900
-9                                14699.06  ...                              13950
-10                               11731.24  ...                              10995
-11                               11503.51  ...                              12495
-12                               11606.15  ...                              11500
-13                               10898.44  ...                              12500
-14                               10809.67  ...                              10250
-15                               10836.25  ...                              10000
-16                               10800.20  ...                              11000
-17                               10901.40  ...                              10950
-18                               13234.40  ...                              14140
-19                               11167.21  ...                              11400
-20                               11008.80  ...                               9250
-21                               10597.24  ...                              12650
-22                               11340.53  ...                               9600
-23                               11063.53  ...                              10000
-24                               11713.70  ...                              13500
-25                               10930.45  ...                              11700
+0                            20173.333333  ...                              23187
+1                            15390.365079  ...                              18000
+2                            14688.253968  ...                              14500
+3                            13937.777778  ...                              16200
+4                            15874.444444  ...                              17040
+5                            13470.095238  ...                              15050
+6                            14201.746032  ...                              13300
+7                            13529.888889  ...                              13430
+8                            12195.253968  ...                              11900
+9                            14554.952381  ...                              13950
+10                           11494.603175  ...                              10995
+11                           11461.142857  ...                              12495
+12                           11501.444444  ...                              11500
+13                           11314.825397  ...                              12500
+14                           11128.412698  ...                              10250
+15                           10917.142857  ...                              10000
+16                           10719.603175  ...                              11000
+17                           10737.000000  ...                              10950
+18                           12409.412698  ...                              14140
+19                           10768.920635  ...                              11400
+20                           11275.476190  ...                               9250
+21                           10649.984127  ...                              12650
+22                           11335.539683  ...                               9600
+23                           11139.317460  ...                              10000
+24                           11139.444444  ...                              13500
+25                           11306.666667  ...                              11700
 
 [26 rows x 4 columns]
