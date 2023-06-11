@@ -1,0 +1,5 @@
+NN average performance across random seeds 40-49:
+  - MSE: 3038282.230412805
+  - MAE: 1227.4449951923077
+  - RMSE: 1723.454204721172
+  - R2 Score: 0.4049085681567843

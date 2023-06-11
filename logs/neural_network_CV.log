@@ -1,0 +1,67 @@
+Cross-validation results:
+  - model with 2 hidden layers trained on all columns with mean value imputation average validation MSE: 4799941.25, with average epochs: 19
+  - model with 2 hidden layers trained on all with median value imputation columns average validation MSE: 4554888.825, with average epochs: 11
+  - model with 2 hidden layers trained on all with mixed value imputation columns average validation MSE: 4857764.35, with average epochs: 19
+  - model with 3 hidden layers trained on all columns with mean value imputation average validation MSE: 4626616.35, with average epochs: 13
+  - model with 3 hidden layers trained on all columns with median value imputation average validation MSE: 4522177.3, with average epochs: 23
+  - model with 3 hidden layers trained on all columns with mixed value imputation average validation MSE: 4721845.725, with average epochs: 24
+  - model with 4 hidden layers trained on all columns with mean value imputation average validation MSE: 4521678.05, with average epochs: 14
+  - model with 4 hidden layers trained on all columns with median value imputation average validation MSE: 5116256.4, with average epochs: 18
+  - model with 4 hidden layers trained on all columns with mixed value imputation average validation MSE: 5392358.9, with average epochs: 22
+
+  - model with 2 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3630750.6, with average epochs: 53
+  - model with 2 hidden layers trained on continuous columns with median value imputation average validation MSE: 3449073.125, with average epochs: 45
+  - model with 2 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3953062.9, with average epochs: 59
+  - model with 3 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3532331.15, with average epochs: 46
+  - model with 3 hidden layers trained on continuous columns with median value imputation average validation MSE: 3377024.95, with average epochs: 46
+  - model with 3 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3626120.15, with average epochs: 46
+  - model with 4 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3760918.35, with average epochs: 40
+  - model with 4 hidden layers trained on continuous columns with median value imputation average validation MSE: 3891885.85, with average epochs: 25
+  - model with 4 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3868226.75, with average epochs: 41
+
+  - model with 2 hidden layers trained on selected columns with mean value imputation average validation MSE: 3039145.75, with average epochs: 72
+  - model with 2 hidden layers trained on selected columns with median value imputation average validation MSE: 3249341.5, with average epochs: 64
+  - model with 2 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3330383.05, with average epochs: 84
+  - model with 3 hidden layers trained on selected columns with mean value imputation average validation MSE: 2759699.15, with average epochs: 50
+  - model with 3 hidden layers trained on selected columns with median value imputation average validation MSE: 2733191.2, with average epochs: 50
+  - model with 3 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3064116.9, with average epochs: 69
+  - model with 4 hidden layers trained on selected columns with mean value imputation average validation MSE: 2865520.975, with average epochs: 44
+  - model with 4 hidden layers trained on selected columns with median value imputation average validation MSE: 3005371.525, with average epochs: 48
+  - model with 4 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3090922.125, with average epochs: 44
+
+Test results:
+  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MSE: 1745879.5269168525
+  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MAE: 947.6535268930288
+  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test RMSE: 1306.8516371408155
+  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test R2 Score: 0.7797005354206836
+
+Predicted vs. ground truth values:
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            18530.421875  ...                              23187
+1                            13775.159180  ...                              16400
+2                            14135.767578  ...                              15000
+3                            13764.296875  ...                              14000
+4                            13989.776367  ...                              14200
+5                            14218.668945  ...                              14500
+6                            14669.312500  ...                              13000
+7                            15084.762695  ...                              16200
+8                            13939.052734  ...                              13420
+9                            10516.772461  ...                              11500
+10                           10724.423828  ...                              12500
+11                           10818.501953  ...                              11000
+12                           10232.274414  ...                              10000
+13                           10817.459961  ...                              13000
+14                           10807.809570  ...                              10950
+15                           11135.613281  ...                              12000
+16                           10029.406250  ...                              11000
+17                            9513.922852  ...                               6000
+18                           11043.755859  ...                              12650
+19                           11552.556641  ...                              13000
+20                           11163.534180  ...                              11000
+21                           10554.657227  ...                              11300
+22                           10317.213867  ...                               9500
+23                           10571.360352  ...                              12830
+24                           11035.831055  ...                              13500
+25                            9816.041016  ...                               9250
+
+[26 rows x 4 columns]

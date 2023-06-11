@@ -1,0 +1,5 @@
+baseline average performance across random seeds 40-49:
+  - MSE: 4881105.69721621
+  - MAE: 1578.7447303366869
+  - RMSE: 2170.0946268662183
+  - R2 Score: 0.12955311119699137
