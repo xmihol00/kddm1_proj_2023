@@ -17,7 +17,33 @@ from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, CV_SPLITS
 PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
 IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD = False
 
-def performGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, datasetSuffix = ''):
+def plotGridSearch(param_grid: dict, params: "list[dict]", scores: list, datasetSuffix: str):
+    max_score = np.round(scores.max(), 3)
+    x = [str(list(dict.values())) for dict in params]
+    step_size = 1
+    for k, v in reversed(list(param_grid.items())):
+        if step_size >= len(params) // 20:
+            break
+        step_size *= len(v)
+
+    best_score_idx = np.argmax(scores)
+    best_params = params[best_score_idx]
+
+    fig, ax = plt.subplots()
+    ax.plot(x, scores)
+    ax.vlines(best_score_idx, scores.min(), scores.max(), color='g')
+    ax
+    ax.xaxis.set_ticks(x[0::step_size])
+    ax.tick_params(axis='x', rotation=90, labelsize=6)
+    ax.grid()
+    plt.title(f"best param: {best_params}\nscore: {max_score}", fontsize=10)
+    plt.xlabel('params')
+    plt.ylabel('neg_mean_squared_error')
+    plt.tight_layout()
+    plt.savefig('plots/rand_forest_elbow_graph_{}.png'.format(datasetSuffix))
+    # plt.show()
+
+def getParamAndPlotGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
     rf = RandomForestRegressor(random_state=RANDOM_SEED)
     gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
@@ -26,36 +52,23 @@ def performGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, d
 
     # Elbow Graph
     # optimizes accuracy without adding unnecessary performance complexity
+    params = gs.cv_results_['params']
     scores = gs.cv_results_['mean_test_score']
-    max_score = np.round(scores.max(), 3)
-
     if create_Plot:
-        plt.figure()
-        if len(param_grid.values()) == 1:
-            x = list(param_grid.values())[0]
-            plt.plot(x, scores)
-            plt.vlines(x[np.argmax(scores)], scores.min(), scores.max(), color='g')
-        else:
-            plt.plot(range(len(scores)), scores)
-            plt.vlines(np.argmax(scores), scores.min(), scores.max(), color='g')
-        plt.grid()
-        plt.title(f"best param: {gs.best_params_}\nscore: {max_score}")
-        plt.xlabel('params')
-        plt.ylabel('neg_mean_squared_error')
-        plt.savefig('plots/rand_forest_elbow_graph_{}.png'.format(datasetSuffix))
-        # plt.show()
+        plotGridSearch(param_grid, params, scores, datasetSuffix)
+
     return gs.best_params_
 
-def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_params: dict, datasetSuffix: str):
+def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_params: dict, datasetSuffix: str, seed: int = RANDOM_SEED, isPlotEnabled: bool = True):
     # 3-fold cross validation
     results_mse = []
     results_mae = []
-    for train_index, test_index in ms.KFold(n_splits=CV_SPLITS, shuffle=True, random_state=RANDOM_SEED).split(X_train):
+    for train_index, test_index in ms.KFold(n_splits=CV_SPLITS, shuffle=True, random_state=seed).split(X_train):
         X_train_fold, X_val_fold = X_train[train_index], X_train[test_index]
         y_train_fold, y_val_fold = y_train[train_index], y_train[test_index]
         
         # train model
-        rf = RandomForestRegressor(random_state=RANDOM_SEED, n_estimators=best_params.get('n_estimators', 100), max_features=best_params.get('max_features', 1.0))
+        rf = RandomForestRegressor(random_state=seed, n_estimators=best_params.get('n_estimators', 100), max_features=best_params.get('max_features', 1.0))
         rf.fit(X_train_fold, y_train_fold)
 
         # evaluate model
@@ -68,32 +81,37 @@ def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_param
     # average results
     avg_mse = np.mean(results_mse)
     avg_mae = np.mean(results_mae)
-    print(f'{datasetSuffix} average MSE: {avg_mse}, average MEA: {avg_mae}', )
+    if isPlotEnabled:
+        print(f'{datasetSuffix} average MSE: {avg_mse}, average MEA: {avg_mae}', )
+    return avg_mse, avg_mae
 
 def plotBestParams(X_train: np.ndarray, y_train: np.ndarray, suffix: str):
     print()
     # param: max_features, best params: {'max_features': 12}
     param_grid = {
-        'max_features': list(range(1, X_train.shape[1], 1))
+        'max_features': list(range(1, X_train.shape[1], 1)),
+        'random_state': [RANDOM_SEED],
     }
     # print('grid: \n', param_grid)
-    performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_max_features')
+    getParamAndPlotGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_max_features')
     
     # param: n_estimators, best params: {'n_estimators': 88}
     param_grid = {
         'n_estimators': list(range(10, 101, 1)),
+        'random_state': [RANDOM_SEED],
     }
     # print('grid: \n', param_grid)
-    performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_n_estimators')
+    getParamAndPlotGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_n_estimators')
     
     # param: mix, best params: {'max_features': 17, 'n_estimators': 18}
     max_features_upper_limit = np.min((X_train.shape[1], 18))
     param_grid = {
         'max_features': list(range(1, max_features_upper_limit)),
         'n_estimators': list(range(10, 101, 2)),
+        'random_state': [RANDOM_SEED],
     }
     # print('grid: \n', param_grid)
-    best_params = performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_mix')
+    best_params = getParamAndPlotGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_mix')
     return best_params
 
 def printFeatureImportance(rf: RandomForestRegressor, columns):
@@ -148,23 +166,58 @@ def evaluateMean(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: 
         X = data["train_mean"][X_columns].to_numpy()
         y = data["train_mean"][y_columns].to_numpy()
 
-        best_parameters = performGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mean_{suffix}')
+        best_parameters = getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mean_{suffix}')
         evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'mean {suffix} columns')
 
 def evaluateMedian(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
         X = data["train_median"][X_columns].to_numpy()
         y = data["train_median"][y_columns].to_numpy()
 
-        best_parameters = performGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'median_{suffix}')
+        best_parameters = getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'median_{suffix}')
         evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'median {suffix} columns')
 
 def evaluateMix(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
         X = data["train_mixed"][X_columns].to_numpy()
         y = data["train_mixed"][y_columns].to_numpy()
 
-        best_parameters = performGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mixed_{suffix}')
+        best_parameters= getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mixed_{suffix}')
         evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'mixed {suffix} columns')
+    
+def evaluateMixOverMultipleSeeds(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
+        X = data["train_mixed"][X_columns].to_numpy()
+        y = data["train_mixed"][y_columns].to_numpy()
 
+        param_grid_size = np.product([len(v) for v in param_grid.values()])
+        seed_range = 10
+        scores_arr = np.zeros((seed_range, param_grid_size))
+        for i, seed in enumerate(range(40, 40 + seed_range)):
+            param_grid["random_state"] = [seed]
+            
+            rf = RandomForestRegressor(random_state=seed)
+            gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
+            gs.fit(X, y)
+
+            scores_arr[i, :] = gs.cv_results_['mean_test_score']
+            
+        scores_median = np.median(scores_arr, axis=0)
+        best_score_idx = np.argmax(scores_median)
+        params = gs.cv_results_['params']
+        for d in params:
+            del d["random_state"]
+        
+        best_parameters = params[best_score_idx]
+        print(f'{suffix} best params:', best_parameters)
+        plotGridSearch(param_grid, params=params, scores=scores_median, datasetSuffix=suffix)
+        
+        ave_mse_list = [0] * seed_range
+        ave_mae_list = [0] * seed_range
+        for i, seed in enumerate(range(40, 40 + seed_range)):
+            ave_mse_list[i], ave_mae_list[i] = evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix='', seed=seed, isPlotEnabled=False)
+
+        median_ave_mse = np.median(ave_mse_list)
+        median_ave_mae = np.median(ave_mae_list)
+        print(f'{suffix} average MSE: {median_ave_mse}, average MEA: {median_ave_mae}', )
+        
     
 if __name__ == "__main__":
     os.makedirs("plots", exist_ok=True)
@@ -182,7 +235,7 @@ if __name__ == "__main__":
     }
     target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
     print("shape: {}".format(data["train_mixed"].shape))
-    print("seed: {RANDOM_SEED}\n")
+    print(f"seed: {RANDOM_SEED}\n")
 
     if PERFORM_CROSS_VALIDATION:
         # grid search and cross validation evaluation on selected columns
@@ -190,10 +243,12 @@ if __name__ == "__main__":
         param_grid = {
             'max_features': list(range(1, 18, 1)),
             'n_estimators': list(range(80, 101, 2)),
+            'random_state': [RANDOM_SEED],
         }
         evaluateMean(data, X_columns, target_columns, param_grid, "all")
         evaluateMedian(data, X_columns, target_columns, param_grid, "all")
         evaluateMix(data, X_columns, target_columns, param_grid, "all")
+        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_all_over_multiple_seeds")
 
         X_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
                             "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
@@ -201,23 +256,27 @@ if __name__ == "__main__":
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
             'n_estimators': list(range(80, 101, 2)),
+            'random_state': [RANDOM_SEED],
         }
         evaluateMean(data, X_columns, target_columns, param_grid, "continuous")
         evaluateMedian(data, X_columns, target_columns, param_grid, "continuous")
         evaluateMix(data, X_columns, target_columns, param_grid, "continuous")
+        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_continuous_over_multiple_seeds")
 
         X_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
                             "Academic_staff_from", "Academic_staff_to"]
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
             'n_estimators': list(range(80, 101, 2)),
+            'random_state': [RANDOM_SEED],
         }
         evaluateMean(data, X_columns, target_columns, param_grid, "selected")
         evaluateMedian(data, X_columns, target_columns, param_grid, "selected")
         evaluateMix(data, X_columns, target_columns, param_grid, "selected")
+        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_selected_over_multiple_seeds")
 
-    selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
-                            "Academic_staff_from", "Academic_staff_to"]
+
+    selected_columns = list(set(data["train_mean"].columns) - set(target_columns))
 
     X_train = data["train_mixed"][selected_columns].to_numpy()
     y_train = data["train_mixed"][target_columns].to_numpy()
@@ -230,8 +289,8 @@ if __name__ == "__main__":
         plotBestParams(X_train, y_train, suffix="mixed_all")
 
     # fit RF with best parameters found during cross validation
-    max_features=1
-    n_estimators=98
+    max_features=6
+    n_estimators=100
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
     print()
