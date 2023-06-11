@@ -90,7 +90,7 @@ def plotBestParams(X_train: np.ndarray, y_train: np.ndarray, suffix: str):
     max_features_upper_limit = np.min((X_train.shape[1], 18))
     param_grid = {
         'max_features': list(range(1, max_features_upper_limit)),
-        'n_estimators': list(range(10, 101, 5)),
+        'n_estimators': list(range(10, 101, 2)),
     }
     # print('grid: \n', param_grid)
     best_params = performGridSearch(X_train, y_train, param_grid, create_Plot = True, datasetSuffix = f'{suffix}_param_mix')
@@ -188,7 +188,7 @@ if __name__ == "__main__":
         X_columns = list(set(data["train_mean"].columns) - set(target_columns))
         param_grid = {
             'max_features': list(range(5, 18, 1)),
-            'n_estimators': list(range(80, 100, 2)),
+            'n_estimators': list(range(80, 101, 2)),
         }
         evaluateMean(data, X_columns, target_columns, param_grid, "all")
         evaluateMedian(data, X_columns, target_columns, param_grid, "all")
@@ -199,7 +199,7 @@ if __name__ == "__main__":
                             "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
-            'n_estimators': list(range(80, 100, 2)),
+            'n_estimators': list(range(80, 101, 2)),
         }
         # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_continuous")
         evaluateMean(data, X_columns, target_columns, param_grid, "continuous")
@@ -210,7 +210,7 @@ if __name__ == "__main__":
                             "Academic_staff_from", "Academic_staff_to"]
         param_grid = {
             'max_features': list(range(1, len(X_columns), 1)),
-            'n_estimators': list(range(80, 100, 2)),
+            'n_estimators': list(range(80, 101, 2)),
         }
         # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_selected")
         evaluateMean(data, X_columns, target_columns, param_grid, "selected")
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
         # analyses singe parameter performance by plots
         # best performance on centered max_features and n_estimators above 80
-        plotBestParams(X_train[selected_columns], y_train[target_columns], suffix="mixed_all")
+        plotBestParams(X_train, y_train, suffix="mixed_all")
 
     # fit RF with best parameters found during cross validation
     max_features=16
