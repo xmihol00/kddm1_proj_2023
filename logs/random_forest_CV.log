@@ -1,0 +1,64 @@
+shape: (105, 38)
+mean_all best params: {'max_features': 6, 'n_estimators': 96}
+mean all columns average MSE: 3004094.6649186714, average MEA: 1146.9732638888888
+median_all best params: {'max_features': 6, 'n_estimators': 96}
+median all columns average MSE: 3031067.033733776, average MEA: 1141.8541170634921
+mixed_all best params: {'max_features': 5, 'n_estimators': 86}
+mixed all columns average MSE: 3007141.7147460664, average MEA: 1136.7651716500554
+mean_continuous best params: {'max_features': 4, 'n_estimators': 92}
+mean continuous columns average MSE: 3127983.12018296, average MEA: 1158.9607660455488
+median_continuous best params: {'max_features': 4, 'n_estimators': 82}
+median continuous columns average MSE: 3167288.267808277, average MEA: 1142.632055749129
+mixed_continuous best params: {'max_features': 4, 'n_estimators': 84}
+mixed continuous columns average MSE: 3181458.249211748, average MEA: 1172.4633786848074
+mean_selected best params: {'max_features': 2, 'n_estimators': 84}
+mean selected columns average MSE: 2999726.3155902443, average MEA: 1130.4946145124716
+median_selected best params: {'max_features': 2, 'n_estimators': 84}
+median selected columns average MSE: 3129737.8148485585, average MEA: 1151.6660997732426
+mixed_selected best params: {'max_features': 1, 'n_estimators': 84}
+mixed selected columns average MSE: 2836705.9540748848, average MEA: 1082.9552154195012
+
+RF model on mixed dataset with max_features: 1, n_estimators: 98
+
+Feature importance:
+         pos  ft_imp  column_index
+UK_rank    1   0.205             0
+column index of features by relevance:    [0]
+column index of features by index order:  [0]
+
+Performance of the best model on the test set:
+  Accuracy:                                           0.072
+
+  Mean Squared Error (MSE):                      3672197.31
+  Root Mean Squared Error (RMSE):                   1912.72
+  Mean Absolute Error (MAE):                        1322.68
+  R^2:                                                0.072
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            15435.540816  ...                              14200
+1                            20118.469388  ...                              17250
+2                            14119.489796  ...                              14000
+3                            14314.591837  ...                              14800
+4                            14522.551020  ...                              15160
+5                            12850.000000  ...                              15050
+6                            13367.244898  ...                              13300
+7                            12493.448980  ...                              10689
+8                            11669.265306  ...                              15700
+9                            11440.867347  ...                              12500
+10                           13348.112245  ...                              12890
+11                           14619.948980  ...                              10500
+12                           11967.346939  ...                              10800
+13                           12138.071429  ...                              12700
+14                           11823.163265  ...                              10250
+15                           11579.234694  ...                              12500
+16                           12010.846939  ...                              12200
+17                           12064.785714  ...                              11950
+18                           13898.306122  ...                              17250
+19                           11362.806122  ...                              11700
+20                           11911.428571  ...                              14140
+21                           11243.622449  ...                              11400
+22                           10974.081633  ...                              11133
+23                           10868.265306  ...                              12650
+24                           10274.438776  ...                              10500
+25                           10004.438776  ...                              11250
+
+[26 rows x 4 columns]

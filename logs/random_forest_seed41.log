@@ -1,0 +1,46 @@
+shape: (105, 38)
+
+RF model on mixed dataset with max_features: 1, n_estimators: 98
+
+Feature importance:
+            pos  ft_imp  column_index
+World_rank    1   0.212             1
+column index of features by relevance:    [1]
+column index of features by index order:  [1]
+
+Performance of the best model on the test set:
+  Accuracy:                                           0.557
+
+  Mean Squared Error (MSE):                      4804594.62
+  Root Mean Squared Error (RMSE):                   2162.58
+  Mean Absolute Error (MAE):                        1389.35
+  R^2:                                                0.557
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            17019.897959  ...                              29900
+1                            15591.224490  ...                              14500
+2                            14374.132653  ...                              14875
+3                            14197.346939  ...                              13000
+4                            13721.622449  ...                              13850
+5                            11881.316327  ...                              15700
+6                            12287.163265  ...                              10995
+7                            11832.693878  ...                              12500
+8                            14177.346939  ...                              10500
+9                            12294.316327  ...                              11500
+10                           11758.132653  ...                              11500
+11                           11862.897959  ...                              12700
+12                           11536.755102  ...                              10250
+13                           12067.602041  ...                              13250
+14                           11600.612245  ...                              10000
+15                           11155.887755  ...                              13000
+16                           11454.714286  ...                              10500
+17                           11126.704082  ...                              10950
+18                           11468.979592  ...                              11000
+19                           10979.612245  ...                              10930
+20                           11542.122449  ...                              11400
+21                           11124.989796  ...                              12500
+22                           11023.418367  ...                               9600
+23                           10900.469388  ...                              11300
+24                           10746.877551  ...                              12500
+25                           11070.785714  ...                              10600
+
+[26 rows x 4 columns]

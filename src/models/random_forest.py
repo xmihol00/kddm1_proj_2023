@@ -97,7 +97,7 @@ def plotBestParams(X_train: np.ndarray, y_train: np.ndarray, suffix: str):
     return best_params
 
 def printFeatureImportance(rf: RandomForestRegressor, columns):
-    n = rf.max_features
+    n = len(columns)
     ft_imp = pd.Series(rf.feature_importances_, index=columns).sort_values(ascending=False)
     feature_column_idx = [list(columns).index(feature) if feature in columns else None for feature in ft_imp[:n].index]
     print()
@@ -182,12 +182,13 @@ if __name__ == "__main__":
     }
     target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
     print("shape: {}".format(data["train_mixed"].shape))
+    print("seed: {RANDOM_SEED}\n")
 
     if PERFORM_CROSS_VALIDATION:
         # grid search and cross validation evaluation on selected columns
         X_columns = list(set(data["train_mean"].columns) - set(target_columns))
         param_grid = {
-            'max_features': list(range(5, 18, 1)),
+            'max_features': list(range(1, 18, 1)),
             'n_estimators': list(range(80, 101, 2)),
         }
         evaluateMean(data, X_columns, target_columns, param_grid, "all")
@@ -201,7 +202,6 @@ if __name__ == "__main__":
             'max_features': list(range(1, len(X_columns), 1)),
             'n_estimators': list(range(80, 101, 2)),
         }
-        # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_continuous")
         evaluateMean(data, X_columns, target_columns, param_grid, "continuous")
         evaluateMedian(data, X_columns, target_columns, param_grid, "continuous")
         evaluateMix(data, X_columns, target_columns, param_grid, "continuous")
@@ -212,12 +212,12 @@ if __name__ == "__main__":
             'max_features': list(range(1, len(X_columns), 1)),
             'n_estimators': list(range(80, 101, 2)),
         }
-        # plotBestParams(data["train_mixed"][X_columns], data["train_mixed"][target_columns], suffix="mixed_selected")
         evaluateMean(data, X_columns, target_columns, param_grid, "selected")
         evaluateMedian(data, X_columns, target_columns, param_grid, "selected")
         evaluateMix(data, X_columns, target_columns, param_grid, "selected")
 
-    selected_columns = list(set(data["train_mixed"].columns) - set(target_columns))
+    selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
+                            "Academic_staff_from", "Academic_staff_to"]
 
     X_train = data["train_mixed"][selected_columns].to_numpy()
     y_train = data["train_mixed"][target_columns].to_numpy()
@@ -230,8 +230,8 @@ if __name__ == "__main__":
         plotBestParams(X_train, y_train, suffix="mixed_all")
 
     # fit RF with best parameters found during cross validation
-    max_features=16
-    n_estimators=92
+    max_features=1
+    n_estimators=98
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
     print()

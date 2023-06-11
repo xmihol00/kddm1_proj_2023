@@ -1,0 +1,5 @@
+RF average performance across random seeds 40-49:
+  - MSE: 3217335.5648151413
+  - MAE: 1221.4963108320253
+  - RMSE: 1759.995960662398
+  - R2 Score: 0.40865408655132185
