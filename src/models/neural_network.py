@@ -335,32 +335,33 @@ if __name__ == "__main__":
     selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
                         "Academic_staff_from", "Academic_staff_to"]
 
-    X_train_mixed = train_mixed[selected_columns].to_numpy()
-    y_train_mixed = train_mixed[target_columns].to_numpy()
-    X_test_mixed = test_mixed[selected_columns].to_numpy()
-    y_test_mixed = test_mixed[target_columns].to_numpy()
+    X_train_median = train_median[selected_columns].to_numpy()
+    y_train_median = train_median[target_columns].to_numpy()
+    X_test_median = test_median[selected_columns].to_numpy()
+    y_test_median = test_median[target_columns].to_numpy()
     
     tf.random.set_seed(RANDOM_SEED)
     np.random.seed(RANDOM_SEED)
     rn.seed(RANDOM_SEED)
     
     model = nn.Sequential([
-            nn.layers.Dense(X_train_mixed.shape[1], activation="relu", input_shape=[X_train_mixed.shape[1]]),
-            nn.layers.Dense(X_train_mixed.shape[1], activation="linear"),
+            nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
+            nn.layers.Dense(X_train_mean.shape[1], activation="relu"),
+            nn.layers.Dense(X_train_mean.shape[1], activation="linear"),
             nn.layers.Dense(2)
     ])
 
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
-    test_pred, test_result = train_and_evaluate(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, model, optimizer, 71, verbose=0)
+    test_pred, test_result = train_and_evaluate(X_train_median, y_train_median, X_test_median, y_test_median, model, optimizer, 50, verbose=0)
     print("Test results:")
-    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test MSE: {metrics.mean_squared_error(y_test_mixed, test_pred)}")
-    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test MAE: {metrics.mean_absolute_error(y_test_mixed, test_pred)}")
-    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_mixed, test_pred, squared=False)}")
-    print(f"  - model with 2 hidden layer trained for 71 epochs trained on selected columns with mixed value imputation test R2 Score: {metrics.r2_score(y_test_mixed, test_pred)}", end="\n\n")
+    print(f"  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MSE: {metrics.mean_squared_error(y_test_median, test_pred)}")
+    print(f"  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MAE: {metrics.mean_absolute_error(y_test_median, test_pred)}")
+    print(f"  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test RMSE: {metrics.mean_squared_error(y_test_median, test_pred, squared=False)}")
+    print(f"  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test R2 Score: {metrics.r2_score(y_test_median, test_pred)}", end="\n\n")
 
     # store predicted and ground truth values
     predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": test_pred[:, 0], "predicted PG_average_fees_(in_pounds)": test_pred[:, 1], 
-                                    "truth UG_average_fees_(in_pounds)": y_test_mixed[:, 0], "truth PG_average_fees_(in_pounds)": y_test_mixed[:, 1]})
+                                    "truth UG_average_fees_(in_pounds)": y_test_median[:, 0], "truth PG_average_fees_(in_pounds)": y_test_median[:, 1]})
     
     print("Predicted vs. ground truth values:")
     print(predicted_truth)

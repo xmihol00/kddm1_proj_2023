@@ -89,7 +89,7 @@ print(f"  - baseline linear model trained on all columns with mixed value imputa
 
 # store predicted and ground truth values of the best imputed data
 predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[:, 0], "predicted PG_average_fees_(in_pounds)": y_pred[:, 1], 
-                                "truth UG_average_fees_(in_pounds)": y_test_median[:, 0], "truth PG_average_fees_(in_pounds)": y_test_median[:, 1]})
+                                "truth UG_average_fees_(in_pounds)": y_test_mean[:, 0], "truth PG_average_fees_(in_pounds)": y_test_mean[:, 1]})
 
 print("Predicted vs. ground truth values mixed imputed:")
 print(predicted_truth)
