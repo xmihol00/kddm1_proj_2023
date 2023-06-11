@@ -75,19 +75,19 @@
       \centering
       \tiny
       \begin{tabular}{l|lBl|l}
-        Idx & Column                                   & Idx & Column \\
+        Idx & Column                               & Idx & Column \\
         \hline
-        1   & University\_name                         & 12  & Student\_satisfaction                           \\
-        2   & Region                                   & 13  & Student\_enrollment                             \\
-        3   & Founded\_year                            & 14  & Academic\_staff                                 \\
-        4   & Motto                                    & 15  & Control\_type                                   \\
-        5   & \cg{UK\_rank}                                & 16  & Academic\_Calender                              \\
-        6   & \cg{World\_rank}                              & 17  & Campus\_setting                                 \\
-        7   & \cg{CWUR\_score}                        & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
-        8   & Minimum\_IELTS\_score                    & 19  & Latitude                                       \\
+        1   & University\_name                     & 12  & Student\_satisfaction                           \\
+        2   & Region                               & 13  & Student\_enrollment                             \\
+        3   & Founded\_year                        & 14  & Academic\_staff                                 \\
+        4   & Motto                                & 15  & Control\_type                                   \\
+        5   & \cg{UK\_rank}                        & 16  & Academic\_Calender                              \\
+        6   & \cg{World\_rank}                     & 17  & Campus\_setting                                 \\
+        7   & \cg{CWUR\_score}                     & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
+        8   & Minimum\_IELTS\_score                & 19  & Latitude                                       \\
         9   & \cc{UG\_average\_fees\_(in\_pounds)} & 20  & Longitude                                      \\
         10  & \cc{PG\_average\_fees\_(in\_pounds)} & 21  & Website                                        \\
-        11  & International\_students                  &     & \\
+        11  & International\_students              &     & \\
       \end{tabular}\hfill\
       %\caption{Missing Values}
       \label{tab:missing_values}
@@ -140,14 +140,14 @@
           \centering
           \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_UG_PG_fees_diff.png}
           % \caption{$1$}
-          \label{fig:sfig1}
+          \label{fig:scatter_UG_PG}
       \end{subfigure}
       \hfill
       \begin{subfigure}[b]{0.48\textwidth}
           \centering
           \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_PG_fees_per_CWUR_score.png}
           % \caption{$2$}
-          \label{fig:sfig2}
+          \label{fig:scatter_PG_CWUR}
       \end{subfigure}
       \label{fig:analysis_3}
       \caption{Linear dependency of PG fees, UG fees and CWUR}
@@ -157,26 +157,60 @@
 \begin{frame}{Data Set Analysis 4}
   \vspace{-1cm}
   \begin{figure}
+    \centering
+    
+    \begin{subfigure}[b]{0.48\textwidth}
       \centering
-      \begin{subfigure}[b]{0.48\textwidth}
+      \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_UK_rank.png}
+      % \caption{$3$}
+      \label{fig:scatter_World_UK}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_UK_rank.png}
-        % \caption{$3$}
-        \label{fig:sfig3}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.48\textwidth}
-          \centering
-          \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_CWUR.png}
-          % \caption{$4$}
-          \label{fig:sfig4}
-      \end{subfigure}
+        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/scatter_world_rank_per_CWUR.png}
+        % \caption{$4$}
+        \label{fig:scatter_World_CWUR}
+    \end{subfigure}
+    
     \caption{Linear dependency of World-rank, UK-rank and CWUR}
-      \label{fig:analysis_4}
+    \label{fig:analysis_4}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Data Set Analysis 5}
+  \vspace{-1cm}
+  \begin{figure}
+      \centering
+      
+      \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/bar_hist region.png}
+        % \caption{$3$}
+        \label{fig:hist_region}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.48\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/bar_hist international students total.png}
+          % \caption{$4$}
+          \label{fig:hist_international}
+      \end{subfigure}
+      \hfill
+      \vspace{-1cm}
+      \begin{subfigure}[b]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/bar_hist campus setting.png}
+        % \caption{$4$}
+        \label{fig:hist_campus}
+      \end{subfigure}
+
+    \caption{Linear dependency of World-rank, UK-rank and CWUR}
+    \label{fig:analysis_5}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Data Set Analysis 6}
   \vspace{-1.21cm}
   \begin{figure}
     \centering
