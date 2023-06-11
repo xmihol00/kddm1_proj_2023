@@ -6,7 +6,7 @@
 % https://tu4u.tugraz.at/bedienstete/organisation-und-administration/vorlagen-und-corporate-design/downloads-und-anwendungen-logoformate-und-vorlagen/designlinien-und-vorlagen-download/charakteristika-designlinie-ic/vorlagen-download-designlinie-ic/
 % See also https://latex.tugraz.at/vorlagen/tugraz and https://github.com/quam426/tugPoster
 
-\documentclass{beamer} % 4:3 (default)
+\documentclass[xcolor=table]{beamer} % 4:3 (default)
 %\documentclass[aspectratio=169]{beamer}  % 16:9
 
 \usetheme[institute,iti]{tugraz2018}
@@ -18,6 +18,7 @@
 \usepackage{graphicx}           % figure
 \usepackage{caption}            % for sub-figure
 \usepackage{subcaption}         % for sub-figure
+\usepackage{ctable}             % for \specialrule command
 
 %% spacing
 \let\OLDitemize\itemize
@@ -37,7 +38,16 @@
 % \logobar{Supported by: ...}  % sponsors (titlepage; optional)
 
 
+\newcommand{\cc}[0]{\cellcolor{cyan!60}\textbf}
+\newcommand{\cg}[0]{\cellcolor{green!60}}
+\newcommand{\cgg}[0]{\cellcolor{green!40}}
+
 \begin{document}
+
+%% constant
+\newcolumntype{B}{!{\vrule width 1.2pt}}
+
+
 
 \begin{frame}
   \maketitle
@@ -64,19 +74,19 @@
     \begin{table}[h]
       \centering
       \tiny
-      \begin{tabular}{l|l||l|l}
+      \begin{tabular}{l|lBl|l}
         Idx & Column                                   & Idx & Column \\
         \hline
         1   & University\_name                         & 12  & Student\_satisfaction                           \\
         2   & Region                                   & 13  & Student\_enrollment                             \\
         3   & Founded\_year                            & 14  & Academic\_staff                                 \\
         4   & Motto                                    & 15  & Control\_type                                   \\
-        5   & UK\_rank                                 & 16  & Academic\_Calender                              \\
-        6   & World\_rank                              & 17  & Campus\_setting                                 \\
-        7   & CWUR\_score                              & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
+        5   & \cg{UK\_rank}                                & 16  & Academic\_Calender                              \\
+        6   & \cg{World\_rank}                              & 17  & Campus\_setting                                 \\
+        7   & \cg{CWUR\_score}                        & 18  & Estimated\_cost\_of\_living\_per\_year\_(in\_pounds)  \\
         8   & Minimum\_IELTS\_score                    & 19  & Latitude                                       \\
-        9   & \textbf{UG\_average\_fees\_(in\_pounds)} & 20  & Longitude                                      \\
-        10  & \textbf{PG\_average\_fees\_(in\_pounds)} & 21  & Website                                        \\
+        9   & \cc{UG\_average\_fees\_(in\_pounds)} & 20  & Longitude                                      \\
+        10  & \cc{PG\_average\_fees\_(in\_pounds)} & 21  & Website                                        \\
         11  & International\_students                  &     & \\
       \end{tabular}\hfill\
       %\caption{Missing Values}
