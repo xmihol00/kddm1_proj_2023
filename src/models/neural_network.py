@@ -386,9 +386,9 @@ if __name__ == "__main__":
         best_mse = sys.maxsize
         best_key = ""
         for key in results_epochs.keys():
-            results_epochs[key] = np.mean(results_epochs[key])
+            results_epochs[key] = np.median(results_epochs[key])
         for key in results_mse.keys():
-            results_mse[key] = np.mean(results_mse[key])
+            results_mse[key] = np.median(results_mse[key])
             if results_mse[key] < best_mse:
                 best_mse = results_mse[key]
                 best_key = key
@@ -421,9 +421,9 @@ if __name__ == "__main__":
         ])
 
         optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
-        test_pred, test_result = train_and_evaluate(X_train, y_train, X_test, y_test, model, 50, verbose=0)
+        test_pred, test_result = train_and_evaluate(X_train, y_train, X_test, y_test, model, 45, verbose=0)
         print(":")
-        print(f"Test results of a model with 4 hidden layers trained for 50 epochs on selected columns with median value imputation:")
+        print(f"Test results of a model with 4 hidden layers trained for 45 epochs on selected columns with median value imputation:")
         print(f"  - MSE:      {metrics.mean_squared_error(y_test, test_pred)}")
         print(f"  - MAE:      {metrics.mean_absolute_error(y_test, test_pred)}")
         print(f"  - RMSE:     {np.sqrt(metrics.mean_squared_error(y_test, test_pred))}")
