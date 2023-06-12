@@ -1,0 +1,288 @@
+Pre-processing on random seed 40 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+    seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+0     40  UG_average_fees_(in_pounds)         all columns       mean  3.298641e+06  1448.914555  1816.216194  0.166854       2  linear   5.0000
+1     40  PG_average_fees_(in_pounds)         all columns       mean  3.190129e+06  1414.200574  1786.093191  0.192924       2  linear  10.0000
+2     40  UG_average_fees_(in_pounds)         all columns     median  3.282681e+06  1444.559671  1811.816975  0.170885       2  linear   5.0000
+3     40  PG_average_fees_(in_pounds)         all columns     median  3.177635e+06  1411.066319  1782.592087  0.196085       2  linear  10.0000
+4     40  UG_average_fees_(in_pounds)         all columns      mixed  3.302391e+06  1436.720002  1817.248281  0.165907       2  linear   5.0000
+5     40  PG_average_fees_(in_pounds)         all columns      mixed  3.166210e+06  1404.579514  1779.384819  0.198976       2  linear  10.0000
+6     40  UG_average_fees_(in_pounds)  continuous columns       mean  3.298666e+06  1449.062647  1816.222962  0.166848       2  linear   5.0000
+7     40  PG_average_fees_(in_pounds)  continuous columns       mean  3.206647e+06  1419.023370  1790.711431  0.188745       2  linear  10.0000
+8     40  UG_average_fees_(in_pounds)  continuous columns     median  3.282704e+06  1444.707764  1811.823371  0.170879       2  linear   5.0000
+9     40  PG_average_fees_(in_pounds)  continuous columns     median  3.194019e+06  1415.798161  1787.181876  0.191940       2  linear  10.0000
+10    40  UG_average_fees_(in_pounds)  continuous columns      mixed  3.302454e+06  1436.868901  1817.265410  0.165891       2  linear   5.0000
+11    40  PG_average_fees_(in_pounds)  continuous columns      mixed  3.182311e+06  1409.611750  1783.903176  0.194902       2  linear   0.5000
+12    40  UG_average_fees_(in_pounds)    selected columns       mean  3.796611e+06  1563.175120  1948.489527  0.041080       4    poly   0.0001
+13    40  PG_average_fees_(in_pounds)    selected columns       mean  3.255443e+06  1443.608108  1804.284486  0.176401       4    poly  10.0000
+14    40  UG_average_fees_(in_pounds)    selected columns     median  3.827156e+06  1571.601782  1956.311960  0.033365       4    poly   0.0001
+15    40  PG_average_fees_(in_pounds)    selected columns     median  3.272469e+06  1452.193746  1808.996670  0.172093       4    poly  10.0000
+16    40  UG_average_fees_(in_pounds)    selected columns      mixed  3.737523e+06  1554.199884  1933.267449  0.056004       4    poly   5.0000
+17    40  PG_average_fees_(in_pounds)    selected columns      mixed  3.241577e+06  1425.379503  1800.438012  0.179908       4    poly   0.0001
+
+Pre-processing on random seed 41 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+    seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+18    41  UG_average_fees_(in_pounds)         all columns       mean  6.592289e+06  1763.161203  2567.545309  0.110530       2  linear   0.0001
+19    41  PG_average_fees_(in_pounds)         all columns       mean  1.282498e+07  1919.418623  3581.198281  0.099319       2  linear   0.0001
+20    41  UG_average_fees_(in_pounds)         all columns     median  6.561875e+06  1755.990956  2561.615622  0.114633       2  linear   0.0001
+21    41  PG_average_fees_(in_pounds)         all columns     median  1.278833e+07  1914.826135  3576.076951  0.101893       2  linear   5.0000
+22    41  UG_average_fees_(in_pounds)         all columns      mixed  6.475177e+06  1732.723708  2544.636851  0.126331       2  linear   0.0001
+23    41  PG_average_fees_(in_pounds)         all columns      mixed  1.275094e+07  1905.252757  3570.846438  0.104519       2  linear   0.0001
+24    41  UG_average_fees_(in_pounds)  continuous columns       mean  6.572019e+06  1747.169332  2563.594985  0.113265       2  linear  10.0000
+25    41  PG_average_fees_(in_pounds)  continuous columns       mean  1.281673e+07  1926.609362  3580.045495  0.099899       2  linear   0.0001
+26    41  UG_average_fees_(in_pounds)  continuous columns     median  6.542816e+06  1740.867884  2557.892815  0.117205       2  linear  10.0000
+27    41  PG_average_fees_(in_pounds)  continuous columns     median  1.277942e+07  1918.691422  3574.831379  0.102519       2  linear   1.0000
+28    41  UG_average_fees_(in_pounds)  continuous columns      mixed  7.609771e+06  1926.610281  2758.581320 -0.026755       4    poly   1.0000
+29    41  PG_average_fees_(in_pounds)  continuous columns      mixed  1.274059e+07  1907.823926  3569.396447  0.105246       2  linear   0.0001
+30    41  UG_average_fees_(in_pounds)    selected columns       mean  7.017894e+06  1826.902764  2649.130841  0.053105       4    poly  10.0000
+31    41  PG_average_fees_(in_pounds)    selected columns       mean  1.274820e+07  1940.601982  3570.461630  0.104712       4    poly  10.0000
+32    41  UG_average_fees_(in_pounds)    selected columns     median  7.016962e+06  1826.515373  2648.954929  0.053230       4    poly  10.0000
+33    41  PG_average_fees_(in_pounds)    selected columns     median  1.274254e+07  1942.179097  3569.669397  0.105109       4    poly  10.0000
+34    41  UG_average_fees_(in_pounds)    selected columns      mixed  7.039076e+06  1826.164901  2653.125767  0.050247       4    poly   5.0000
+35    41  PG_average_fees_(in_pounds)    selected columns      mixed  1.279960e+07  1951.229384  3577.653310  0.101101       4    poly  10.0000
+
+Pre-processing on random seed 42 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+    seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+36    42  UG_average_fees_(in_pounds)         all columns       mean  6.865218e+06  1909.250348  2620.156012  0.187786       2  linear  10.0000
+37    42  PG_average_fees_(in_pounds)         all columns       mean  7.016732e+06  1957.090773  2648.911530  0.173525       2  linear   1.0000
+38    42  UG_average_fees_(in_pounds)         all columns     median  6.831206e+06  1903.546415  2613.657501  0.191810       2  linear  10.0000
+39    42  PG_average_fees_(in_pounds)         all columns     median  6.991568e+06  1953.044962  2644.157314  0.176489       2  linear   0.5000
+40    42  UG_average_fees_(in_pounds)         all columns      mixed  6.554943e+06  1868.504194  2560.262298  0.224495       2  linear   0.0001
+41    42  PG_average_fees_(in_pounds)         all columns      mixed  6.765547e+06  1922.158324  2601.066595  0.203111       2  linear   0.0001
+42    42  UG_average_fees_(in_pounds)  continuous columns       mean  6.865270e+06  1909.627212  2620.166035  0.187780       2  linear  10.0000
+43    42  PG_average_fees_(in_pounds)  continuous columns       mean  7.013168e+06  1960.768652  2648.238577  0.173945       2  linear   1.0000
+44    42  UG_average_fees_(in_pounds)  continuous columns     median  6.831249e+06  1903.923278  2613.665733  0.191805       2  linear  10.0000
+45    42  PG_average_fees_(in_pounds)  continuous columns     median  6.994390e+06  1957.175796  2644.690912  0.176157       2  linear   0.0001
+46    42  UG_average_fees_(in_pounds)  continuous columns      mixed  6.563120e+06  1868.722791  2561.858753  0.223527       2  linear  10.0000
+47    42  PG_average_fees_(in_pounds)  continuous columns      mixed  6.759910e+06  1925.927057  2599.982657  0.203775       2  linear   1.0000
+48    42  UG_average_fees_(in_pounds)    selected columns       mean  5.392171e+06  1833.950897  2322.104951  0.362060       4    poly   0.0001
+49    42  PG_average_fees_(in_pounds)    selected columns       mean  5.890610e+06  1854.271828  2427.057836  0.306167       4    poly   0.5000
+50    42  UG_average_fees_(in_pounds)    selected columns     median  5.296371e+06  1820.208973  2301.384642  0.373394       4    poly   0.0001
+51    42  PG_average_fees_(in_pounds)    selected columns     median  5.877368e+06  1850.556348  2424.328266  0.307727       4    poly   0.5000
+52    42  UG_average_fees_(in_pounds)    selected columns      mixed  5.759052e+06  1876.365686  2399.802409  0.318655       4    poly   0.0001
+53    42  PG_average_fees_(in_pounds)    selected columns      mixed  6.001741e+06  1882.835101  2449.845138  0.293077       4    poly   0.0001
+
+Pre-processing on random seed 43 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+    seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+54    43  UG_average_fees_(in_pounds)         all columns       mean  6.111165e+06  1798.642758  2472.077104  0.025357       2  linear  10.0000
+55    43  PG_average_fees_(in_pounds)         all columns       mean  4.266213e+06  1664.499555  2065.481253  0.088624       2  linear  10.0000
+56    43  UG_average_fees_(in_pounds)         all columns     median  6.102458e+06  1796.372831  2470.315355  0.026745       2  linear  10.0000
+57    43  PG_average_fees_(in_pounds)         all columns     median  4.258128e+06  1662.408784  2063.523127  0.090352       2  linear  10.0000
+58    43  UG_average_fees_(in_pounds)         all columns      mixed  6.111588e+06  1791.204050  2472.162649  0.025289       2  linear   0.0001
+59    43  PG_average_fees_(in_pounds)         all columns      mixed  4.250778e+06  1659.614299  2061.741485  0.091922       2  linear   0.0001
+60    43  UG_average_fees_(in_pounds)  continuous columns       mean  6.111896e+06  1797.352228  2472.224851  0.025240       2  linear  10.0000
+61    43  PG_average_fees_(in_pounds)  continuous columns       mean  4.271681e+06  1665.228456  2066.804529  0.087456       2  linear   0.0001
+62    43  UG_average_fees_(in_pounds)  continuous columns     median  6.103175e+06  1795.082302  2470.460532  0.026631       2  linear  10.0000
+63    43  PG_average_fees_(in_pounds)  continuous columns     median  4.263448e+06  1663.220143  2064.811764  0.089215       2  linear   1.0000
+64    43  UG_average_fees_(in_pounds)  continuous columns      mixed  6.112267e+06  1789.913521  2472.299901  0.025181       2  linear   0.0001
+65    43  PG_average_fees_(in_pounds)  continuous columns      mixed  4.253480e+06  1660.048749  2062.396677  0.091345       2  linear   0.0001
+66    43  UG_average_fees_(in_pounds)    selected columns       mean  6.643088e+06  1849.932250  2577.418850 -0.059477       4    poly  10.0000
+67    43  PG_average_fees_(in_pounds)    selected columns       mean  4.751791e+06  1725.492306  2179.860330 -0.015108       4    poly   0.0001
+68    43  UG_average_fees_(in_pounds)    selected columns     median  6.643219e+06  1849.841002  2577.444195 -0.059498       4    poly  10.0000
+69    43  PG_average_fees_(in_pounds)    selected columns     median  4.753804e+06  1726.050409  2180.322016 -0.015538       4    poly   0.0001
+70    43  UG_average_fees_(in_pounds)    selected columns      mixed  6.642454e+06  1850.522816  2577.295900 -0.059376       4    poly  10.0000
+71    43  PG_average_fees_(in_pounds)    selected columns      mixed  4.766663e+06  1732.235828  2183.268833 -0.018285       4    poly   0.5000
+
+Pre-processing on random seed 44 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+    seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+72    44  UG_average_fees_(in_pounds)         all columns       mean  8.763268e+06  1829.420067  2960.281688  0.166677       2  linear  10.0000
+73    44  PG_average_fees_(in_pounds)         all columns       mean  1.545415e+07  2218.042046  3931.176148  0.103848       2  linear  10.0000
+74    44  UG_average_fees_(in_pounds)         all columns     median  8.715426e+06  1822.055657  2952.189977  0.171226       2  linear  10.0000
+75    44  PG_average_fees_(in_pounds)         all columns     median  1.540912e+07  2213.773383  3925.445620  0.106458       2  linear  10.0000
+76    44  UG_average_fees_(in_pounds)         all columns      mixed  8.502803e+06  1800.781552  2915.956581  0.191445       2  linear   0.0001
+77    44  PG_average_fees_(in_pounds)         all columns      mixed  1.522836e+07  2196.748733  3902.353145  0.116940       2  linear   0.5000
+78    44  UG_average_fees_(in_pounds)  continuous columns       mean  8.769089e+06  1829.469758  2961.264786  0.166123       2  linear  10.0000
+79    44  PG_average_fees_(in_pounds)  continuous columns       mean  1.548532e+07  2224.613717  3935.139752  0.102040       2  linear   5.0000
+80    44  UG_average_fees_(in_pounds)  continuous columns     median  8.725676e+06  1822.731459  2953.925508  0.170251       2  linear  10.0000
+81    44  PG_average_fees_(in_pounds)  continuous columns     median  1.543917e+07  2220.168857  3929.270461  0.104716       2  linear   5.0000
+82    44  UG_average_fees_(in_pounds)  continuous columns      mixed  8.520482e+06  1801.369996  2918.986510  0.189764       2  linear   5.0000
+83    44  PG_average_fees_(in_pounds)  continuous columns      mixed  1.526651e+07  2204.714513  3907.237808  0.114728       2  linear   0.0001
+84    44  UG_average_fees_(in_pounds)    selected columns       mean  7.319720e+06  1785.237115  2705.498049  0.303948       4    poly  10.0000
+85    44  PG_average_fees_(in_pounds)    selected columns       mean  1.385457e+07  2116.620668  3722.172465  0.196604       4    poly   0.0001
+86    44  UG_average_fees_(in_pounds)    selected columns     median  7.286749e+06  1782.338434  2699.397833  0.307083       4    poly  10.0000
+87    44  PG_average_fees_(in_pounds)    selected columns     median  1.382495e+07  2113.146820  3718.191558  0.198321       4    poly   0.2500
+88    44  UG_average_fees_(in_pounds)    selected columns      mixed  7.554890e+06  1810.289549  2748.616068  0.281585       4    poly  10.0000
+89    44  PG_average_fees_(in_pounds)    selected columns      mixed  1.398944e+07  2144.234173  3740.246556  0.188782       4    poly   1.0000
+
+Pre-processing on random seed 45 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+     seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+90     45  UG_average_fees_(in_pounds)         all columns       mean  2.130606e+06  1248.659420  1459.659616  0.313968       2  linear  10.0000
+91     45  PG_average_fees_(in_pounds)         all columns       mean  3.933277e+06  1454.376889  1983.249006  0.212884       2  linear   0.0001
+92     45  UG_average_fees_(in_pounds)         all columns     median  2.117679e+06  1244.989851  1455.224647  0.318130       2  linear  10.0000
+93     45  PG_average_fees_(in_pounds)         all columns     median  3.917864e+06  1451.457567  1979.359485  0.215968       2  linear   5.0000
+94     45  UG_average_fees_(in_pounds)         all columns      mixed  2.075984e+06  1227.714607  1440.827466  0.331556       2  linear  10.0000
+95     45  PG_average_fees_(in_pounds)         all columns      mixed  3.855233e+06  1439.666705  1963.474638  0.228502       2  linear   0.0001
+96     45  UG_average_fees_(in_pounds)  continuous columns       mean  2.118589e+06  1248.079642  1455.537388  0.317837       2  linear  10.0000
+97     45  PG_average_fees_(in_pounds)  continuous columns       mean  3.908143e+06  1448.854032  1976.902370  0.217914       2  linear   0.0001
+98     45  UG_average_fees_(in_pounds)  continuous columns     median  2.106031e+06  1244.510261  1451.216920  0.321881       2  linear  10.0000
+99     45  PG_average_fees_(in_pounds)  continuous columns     median  3.892918e+06  1446.030180  1973.047974  0.220961       2  linear   0.0001
+100    45  UG_average_fees_(in_pounds)  continuous columns      mixed  2.049601e+06  1223.718932  1431.642792  0.340051       2  linear  10.0000
+101    45  PG_average_fees_(in_pounds)  continuous columns      mixed  3.835867e+06  1438.291957  1958.537064  0.232377       2  linear   0.0001
+102    45  UG_average_fees_(in_pounds)    selected columns       mean  2.391699e+06  1273.874083  1546.511843  0.229899       4    poly   0.0001
+103    45  PG_average_fees_(in_pounds)    selected columns       mean  3.585892e+06  1394.917406  1893.645064  0.282402       4    poly   0.0001
+104    45  UG_average_fees_(in_pounds)    selected columns     median  2.385464e+06  1272.850461  1544.494641  0.231907       4    poly   0.0001
+105    45  PG_average_fees_(in_pounds)    selected columns     median  3.587707e+06  1394.662104  1894.124278  0.282039       4    poly   0.0001
+106    45  UG_average_fees_(in_pounds)    selected columns      mixed  2.490926e+06  1290.251973  1578.266877  0.197949       4    poly   0.0001
+107    45  PG_average_fees_(in_pounds)    selected columns      mixed  3.669326e+06  1416.172057  1915.548370  0.265705       4    poly   0.0001
+
+Pre-processing on random seed 46 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+     seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+108    46  UG_average_fees_(in_pounds)         all columns       mean  3.048450e+06  1401.276926  1745.981139  0.068788       2  linear  10.0000
+109    46  PG_average_fees_(in_pounds)         all columns       mean  2.593736e+06  1294.926499  1610.507882  0.172814       2  linear   0.0001
+110    46  UG_average_fees_(in_pounds)         all columns     median  3.030635e+06  1394.576495  1740.871780  0.074230       2  linear  10.0000
+111    46  PG_average_fees_(in_pounds)         all columns     median  2.582373e+06  1290.779247  1606.976239  0.176437       2  linear   0.0001
+112    46  UG_average_fees_(in_pounds)         all columns      mixed  2.905968e+06  1367.082115  1704.689962  0.112312       2  linear   5.0000
+113    46  PG_average_fees_(in_pounds)         all columns      mixed  2.545327e+06  1278.933826  1595.408227  0.188252       2  linear   0.0001
+114    46  UG_average_fees_(in_pounds)  continuous columns       mean  3.049371e+06  1401.906668  1746.244765  0.068506       2  linear  10.0000
+115    46  PG_average_fees_(in_pounds)  continuous columns       mean  2.611671e+06  1302.261480  1616.066617  0.167094       2  linear  10.0000
+116    46  UG_average_fees_(in_pounds)  continuous columns     median  3.031526e+06  1395.206235  1741.127929  0.073957       2  linear  10.0000
+117    46  PG_average_fees_(in_pounds)  continuous columns     median  2.599182e+06  1298.621261  1612.197864  0.171077       2  linear   0.0001
+118    46  UG_average_fees_(in_pounds)  continuous columns      mixed  2.907180e+06  1367.711857  1705.045354  0.111942       2  linear  10.0000
+119    46  PG_average_fees_(in_pounds)  continuous columns      mixed  2.560133e+06  1286.268807  1600.041445  0.183530       2  linear  10.0000
+120    46  UG_average_fees_(in_pounds)    selected columns       mean  4.092717e+06  1638.149655  2023.046376 -0.250205       4    poly   0.2500
+121    46  PG_average_fees_(in_pounds)    selected columns       mean  3.211837e+06  1441.344796  1792.159775 -0.024309       4    poly   1.0000
+122    46  UG_average_fees_(in_pounds)    selected columns     median  4.092663e+06  1638.322444  2023.033107 -0.250189       4    poly   0.0200
+123    46  PG_average_fees_(in_pounds)    selected columns     median  3.213495e+06  1442.327102  1792.622462 -0.024838       4    poly   1.0000
+124    46  UG_average_fees_(in_pounds)    selected columns      mixed  3.959005e+06  1617.138157  1989.724927 -0.209360       4    poly  10.0000
+125    46  PG_average_fees_(in_pounds)    selected columns      mixed  3.219250e+06  1445.531674  1794.226795 -0.026674       4    poly   0.0001
+
+Pre-processing on random seed 47 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+     seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+126    47  UG_average_fees_(in_pounds)         all columns       mean  2.164987e+06  1272.778048  1471.389411  0.106814       2  linear   0.0001
+127    47  PG_average_fees_(in_pounds)         all columns       mean  3.195934e+06  1450.158005  1787.717467  0.141219       2  linear   0.0001
+128    47  UG_average_fees_(in_pounds)         all columns     median  2.163976e+06  1270.868050  1471.045924  0.107231       2  linear   0.0001
+129    47  PG_average_fees_(in_pounds)         all columns     median  3.177717e+06  1445.657597  1782.615134  0.146114       2  linear   5.0000
+130    47  UG_average_fees_(in_pounds)         all columns      mixed  2.090628e+06  1253.300696  1445.900546  0.137492       2  linear   0.0001
+131    47  PG_average_fees_(in_pounds)         all columns      mixed  3.125868e+06  1439.775038  1768.012376  0.160046       2  linear   1.0000
+132    47  UG_average_fees_(in_pounds)  continuous columns       mean  2.177500e+06  1275.780617  1475.635403  0.101652       2  linear   0.0001
+133    47  PG_average_fees_(in_pounds)  continuous columns       mean  3.189806e+06  1446.868640  1786.002714  0.142865       2  linear   0.0001
+134    47  UG_average_fees_(in_pounds)  continuous columns     median  2.176635e+06  1273.870619  1475.342176  0.102009       2  linear   0.0001
+135    47  PG_average_fees_(in_pounds)  continuous columns     median  3.172685e+06  1442.400096  1781.203190  0.147466       2  linear   0.0001
+136    47  UG_average_fees_(in_pounds)  continuous columns      mixed  2.103076e+06  1256.303266  1450.198488  0.132356       2  linear   0.0001
+137    47  PG_average_fees_(in_pounds)  continuous columns      mixed  3.108754e+06  1429.589117  1763.165875  0.164645       2  linear  10.0000
+138    47  UG_average_fees_(in_pounds)    selected columns       mean  2.425820e+06  1375.823316  1557.504362 -0.000795       4    poly  10.0000
+139    47  PG_average_fees_(in_pounds)    selected columns       mean  3.053960e+06  1431.021101  1747.558185  0.179369       4    poly  10.0000
+140    47  UG_average_fees_(in_pounds)    selected columns     median  2.430873e+06  1377.302261  1559.125589 -0.002879       4    poly  10.0000
+141    47  PG_average_fees_(in_pounds)    selected columns     median  3.057181e+06  1426.845515  1748.479751  0.178503       4    poly  10.0000
+142    47  UG_average_fees_(in_pounds)    selected columns      mixed  2.459131e+06  1378.000158  1568.161534 -0.014538       4    poly  10.0000
+143    47  PG_average_fees_(in_pounds)    selected columns      mixed  3.107238e+06  1456.802560  1762.735943  0.165052       4    poly   1.0000
+
+Pre-processing on random seed 48 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+     seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+144    48  UG_average_fees_(in_pounds)         all columns       mean  6.066100e+06  1780.959578  2462.945309  0.199608       2  linear   5.0000
+145    48  PG_average_fees_(in_pounds)         all columns       mean  7.429558e+06  1950.281237  2725.721637  0.182362       2  linear   1.0000
+146    48  UG_average_fees_(in_pounds)         all columns     median  6.030291e+06  1774.208091  2455.665135  0.204333       2  linear   5.0000
+147    48  PG_average_fees_(in_pounds)         all columns     median  7.394202e+06  1946.279709  2719.228255  0.186253       2  linear   1.0000
+148    48  UG_average_fees_(in_pounds)         all columns      mixed  6.094631e+06  1766.934726  2468.730554  0.195844       2  linear   0.0001
+149    48  PG_average_fees_(in_pounds)         all columns      mixed  7.436976e+06  1943.745438  2727.081952  0.181546       2  linear   0.0001
+150    48  UG_average_fees_(in_pounds)  continuous columns       mean  6.072370e+06  1779.200960  2464.217835  0.198781       2  linear   5.0000
+151    48  PG_average_fees_(in_pounds)  continuous columns       mean  7.487575e+06  1959.103362  2736.343317  0.175978       2  linear   5.0000
+152    48  UG_average_fees_(in_pounds)  continuous columns     median  6.036363e+06  1772.449473  2456.901084  0.203532       2  linear   5.0000
+153    48  PG_average_fees_(in_pounds)  continuous columns     median  7.466911e+06  1956.792980  2732.564995  0.178252       2  linear   0.0001
+154    48  UG_average_fees_(in_pounds)  continuous columns      mixed  6.100665e+06  1765.176109  2469.952491  0.195048       2  linear   0.0001
+155    48  PG_average_fees_(in_pounds)  continuous columns      mixed  7.459172e+06  1949.155696  2731.148511  0.179103       2  linear  10.0000
+156    48  UG_average_fees_(in_pounds)    selected columns       mean  6.399209e+06  1824.832408  2529.665829  0.155656       2  linear   5.0000
+157    48  PG_average_fees_(in_pounds)    selected columns       mean  5.048816e+06  1824.290947  2246.957140  0.444368       4    poly  10.0000
+158    48  UG_average_fees_(in_pounds)    selected columns     median  6.353895e+06  1816.603735  2520.693277  0.161635       2  linear   5.0000
+159    48  PG_average_fees_(in_pounds)    selected columns     median  5.020908e+06  1820.636871  2240.738200  0.447439       4    poly  10.0000
+160    48  UG_average_fees_(in_pounds)    selected columns      mixed  6.308638e+06  1800.814218  2511.700145  0.167607       2  linear   0.0001
+161    48  PG_average_fees_(in_pounds)    selected columns      mixed  5.285247e+06  1847.097645  2298.966540  0.418348       4    poly  10.0000
+
+Pre-processing on random seed 49 ...
+Cleaning ...
+Splitting data into train and test sets ...
+Imputing missing values ...
+Normalization of continuous features ...
+One-hot encoding categorical features ...
+Dropping non numeric columns and the Id column ...
+Cross validation results:
+     seed                       target            features imputation           mse          mae         rmse        r2  degree  kernel  epsilon
+162    49  UG_average_fees_(in_pounds)         all columns       mean  1.913552e+06  1162.400469  1383.311974  0.224278       2  linear   0.0001
+163    49  PG_average_fees_(in_pounds)         all columns       mean  3.024688e+06  1348.947976  1739.162922  0.157145       2  linear   5.0000
+164    49  UG_average_fees_(in_pounds)         all columns     median  1.899989e+06  1157.357408  1378.400705  0.229776       2  linear   0.0001
+165    49  PG_average_fees_(in_pounds)         all columns     median  3.015555e+06  1344.945173  1736.535392  0.159690       2  linear   5.0000
+166    49  UG_average_fees_(in_pounds)         all columns      mixed  1.895345e+06  1146.385979  1376.715152  0.231658       2  linear   0.0001
+167    49  PG_average_fees_(in_pounds)         all columns      mixed  3.004043e+06  1337.276531  1733.217595  0.162898       2  linear  10.0000
+168    49  UG_average_fees_(in_pounds)  continuous columns       mean  1.912453e+06  1162.052672  1382.914685  0.224723       2  linear   0.0001
+169    49  PG_average_fees_(in_pounds)  continuous columns       mean  3.029115e+06  1353.528268  1740.435267  0.155911       2  linear   5.0000
+170    49  UG_average_fees_(in_pounds)  continuous columns     median  1.898920e+06  1157.009611  1378.013096  0.230209       2  linear   0.2500
+171    49  PG_average_fees_(in_pounds)  continuous columns     median  3.020285e+06  1349.678029  1737.896725  0.158372       2  linear   5.0000
+172    49  UG_average_fees_(in_pounds)  continuous columns      mixed  1.895113e+06  1146.108294  1376.631025  0.231752       2  linear   0.0001
+173    49  PG_average_fees_(in_pounds)  continuous columns      mixed  3.007151e+06  1341.724843  1734.113978  0.162032       2  linear  10.0000
+174    49  UG_average_fees_(in_pounds)    selected columns       mean  2.553598e+06  1348.095077  1597.998044 -0.035186       4    poly  10.0000
+175    49  PG_average_fees_(in_pounds)    selected columns       mean  3.670949e+06  1522.255344  1915.971964 -0.022941       4    poly   1.0000
+176    49  UG_average_fees_(in_pounds)    selected columns     median  2.551938e+06  1347.568450  1597.478486 -0.034513       4    poly  10.0000
+177    49  PG_average_fees_(in_pounds)    selected columns     median  3.670570e+06  1521.698506  1915.873180 -0.022836       4    poly   0.0001
+178    49  UG_average_fees_(in_pounds)    selected columns      mixed  2.558025e+06  1351.418327  1599.382633 -0.036981       4    poly  10.0000
+179    49  PG_average_fees_(in_pounds)    selected columns      mixed  3.683917e+06  1526.506295  1919.353183 -0.026555       4    poly   1.0000
+Best performing parameters:
+ UG_average_fees_(in_pounds):
+    Features: all columns, imputation: median, degree: 2, kernel: linear, epsilon: 0.0001
+    Avg. MSE: 4341503.6910 - Avg. RMSE: 2024.2081 - Avg. MAE: 1534.0622 - Avg. R^2: 0.2030
+ PG_average_fees_(in_pounds):
+    Features: selected columns, imputation: mixed, degree: 2, kernel: linear, epsilon: 0.0001
+    Avg. MSE: 5707002.4841 - Avg. RMSE: 2276.3610 - Avg. MAE: 1619.8507 - Avg. R^2: 0.2163
+Best performing parameters (in total):
+ Features: all columns, imputation: mixed, degree: 2, kernel: linear, epsilon: 0.0001
