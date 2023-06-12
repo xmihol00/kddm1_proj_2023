@@ -95,41 +95,15 @@
   \end{itemize}
 \end{frame}
 
+
 \begin{frame}{Data Set Analysis 2}
-  \vspace{-1cm}
-  \begin{itemize}
-  \item Missing values (6 out of 21 columns):
-    \begin{table}[h]
-      \centering
-      \tiny
-      \begin{tabular}{l|l|l|l}
-        Idx & Column             & NaN Count & Imuptation Approach \\
-        \hline
-        1   & University\_name   & 14        & dropped \\
-        3   & Founded\_year      & 15        & researched online \\
-        4   & Motto              & 18        & dropped \\
-        7   & CWUR\_score        & 52        & linear regression based on "UK\_rank" \\
-        16  & Academic\_Calender & 29        & mode \\
-        17  & Campus\_setting    & 19        & KNN based on "Latitude" and "Longitude"
-      \end{tabular}\hfill\
-      % \caption{Missing Nan}
-      \label{tab:missing_values_nan}
-    \end{table}
-  \item Suspicious values (2 out of 21 columns):
-    \begin{table}[h]
-      \centering
-      \tiny
-      \begin{tabular}{l|l|l|l|l}
-        Idx & Column                & Suspicious Value & Count & Imuptation Approach \\
-        \hline
-        3   & Founded\_year         & 9999             & 16    & researched online \\
-        12  & Student\_satisfaction & 0                & 7     & median \\
-        12  & Academic\_staff       & over             & 7     & 5000 \\
-      \end{tabular}\hfill\
-      % \caption{Missing Zero}
-      \label{tab:missing_values_zero}
-    \end{table}
-  \end{itemize}
+  \vspace{-1.21cm}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.91 \textwidth]{figs/correlation_heatmap.png}
+    \caption{Correlation heat map}
+    \label{fig:corr_heatmap}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Data Set Analysis 3}
@@ -210,16 +184,6 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Data Set Analysis 6}
-  \vspace{-1.21cm}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.91 \textwidth]{figs/correlation_heatmap.png}
-    \caption{Correlation heat map}
-    \label{fig:corr_heatmap}
-\end{figure}
-\end{frame}
-
 \begin{frame}{Cleaning and Pre-processing}
   \vspace{-1cm}
   \begin{enumerate}
@@ -244,6 +208,43 @@
         \end{itemize}
       \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
       \item average performance across seeds $[40, 49]$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Imputation}
+  \vspace{-1cm}
+  \begin{itemize}
+  \item Missing values (6 out of 21 columns):
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l|l|l}
+        Idx & Column             & NaN Count & Imuptation Approach \\
+        \hline
+        1   & University\_name   & 14        & dropped \\
+        3   & Founded\_year      & 15        & researched online \\
+        4   & Motto              & 18        & dropped \\
+        7   & CWUR\_score        & 52        & linear regression based on "UK\_rank" \\
+        16  & Academic\_Calender & 29        & mode \\
+        17  & Campus\_setting    & 19        & KNN based on "Latitude" and "Longitude"
+      \end{tabular}\hfill\
+      % \caption{Missing Nan}
+      \label{tab:missing_values_nan}
+    \end{table}
+  \item Suspicious values (3 out of 21 columns):
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l|l|l|l}
+        Idx & Column                & Suspicious Value & Count & Imuptation Approach \\
+        \hline
+        3   & Founded\_year         & 9999             & 16    & researched online \\
+        12  & Student\_satisfaction & 0                & 7     & median \\
+        14  & Academic\_staff       & over             & 7     & 5000 \\
+      \end{tabular}\hfill\
+      % \caption{Missing Zero}
+      \label{tab:missing_values_zero}
+    \end{table}
   \end{itemize}
 \end{frame}
 

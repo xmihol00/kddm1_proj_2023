@@ -8,9 +8,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from constants import DATASET_RANDOM_SEEDS
 
 models = [
+    "baseline",
     "NN", 
     "RF", 
-    #"SVR"
+    "SVR"
 ]
 MSEs = []
 MAEs = []
@@ -29,7 +30,7 @@ for i in DATASET_RANDOM_SEEDS:
     R2s.append(metrics.r2_score(y_pred_truth[:, 2:], y_pred_truth[:, :2]))
 
 print("Ensemble model test results:")
-print(f"  - MSE:      {np.mean(MSEs)}")
-print(f"  - MAE:      {np.mean(MAEs)}")
-print(f"  - RMSE:     {np.mean(RMSEs)}")
-print(f"  - R2 Score: {np.mean(R2s)}")
+print(f"  - MSE:      {np.median(MSEs)}")
+print(f"  - MAE:      {np.median(MAEs)}")
+print(f"  - RMSE:     {np.median(RMSEs)}")
+print(f"  - R2 Score: {np.median(R2s)}")

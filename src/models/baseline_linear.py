@@ -83,7 +83,7 @@ if args.cross_validation:
     best_mse = sys.maxsize
     best_key = ""
     for key in results.keys():
-        results[key] = np.mean(results[key])
+        results[key] = np.median(results[key])
         if results[key] < best_mse:
             best_mse = results[key]
             best_key = key
