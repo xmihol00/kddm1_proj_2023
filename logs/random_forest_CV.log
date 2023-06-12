@@ -1,18 +1,18 @@
 shape: (105, 38)
 seed: 42
 
-all_mean___multiple_seeds best params: {'max_features': 11, 'n_estimators': 84}
-all_mean___multiple_seeds average MSE: 3652518.3864114294, average MEA: 1232.1257936507936
-all_median_multiple_seeds best params: {'max_features': 14, 'n_estimators': 98}
-all_median_multiple_seeds average MSE: 3689382.577870085, average MEA: 1231.6798347910594
-all_mixed__multiple_seeds best params: {'max_features': 10, 'n_estimators': 86}
-all_mixed__multiple_seeds average MSE: 3694077.790943946, average MEA: 1232.3221207087486
-continuous_mean___multiple_seeds best params: {'max_features': 3, 'n_estimators': 84}
-continuous_mean___multiple_seeds average MSE: 3708317.1962969713, average MEA: 1218.8299036281178
-continuous_median_multiple_seeds best params: {'max_features': 3, 'n_estimators': 96}
-continuous_median_multiple_seeds average MSE: 3672941.1046291133, average MEA: 1222.5432539682538
-continuous_mixed__multiple_seeds best params: {'max_features': 2, 'n_estimators': 94}
-continuous_mixed__multiple_seeds average MSE: 3848783.1949608205, average MEA: 1246.93594224924
+all_mean___multiple_seeds best params: {'max_features': 11, 'n_estimators': 98}
+all_mean___multiple_seeds average MSE: 3438841.559612563, average MEA: 1190.1035228377064
+all_median_multiple_seeds best params: {'max_features': 9, 'n_estimators': 100}
+all_median_multiple_seeds average MSE: 3319336.7559814285, average MEA: 1162.2939047619047
+all_mixed__multiple_seeds best params: {'max_features': 10, 'n_estimators': 94}
+all_mixed__multiple_seeds average MSE: 3390871.0396260424, average MEA: 1190.754103343465
+continuous_mean___multiple_seeds best params: {'max_features': 5, 'n_estimators': 96}
+continuous_mean___multiple_seeds average MSE: 3350325.4125552876, average MEA: 1179.9690476190476
+continuous_median_multiple_seeds best params: {'max_features': 5, 'n_estimators': 98}
+continuous_median_multiple_seeds average MSE: 3329950.267169433, average MEA: 1164.6759718172984
+continuous_mixed__multiple_seeds best params: {'max_features': 3, 'n_estimators': 80}
+continuous_mixed__multiple_seeds average MSE: 3324525.0862808777, average MEA: 1176.753839285714
 selected_mean___multiple_seeds best params: {'max_features': 1, 'n_estimators': 84}
 selected_mean___multiple_seeds average MSE: 3876457.9872904522, average MEA: 1220.1911564625848
 selected_median_multiple_seeds best params: {'max_features': 1, 'n_estimators': 100}
