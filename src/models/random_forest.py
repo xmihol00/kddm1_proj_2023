@@ -207,38 +207,38 @@ def evaluateMultipleSeeds(X: np.ndarray, y: np.ndarray, param_grid: dict, suffix
 
 def rf_param_search_single_seed(data: "dict[pd.DataFrame]", columns: "dict[dict[list]]", param_grid: "dict[dict[list]]"):
     # grid search and cross validation evaluation on selected columns
-    evaluate(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all")
-    evaluate(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all")
-    evaluate( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all")
+    evaluate(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all_mean")
+    evaluate(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all_median")
+    evaluate( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all_mixed")
     
-    evaluate(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous")
-    evaluate(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous")
-    evaluate( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous")
+    evaluate(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous_mean")
+    evaluate(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous_median")
+    evaluate( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous_mixed")
     
-    evaluate(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected")
-    evaluate(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected")
-    evaluate( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected")
+    evaluate(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected_mean")
+    evaluate(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected_median")
+    evaluate( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed")
     
 def rf_param_search_multiple_seeds(data: "dict[pd.DataFrame]", columns: "dict[dict[list]]", param_grid: "dict[dict[list]]"):
     # grid search and cross validation evaluation on selected columns
-    # evaluateMultipleSeeds(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all_multiple_seeds")
-    # evaluateMultipleSeeds(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all_multiple_seeds")
-    # evaluateMultipleSeeds( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all_multiple_seeds")
+    evaluateMultipleSeeds(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all_mixed__multiple_seeds")
     
-    # evaluateMultipleSeeds(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous_multiple_seeds")
-    # evaluateMultipleSeeds(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous_multiple_seeds")
-    # evaluateMultipleSeeds( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous_multiple_seeds")
+    evaluateMultipleSeeds(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous_mixed__multiple_seeds")
     
-    # evaluateMultipleSeeds(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected_multiple_seeds")
-    # evaluateMultipleSeeds(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected_multiple_seeds")
-    evaluateMultipleSeeds( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_multiple_seeds")
+    evaluateMultipleSeeds(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed__multiple_seeds")
     
 def rf_with_best_param(data, columns):
     best_columns = columns["all"]
-    X_train = data["train_mixed"][best_columns].to_numpy()
-    y_train = data["train_mixed"][columns["target"]].to_numpy()
-    X_test  = data["test_mixed"][best_columns].to_numpy()
-    y_test  = data["test_mixed"][columns["target"]].to_numpy()
+    X_train = data["train_mean"][best_columns].to_numpy()
+    y_train = data["train_mean"][columns["target"]].to_numpy()
+    X_test  = data["test_mean"][best_columns].to_numpy()
+    y_test  = data["test_mean"][columns["target"]].to_numpy()
 
     if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
         # analyses singe parameter performance by plots
@@ -246,8 +246,8 @@ def rf_with_best_param(data, columns):
         plotBestParams(X_train, y_train, suffix="mixed_all")
 
     # fit RF with best parameters found during cross validation
-    max_features=6
-    n_estimators=100
+    max_features=11
+    n_estimators=84
     setSeed()
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
@@ -277,7 +277,7 @@ def getModelData() -> "list[dict[pd.DataFrame], dict[dict[list]], dict[dict[list
     columns = {
         "target":       ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"],
         "all":          list(set(data["train_mean"].columns) - set(("UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"))),
-        "continues":    ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
+        "continuous":    ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
                          "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
                          "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"],
         "selected":     ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
@@ -289,14 +289,14 @@ def getModelData() -> "list[dict[pd.DataFrame], dict[dict[list]], dict[dict[list
             'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
         },
-        "continues": {
-            'max_features': list(range(1, len(columns["continues"]), 1)),
+        "continuous": {
+            'max_features': list(range(1, len(columns["continuous"]), 1)),
             'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
         },
         "selected": {
             'max_features': list(range(1, len(columns["selected"]), 1)),
-            'n_estimators': list(range(80, 101, 200)),
+            'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
         },
     }
