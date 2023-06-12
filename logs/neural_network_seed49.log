@@ -1,8 +1,8 @@
 :
-Test results of a model with 4 hidden layers trained for 50 epochs on selected columns with median value imputation:
-  - MSE:      2211116.980533875
-  - MAE:      1116.1145770733174
-  - RMSE:     1484.0233320126026
-  - R2 Score: 0.26138505112536187
+Test results of a model with 4 hidden layers trained for 45 epochs on selected columns with median value imputation:
+  - MSE:      1894339.400938199
+  - MAE:      1231.7797663762021
+  - RMSE:     1376.3500284950042
+  - R2 Score: 0.3628551011857096
 
 Predicted vs. ground truth values:

@@ -9,13 +9,11 @@ from sklearn import metrics
 import os, sys
 import random as rn
 from sklearn import model_selection as ms
+import argparse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import RANDOM_SEED, DATA_PATH, CROSS_VALIDATION_SEED, CV_SPLITS
-
-PERFORM_CROSS_VALIDATION = RANDOM_SEED == CROSS_VALIDATION_SEED
-IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD = False
+from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS
 
 def plotGridSearch(param_grid: dict, params: "list[dict]", scores: list, datasetSuffix: str):
     max_score = np.round(scores.max(), 3)
@@ -45,6 +43,7 @@ def plotGridSearch(param_grid: dict, params: "list[dict]", scores: list, dataset
 
 def getParamAndPlotGridSearch(X_train, y_train, param_grid: dict, create_Plot = False, datasetSuffix = ''):
     # use grid search to find best params with 3-fold cross validation
+    setSeed()
     rf = RandomForestRegressor(random_state=RANDOM_SEED)
     gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
     gs.fit(X_train, y_train)
@@ -68,6 +67,7 @@ def evaluatePerformanceOnCV(X_train: np.ndarray, y_train: np.ndarray, best_param
         y_train_fold, y_val_fold = y_train[train_index], y_train[test_index]
         
         # train model
+        setSeed()
         rf = RandomForestRegressor(random_state=seed, n_estimators=best_params.get('n_estimators', 100), max_features=best_params.get('max_features', 1.0))
         rf.fit(X_train_fold, y_train_fold)
 
@@ -146,8 +146,8 @@ def printFeatureImportance(rf: RandomForestRegressor, columns):
     # print('column index of   origin by index order:        ', sorted(feature_column_idx))
     # print('column index of   origin by index order unique: ', sorted(set(feature_column_idx)))
 
-def printPerformance(rf: RandomForestRegressor, X_test, y_test):
-    printFeatureImportance(rf, selected_columns)
+def printPerformance(rf: RandomForestRegressor, X_test, y_test, x_col):
+    printFeatureImportance(rf, x_col)
     
     y_pred = rf.predict(X_test)
     y_true = y_test
@@ -162,37 +162,24 @@ def printPerformance(rf: RandomForestRegressor, X_test, y_test):
 
     return y_pred
 
-def evaluateMean(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
-        X = data["train_mean"][X_columns].to_numpy()
-        y = data["train_mean"][y_columns].to_numpy()
+def evaluate(X: np.ndarray, y: np.ndarray, param_grid: dict, suffix: str):
+        X = X.to_numpy()
+        y = y.to_numpy()
+        
+        best_parameters = getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=suffix)
+        evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'{suffix}_columns')
 
-        best_parameters = getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mean_{suffix}')
-        evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'mean {suffix} columns')
-
-def evaluateMedian(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
-        X = data["train_median"][X_columns].to_numpy()
-        y = data["train_median"][y_columns].to_numpy()
-
-        best_parameters = getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'median_{suffix}')
-        evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'median {suffix} columns')
-
-def evaluateMix(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
-        X = data["train_mixed"][X_columns].to_numpy()
-        y = data["train_mixed"][y_columns].to_numpy()
-
-        best_parameters= getParamAndPlotGridSearch(X, y, param_grid, create_Plot=True, datasetSuffix=f'mixed_{suffix}')
-        evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix=f'mixed {suffix} columns')
-    
-def evaluateMixOverMultipleSeeds(data: "dict[pd.DataFrame]", X_columns: "list[str]", y_columns: "list[str]", param_grid: dict, suffix: str):
-        X = data["train_mixed"][X_columns].to_numpy()
-        y = data["train_mixed"][y_columns].to_numpy()
-
+def evaluateMultipleSeeds(X: np.ndarray, y: np.ndarray, param_grid: dict, suffix: str):
+        X = X.to_numpy()
+        y = y.to_numpy()
+        
         param_grid_size = np.product([len(v) for v in param_grid.values()])
-        seed_range = 10
+        seed_range = len(DATASET_RANDOM_SEEDS)
         scores_arr = np.zeros((seed_range, param_grid_size))
-        for i, seed in enumerate(range(40, 40 + seed_range)):
+        for i, seed in enumerate(DATASET_RANDOM_SEEDS):
             param_grid["random_state"] = [seed]
             
+            setSeed()
             rf = RandomForestRegressor(random_state=seed)
             gs = GridSearchCV(rf, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
             gs.fit(X, y)
@@ -211,20 +198,74 @@ def evaluateMixOverMultipleSeeds(data: "dict[pd.DataFrame]", X_columns: "list[st
         
         ave_mse_list = [0] * seed_range
         ave_mae_list = [0] * seed_range
-        for i, seed in enumerate(range(40, 40 + seed_range)):
+        for i, seed in enumerate(DATASET_RANDOM_SEEDS):
             ave_mse_list[i], ave_mae_list[i] = evaluatePerformanceOnCV(X, y, best_parameters, datasetSuffix='', seed=seed, isPlotEnabled=False)
 
         median_ave_mse = np.median(ave_mse_list)
         median_ave_mae = np.median(ave_mae_list)
         print(f'{suffix} average MSE: {median_ave_mse}, average MEA: {median_ave_mae}', )
-        
-    
-if __name__ == "__main__":
-    os.makedirs("plots", exist_ok=True)
-    
-    np.random.seed(RANDOM_SEED)
-    rn.seed(RANDOM_SEED)
 
+def rf_param_search_single_seed(data: "dict[pd.DataFrame]", columns: "dict[dict[list]]", param_grid: "dict[dict[list]]"):
+    # grid search and cross validation evaluation on selected columns
+    evaluate(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all_mean")
+    evaluate(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all_median")
+    evaluate( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all_mixed")
+    
+    evaluate(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous_mean")
+    evaluate(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous_median")
+    evaluate( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous_mixed")
+    
+    evaluate(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected_mean")
+    evaluate(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected_median")
+    evaluate( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed")
+    
+def rf_param_search_multiple_seeds(data: "dict[pd.DataFrame]", columns: "dict[dict[list]]", param_grid: "dict[dict[list]]"):
+    # grid search and cross validation evaluation on selected columns
+    evaluateMultipleSeeds(  data["train_mean"][columns["all"]],   data["train_mean"][columns["target"]], param_grid["all"], "all_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["all"]], data["train_median"][columns["target"]], param_grid["all"], "all_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["all"]],  data["train_mixed"][columns["target"]], param_grid["all"], "all_mixed__multiple_seeds")
+    
+    evaluateMultipleSeeds(  data["train_mean"][columns["continuous"]],   data["train_mean"][columns["target"]], param_grid["continuous"], "continuous_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["continuous"]], data["train_median"][columns["target"]], param_grid["continuous"], "continuous_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["continuous"]],  data["train_mixed"][columns["target"]], param_grid["continuous"], "continuous_mixed__multiple_seeds")
+    
+    evaluateMultipleSeeds(  data["train_mean"][columns["selected"]],   data["train_mean"][columns["target"]], param_grid["selected"], "selected_mean___multiple_seeds")
+    evaluateMultipleSeeds(data["train_median"][columns["selected"]], data["train_median"][columns["target"]], param_grid["selected"], "selected_median_multiple_seeds")
+    evaluateMultipleSeeds( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed__multiple_seeds")
+    
+def rf_with_best_param(data, columns):
+    best_columns = columns["all"]
+    X_train = data["train_mean"][best_columns].to_numpy()
+    y_train = data["train_mean"][columns["target"]].to_numpy()
+    X_test  = data["test_mean"][best_columns].to_numpy()
+    y_test  = data["test_mean"][columns["target"]].to_numpy()
+
+    if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
+        # analyses singe parameter performance by plots
+        # best performance on centered max_features and n_estimators above 80
+        plotBestParams(X_train, y_train, suffix="mixed_all")
+
+    # fit RF with best parameters found during cross validation
+    max_features=11
+    n_estimators=84
+    setSeed()
+    rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
+    rf.fit(X_train, y_train)
+    print()
+    print(f"RF model on mixed dataset with random_state: {RANDOM_SEED}, max_features: {max_features}, n_estimators: {n_estimators}")
+    
+    # evaluate performance on test set
+    y_pred = printPerformance(rf, X_test, y_test, best_columns)
+
+    # crate a data frame with the results of the selected model
+    predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[:, 0], "predicted PG_average_fees_(in_pounds)": y_pred[:, 1],
+                                    "truth UG_average_fees_(in_pounds)": y_test[:, 0], "truth PG_average_fees_(in_pounds)": y_test[:, 1]})
+    
+    print(predicted_truth)
+
+    return predicted_truth
+
+def getModelData() -> "list[dict[pd.DataFrame], dict[dict[list]], dict[dict[list]]]":
     data = {
         "train_mean"    : pd.read_csv(DATA_PATH["numeric"] + 'Universities_train_mean.csv'),
         "train_median"  : pd.read_csv(DATA_PATH["numeric"] + 'Universities_train_median.csv'),
@@ -233,80 +274,67 @@ if __name__ == "__main__":
         "test_median"   : pd.read_csv(DATA_PATH["numeric"] + 'Universities_test_median.csv'),
         "test_mixed"    : pd.read_csv(DATA_PATH["numeric"] + 'Universities_test_mixed.csv'),
     }
-    target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
-    print("shape: {}".format(data["train_mixed"].shape))
-    print(f"seed: {RANDOM_SEED}\n")
-
-    if PERFORM_CROSS_VALIDATION:
-        # grid search and cross validation evaluation on selected columns
-        X_columns = list(set(data["train_mean"].columns) - set(target_columns))
-        param_grid = {
+    columns = {
+        "target":       ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"],
+        "all":          list(set(data["train_mean"].columns) - set(("UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"))),
+        "continuous":    ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
+                         "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
+                         "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"],
+        "selected":     ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
+                         "Academic_staff_from", "Academic_staff_to"],
+    }
+    param_grid = {
+        "all": {
             'max_features': list(range(1, 18, 1)),
             'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
-        }
-        evaluateMean(data, X_columns, target_columns, param_grid, "all")
-        evaluateMedian(data, X_columns, target_columns, param_grid, "all")
-        evaluateMix(data, X_columns, target_columns, param_grid, "all")
-        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_all_over_multiple_seeds")
-
-        X_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score",
-                            "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to", 
-                            "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
-        param_grid = {
-            'max_features': list(range(1, len(X_columns), 1)),
+        },
+        "continuous": {
+            'max_features': list(range(1, len(columns["continuous"]), 1)),
             'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
-        }
-        evaluateMean(data, X_columns, target_columns, param_grid, "continuous")
-        evaluateMedian(data, X_columns, target_columns, param_grid, "continuous")
-        evaluateMix(data, X_columns, target_columns, param_grid, "continuous")
-        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_continuous_over_multiple_seeds")
-
-        X_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students", 
-                            "Academic_staff_from", "Academic_staff_to"]
-        param_grid = {
-            'max_features': list(range(1, len(X_columns), 1)),
+        },
+        "selected": {
+            'max_features': list(range(1, len(columns["selected"]), 1)),
             'n_estimators': list(range(80, 101, 2)),
             'random_state': [RANDOM_SEED],
-        }
-        evaluateMean(data, X_columns, target_columns, param_grid, "selected")
-        evaluateMedian(data, X_columns, target_columns, param_grid, "selected")
-        evaluateMix(data, X_columns, target_columns, param_grid, "selected")
-        evaluateMixOverMultipleSeeds(data, X_columns, target_columns, param_grid, "mix_selected_over_multiple_seeds")
+        },
+    }
+    return data, columns, param_grid
 
+def setSeed():
+    np.random.seed(RANDOM_SEED)
+    rn.seed(RANDOM_SEED)
 
-    selected_columns = list(set(data["train_mean"].columns) - set(target_columns))
-
-    X_train = data["train_mixed"][selected_columns].to_numpy()
-    y_train = data["train_mixed"][target_columns].to_numpy()
-    X_test  = data["test_mixed"][selected_columns].to_numpy()
-    y_test  = data["test_mixed"][target_columns].to_numpy()
-
-    if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
-        # analyses singe parameter performance by plots
-        # best performance on centered max_features and n_estimators above 80
-        plotBestParams(X_train, y_train, suffix="mixed_all")
-
-    # fit RF with best parameters found during cross validation
-    max_features=6
-    n_estimators=100
-    rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
-    rf.fit(X_train, y_train)
-    print()
-    print(f"RF model on mixed dataset with max_features: {max_features}, n_estimators: {n_estimators}")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
+    args = parser.parse_args()
+    # args.cross_validation = True
     
-    # evaluate performance on test set
-    y_pred = printPerformance(rf, X_test, y_test)
+    os.makedirs("plots", exist_ok=True)
+    setSeed()
 
-    # crate a data frame with the results of the selected model
-    predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[:, 0], "predicted PG_average_fees_(in_pounds)": y_pred[:, 1],
-                                    "truth UG_average_fees_(in_pounds)": y_test[:, 0], "truth PG_average_fees_(in_pounds)": y_test[:, 1]})
+    IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD = False
+    IS_CALCULATE_ON_SINGLE_SEED = False
+
+    data, columns, param_grid = getModelData()
+
+    print("shape: {}".format(data["train_mixed"].shape))
+    print(f"seed: {RANDOM_SEED}\n")
     
-    print(predicted_truth)
-
+    # find and plot best params
+    if args.cross_validation:
+        if IS_CALCULATE_ON_SINGLE_SEED:
+            rf_param_search_single_seed(data, columns, param_grid)
+        else:
+            rf_param_search_multiple_seeds(data, columns, param_grid)
+    
+    # result
+    predicted_truth = rf_with_best_param(data, columns)
+    
     # save the results
-    if PERFORM_CROSS_VALIDATION:
+    if args.cross_validation:
         predicted_truth.to_csv("results/RF_predicted_truth_CV.csv", index=False)
     else:
         predicted_truth.to_csv(f"results/RF_predicted_truth_seed{RANDOM_SEED}.csv", index=False)
