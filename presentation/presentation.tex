@@ -108,7 +108,7 @@
         1   & University\_name   & 14        & dropped \\
         3   & Founded\_year      & 15        & researched online \\
         4   & Motto              & 18        & dropped \\
-        7   & CWUR\_score        & 52        & linear regression based on "World\_rank" \\
+        7   & CWUR\_score        & 52        & linear regression based on "UK\_rank" \\
         16  & Academic\_Calender & 29        & mode \\
         17  & Campus\_setting    & 19        & KNN based on "Latitude" and "Longitude"
       \end{tabular}\hfill\
@@ -235,7 +235,7 @@
 \begin{frame}{Training and Evaluation}
   \vspace{-1cm}
   \begin{itemize}
-      \item 5-fold cross validation (only on seed 14),
+      \item 5-fold cross validation (across seeds $[40, 49]$),
       \item 3 subsets of the data set:
         \begin{itemize}
             \item all continuous and categorical columns,
@@ -243,7 +243,7 @@
             \item columns with absolute value of correlation higher than 0.5 with the target variables
         \end{itemize}
       \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
-      \item average performance across random seeds $[40, 49]$.
+      \item average performance across seeds $[40, 49]$.
   \end{itemize}
 \end{frame}
 
@@ -269,7 +269,7 @@
   Random Forest
   \begin{itemize}
       \item grid search parameters:\\
-      max features $[1, 10]$, N estimators $[1, 100]$.
+      max features $[1, 17]$, N estimators $[80, 100]$.
   \end{itemize}
   Support Vector Regression
   \begin{itemize}
@@ -289,13 +289,13 @@
     \hspace{-0.7cm}
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        & MSE & MAE & RMSE & R2 score\\
+                 & MSE        & MAE     & RMSE    & R2 score\\
         \hline
-        LR & 4127253.4 & 1362.20 & 1982.70 & 0.497 \\
-        FCNN & 3024218.6 & 1167.42 & 1703.25 & 0.643 \\
-        RF &  &  &  &  \\
-        SVR &  &  &  &  \\
-        Ensemble &  &  &  &  \\
+        LR       & 4127253.4  & 1362.20 & 1982.70 & 0.497 \\
+        FCNN     & 3024218.6  & 1167.42 & 1703.25 & 0.643 \\
+        RF       & 3034398.11 & 1117.76 & 1681.78 & 0.611  \\
+        SVR      &            &         &         & \\
+        Ensemble &            &         &         & \\
         \hline
     \end{tabular}
     \caption{Average prediction performance across random seeds $[40, 49]$ on the mixed imputed data set}
