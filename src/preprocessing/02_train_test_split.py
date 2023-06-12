@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from constants import RANDOM_SEED, DATA_PATH
 
 if __name__ == "__main__":
-    print("Splitting data into train and test sets ...")
+    print("Splitting data into train and test sets ...", file=sys.stderr)
     os.makedirs(DATA_PATH["split"], exist_ok=True) # ensure output directory exists
 
     universities = pd.read_csv(DATA_PATH["cleaning"] + "Universities.csv")

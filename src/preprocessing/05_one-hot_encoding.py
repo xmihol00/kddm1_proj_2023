@@ -30,7 +30,7 @@ def one_hot_encode(df_train: pd.DataFrame, df_test):
 
 
 if __name__ == "__main__":
-    print("One-hot encoding categorical features ...")
+    print("One-hot encoding categorical features ...", file=sys.stderr)
     os.makedirs(DATA_PATH["one-hot"], exist_ok=True)
 
 

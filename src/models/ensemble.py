@@ -5,9 +5,9 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from constants import DATASET_RANDOM_SEEDS
 
 models = [
-    "baseline",
     "NN", 
     "RF", 
     #"SVR"
@@ -17,7 +17,7 @@ MAEs = []
 RMSEs = []
 R2s = []
 
-for i in range(40, 50):
+for i in DATASET_RANDOM_SEEDS:
     y_preds_truths = []
     for model in models:
         y_preds_truths.append(np.loadtxt(os.path.join("results", f"{model}_predicted_truth_seed{i}.csv"), delimiter=",", skiprows=1))
@@ -29,7 +29,7 @@ for i in range(40, 50):
     R2s.append(metrics.r2_score(y_pred_truth[:, 2:], y_pred_truth[:, :2]))
 
 print("Ensemble model test results:")
-print(f"  - MSE: {np.mean(MSEs)}")
-print(f"  - MAE: {np.mean(MAEs)}")
-print(f"  - RMSE: {np.mean(RMSEs)}")
+print(f"  - MSE:      {np.mean(MSEs)}")
+print(f"  - MAE:      {np.mean(MAEs)}")
+print(f"  - RMSE:     {np.mean(RMSEs)}")
 print(f"  - R2 Score: {np.mean(R2s)}")

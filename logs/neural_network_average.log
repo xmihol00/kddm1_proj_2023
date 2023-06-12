@@ -1,0 +1,5 @@
+Neural network average performance across random seeds 40-49:
+  - MSE: 3378925.0672048395
+  - MAE: 1288.1337307692309
+  - RMSE: 1822.1863487910832
+  - R2 Score: 0.3552754294071666
