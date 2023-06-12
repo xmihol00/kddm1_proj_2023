@@ -40,3 +40,6 @@ TODO
 
 # Prediction Performance, Ensemble (slide 9)
 TODO
+
+In the end we also used ensemble modeling to combine the results of all 4 models to create a more precise result. Therefor we took
+the mean over all 4 models which results in our final prediction result.

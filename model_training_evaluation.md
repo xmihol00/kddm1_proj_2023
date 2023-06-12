@@ -66,7 +66,20 @@ Thus we trained with this parameters. The returned accuracy averaged over 10 dif
 | -------------------------|----------------------------------------------------|-----------:|--------:|--------:|---------:|
 | Random Forest            | 7, 6, 5, 11, 8, 18, 14, 16, 12, 13, 3              | 3034398.11 | 1117.76 | 1681.78 |   0.611  |
 
-### Support Vector Machine
+### Support Vector Regression
+The goal of SVR (Support Vector Regression) is to find a function that approximates the relationship between the input features
+and a continuous target, while minimizing the prediction error. It has the same underlying idea as the SVM (Support Vector Machine)
+but SVR is focused on regression problems and SVM on classification.
+
+Because of different kernel functions SVR can handle non-linear relationships between features and the target.
+
+Advantages:
+- It is robust to outliers.
+- Decision model can be easily updated
+
+Disadvantages:
+- Not suitable for large datasets.
+- Model does not perform well when data set has more noise. (Target classes are overlapping) 
 
 ### Neural Network
 First, we defined 3 neural network architectures listed below:
