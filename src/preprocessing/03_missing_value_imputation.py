@@ -247,7 +247,7 @@ def mixed_imputation(df_train: pd.DataFrame, df_test: pd.DataFrame, dst_path: st
     df_test_mixed_imputed.to_csv(dst_path + "Universities_test_mixed.csv")
     
 if __name__ == "__main__":
-    print("Imputing missing values ...")
+    print("Imputing missing values ...", file=sys.stderr)
     os.makedirs(DATA_PATH["imputation"], exist_ok=True)
 
     # load train set

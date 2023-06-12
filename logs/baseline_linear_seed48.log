@@ -1,50 +1,36 @@
-Test results:
-  - baseline linear model trained on all columns with mean value imputation MSE: 4936664.096153846
-  - baseline linear model trained on all columns with mean value imputation RMSE: 2221.8417581743734
-  - baseline linear model trained on all columns with mean value imputation MAE: 1754.9423076923076
-  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.4022271190831544
-
-  - baseline linear model trained on all columns with median value imputation MSE: 4785879.634615385
-  - baseline linear model trained on all columns with median value imputation RMSE: 2187.5472219252606
-  - baseline linear model trained on all columns with median value imputation MAE: 1726.326923076923
-  - baseline linear model trained on all columns with median value imputation R2 Score: 0.41982703704861407
-
-  - baseline linear model trained on all columns with mixed value imputation MSE: 4903608.25
-  - baseline linear model trained on all columns with mixed value imputation RMSE: 2214.191935684764
-  - baseline linear model trained on all columns with mixed value imputation MAE: 1709.4038461538462
-  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.405167008646729
-
 Predicted vs. ground truth values mixed imputed:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                                 22056.0  ...                              23187
-1                                 14112.0  ...                              18000
-2                                 15736.0  ...                              14500
+0                                 22064.0  ...                              23187
+1                                 14132.0  ...                              18000
+2                                 15330.0  ...                              14500
 3                                 15136.0  ...                              16200
-4                                 16712.0  ...                              17040
-5                                 12104.0  ...                              15050
-6                                 13568.0  ...                              13300
-7                                 12496.0  ...                              13430
-8                                 12024.0  ...                              11900
-9                                 15832.0  ...                              13950
-10                                13240.0  ...                              10995
-11                                10120.0  ...                              12495
-12                                 8984.0  ...                              11500
-13                                12224.0  ...                              12500
-14                                11432.0  ...                              10250
-15                                12224.0  ...                              10000
-16                                10304.0  ...                              11000
-17                                 9656.0  ...                              10950
-18                                 8720.0  ...                              14140
-19                                11184.0  ...                              11400
-20                                10696.0  ...                               9250
-21                                11960.0  ...                              12650
-22                                11128.0  ...                               9600
-23                                10488.0  ...                              10000
-24                                14184.0  ...                              13500
-25                                11952.0  ...                              11700
+4                                 17212.0  ...                              17040
+5                                 11954.0  ...                              15050
+6                                 13546.0  ...                              13300
+7                                 12814.0  ...                              13430
+8                                 12130.0  ...                              11900
+9                                 16080.0  ...                              13950
+10                                13654.0  ...                              10995
+11                                10596.0  ...                              12495
+12                                 8794.0  ...                              11500
+13                                12214.0  ...                              12500
+14                                11494.0  ...                              10250
+15                                12032.0  ...                              10000
+16                                10242.0  ...                              11000
+17                                 9638.0  ...                              10950
+18                                 9264.0  ...                              14140
+19                                11400.0  ...                              11400
+20                                11790.0  ...                               9250
+21                                11342.0  ...                              12650
+22                                10982.0  ...                               9600
+23                                10622.0  ...                              10000
+24                                13798.0  ...                              13500
+25                                11896.0  ...                              11700
 
 [26 rows x 4 columns]
 
-|    |         MSE |    RMSE |    MAE |   R2 Score |
-|---:|------------:|--------:|-------:|-----------:|
-|  0 | 4.90361e+06 | 2214.19 | 1709.4 |   0.405167 |
+Results:
+  - MSE:      4785879.634615385
+  - RMSE:     2187.665338806506
+  - MAE:      1726.326923076923
+  - R2 Score: 0.41982703704861407

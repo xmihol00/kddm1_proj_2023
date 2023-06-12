@@ -20,5 +20,5 @@ echo "Averaging model performance ..."
 python3 src/average_model_performance.py $2 "$3" 1>./logs/$(basename ${1%.*})_average.log
 
 # reset the pre-processed data set
-export RANDOM_SEED=14
+export RANDOM_SEED=42
 ./run_preprocessing.sh

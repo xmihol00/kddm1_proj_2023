@@ -41,7 +41,7 @@ def normalize_test(df: pd.DataFrame, mean: pd.Series, std: pd.Series) -> None:
     df[NORMALIZED_CONTINUOUS_COLUMNS] = (df[NORMALIZED_CONTINUOUS_COLUMNS] - mean) / std
 
 if __name__ == "__main__":
-    print("Normalization of continuous features ...")
+    print("Normalization of continuous features ...", file=sys.stderr)
     os.makedirs(DATA_PATH["normalization"], exist_ok=True)
 
     # ensure that the test set is normalized by the statistics of the training set, in order to avoid data leakage

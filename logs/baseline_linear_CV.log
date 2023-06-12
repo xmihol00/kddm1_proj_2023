@@ -1,50 +1,49 @@
-Test results:
-  - baseline linear model trained on all columns with mean value imputation MSE: 3765175.326923077
-  - baseline linear model trained on all columns with mean value imputation RMSE: 1898.133529192831
-  - baseline linear model trained on all columns with mean value imputation MAE: 1447.5961538461538
-  - baseline linear model trained on all columns with mean value imputation R2 Score: 0.5356891969788583
+CV results MSE:
+{
+  "mean": [
+    3850902.826923077,
+    7433251.192307692,
+    4396843.865384615,
+    5993467.557692308,
+    9075330.980769232,
+    3798474.5576923075,
+    3478813.692307692,
+    5265568.639423077,
+    4936664.096153846,
+    2163523.033653846
+  ],
+  "median": [
+    3926381.192307692,
+    7359302.884615385,
+    4338878.019230769,
+    6083472.019230769,
+    8758826.980769232,
+    3816603.283653846,
+    3309866.1153846155,
+    5166467.692307692,
+    4785879.634615385,
+    2206027.3076923075
+  ],
+  "mixed": [
+    4248858.519230769,
+    7027165.653846154,
+    4254997.403846154,
+    6318552.173076924,
+    8879740.826923076,
+    3805921.634615385,
+    3344113.1153846155,
+    5051128.461538462,
+    4882863.865384616,
+    2200326.5192307695
+  ]
+}
 
-  - baseline linear model trained on all columns with median value imputation MSE: 3915932.4038461535
-  - baseline linear model trained on all columns with median value imputation RMSE: 1942.970733796485
-  - baseline linear model trained on all columns with median value imputation MAE: 1472.1923076923076
-  - baseline linear model trained on all columns with median value imputation R2 Score: 0.5137794549933393
+CV average results MSE:
+{
+  "mean": 5039284.044230769,
+  "median": 4975170.512980768,
+  "mixed": 5001366.817307692
+}
 
-  - baseline linear model trained on all columns with mixed value imputation MSE: 4208139.980769231
-  - baseline linear model trained on all columns with mixed value imputation RMSE: 2019.2421922074195
-  - baseline linear model trained on all columns with mixed value imputation MAE: 1502.5576923076924
-  - baseline linear model trained on all columns with mixed value imputation R2 Score: 0.4748302517620751
-
-Predicted vs. ground truth values mixed imputed:
-    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                                 20617.0  ...                              23187
-1                                 13845.0  ...                              16400
-2                                 15121.0  ...                              15000
-3                                 14891.0  ...                              14000
-4                                 13957.0  ...                              14200
-5                                 15119.0  ...                              14500
-6                                 15484.0  ...                              13000
-7                                 15210.0  ...                              16200
-8                                 12178.0  ...                              13420
-9                                 10651.0  ...                              11500
-10                                11900.0  ...                              12500
-11                                10766.0  ...                              11000
-12                                13106.0  ...                              10000
-13                                 9011.0  ...                              13000
-14                                 9470.0  ...                              10950
-15                                10362.0  ...                              12000
-16                                11164.0  ...                              11000
-17                                11904.0  ...                               6000
-18                                13263.0  ...                              12650
-19                                11423.0  ...                              13000
-20                                11115.0  ...                              11000
-21                                13468.0  ...                              11300
-22                                11766.0  ...                               9500
-23                                11561.0  ...                              12830
-24                                14273.0  ...                              13500
-25                                13089.0  ...                               9250
-
-[26 rows x 4 columns]
-
-|    |         MSE |    RMSE |     MAE |   R2 Score |
-|---:|------------:|--------:|--------:|-----------:|
-|  0 | 4.20814e+06 | 2019.24 | 1502.56 |    0.47483 |
+Best model:
+median - MSE: 4975170.512980768

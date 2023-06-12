@@ -1,8 +1,11 @@
 import os
 
-CROSS_VALIDATION_SEED = 14
+CROSS_VALIDATION_SEED = 14 # TODO: remove
+MODEL_RANDOM_SEED = 42
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", CROSS_VALIDATION_SEED))
 CV_SPLITS = 5
+
+DATASET_RANDOM_SEEDS = list(range(40, 50))
 
 DATA_PATH = {
     "original":      "data/",

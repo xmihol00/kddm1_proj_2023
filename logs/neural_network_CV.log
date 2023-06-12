@@ -1,67 +1,392 @@
-Cross-validation results:
-  - model with 2 hidden layers trained on all columns with mean value imputation average validation MSE: 4799941.25, with average epochs: 19
-  - model with 2 hidden layers trained on all with median value imputation columns average validation MSE: 4554888.825, with average epochs: 11
-  - model with 2 hidden layers trained on all with mixed value imputation columns average validation MSE: 4857764.35, with average epochs: 19
-  - model with 3 hidden layers trained on all columns with mean value imputation average validation MSE: 4626616.35, with average epochs: 13
-  - model with 3 hidden layers trained on all columns with median value imputation average validation MSE: 4522177.3, with average epochs: 23
-  - model with 3 hidden layers trained on all columns with mixed value imputation average validation MSE: 4721845.725, with average epochs: 24
-  - model with 4 hidden layers trained on all columns with mean value imputation average validation MSE: 4521678.05, with average epochs: 14
-  - model with 4 hidden layers trained on all columns with median value imputation average validation MSE: 5116256.4, with average epochs: 18
-  - model with 4 hidden layers trained on all columns with mixed value imputation average validation MSE: 5392358.9, with average epochs: 22
+CV results MSE:
+{
+  "mean_2l_all": [
+    3373749.4,
+    3457765.9,
+    3831018.15,
+    3000425.75,
+    3010752.125,
+    3165495.9,
+    3994797.25,
+    3790700.15,
+    2948685.875,
+    3657153.9
+  ],
+  "mean_3l_all": [
+    3449942.0,
+    3410745.8,
+    3475854.4,
+    3203457.275,
+    3089362.825,
+    3701669.65,
+    4624212.5,
+    3610824.6,
+    3083023.375,
+    3305143.2
+  ],
+  "mean_4l_all": [
+    3660102.05,
+    3422386.8,
+    3844649.95,
+    3416966.8,
+    3260161.625,
+    3941254.25,
+    3765446.4,
+    3931618.4,
+    3387606.675,
+    3603199.55
+  ],
+  "median_2l_all": [
+    3283327.5,
+    3319931.5,
+    3826996.65,
+    3021858.575,
+    3063022.325,
+    3132607.475,
+    3989013.8,
+    3688964.95,
+    2967370.25,
+    3568320.975
+  ],
+  "median_3l_all": [
+    3407771.35,
+    3355020.8,
+    3482991.15,
+    3138313.5,
+    2939577.95,
+    3666873.1,
+    4510599.45,
+    3510991.05,
+    3292289.825,
+    3361224.7
+  ],
+  "median_4l_all": [
+    3652760.35,
+    3474593.25,
+    3872083.475,
+    3473626.925,
+    3326893.325,
+    3812268.15,
+    4033858.0,
+    3642439.55,
+    3430411.225,
+    3574444.15
+  ],
+  "mixed_2l_all": [
+    3299665.55,
+    3249749.05,
+    3858584.875,
+    2934470.7,
+    3199061.625,
+    3183606.0,
+    3860278.525,
+    3449122.9,
+    2772153.575,
+    3897008.375
+  ],
+  "mixed_3l_all": [
+    3260654.75,
+    3279268.175,
+    3707169.775,
+    3116557.625,
+    2700717.6,
+    3822906.3,
+    4179828.8,
+    3321732.55,
+    2914296.85,
+    3721826.55
+  ],
+  "mixed_4l_all": [
+    3582302.425,
+    3247008.7,
+    4108792.725,
+    3262314.325,
+    2979303.5,
+    3640963.85,
+    3701220.4,
+    3418056.975,
+    3230806.075,
+    3882455.025
+  ],
+  "mean_2l_continuous": [
+    3379465.75,
+    3403625.4,
+    3499455.9,
+    3117016.775,
+    2556105.725,
+    3351248.3,
+    4399628.2,
+    3652039.375,
+    3449118.4,
+    4870028.075
+  ],
+  "mean_3l_continuous": [
+    3203642.775,
+    2883766.1,
+    3473163.075,
+    3052551.6,
+    2946003.3,
+    3810225.6,
+    4006490.15,
+    3572421.35,
+    3824854.8,
+    3716728.275
+  ],
+  "mean_4l_continuous": [
+    3640435.825,
+    2491225.075,
+    3780405.625,
+    3022671.15,
+    3241470.225,
+    4044653.75,
+    3885359.375,
+    3767437.95,
+    3492155.05,
+    3740178.9375
+  ],
+  "median_2l_continuous": [
+    3155526.95,
+    3349756.15,
+    3492344.775,
+    3167151.075,
+    2835064.9,
+    3294359.4,
+    4557982.7,
+    3810862.95,
+    3632226.75,
+    3652682.525
+  ],
+  "median_3l_continuous": [
+    3060218.475,
+    3036875.975,
+    3432638.05,
+    2979673.1375,
+    2732166.95,
+    3867077.45,
+    4159841.225,
+    3549206.9,
+    3838059.8,
+    3499354.6875
+  ],
+  "median_4l_continuous": [
+    3380073.375,
+    2724172.25,
+    3098333.525,
+    2856807.6875,
+    2834871.775,
+    4014200.1,
+    4123176.775,
+    4003595.1,
+    3916105.85,
+    3769828.55
+  ],
+  "mixed_2l_continuous": [
+    3020805.45,
+    3034087.7,
+    3418990.675,
+    2857039.9375,
+    2846191.1,
+    2981204.25,
+    4470230.35,
+    3276219.2,
+    2945968.55,
+    5484481.9
+  ],
+  "mixed_3l_continuous": [
+    2820330.85,
+    2753207.25,
+    3573269.15,
+    2891126.3125,
+    2655269.85,
+    3483855.85,
+    4186625.7,
+    2868110.0,
+    2932275.55,
+    4092229.15
+  ],
+  "mixed_4l_continuous": [
+    3119013.475,
+    2576753.575,
+    3366076.05,
+    2763090.425,
+    2726002.1,
+    3364772.6,
+    3834887.5,
+    3243362.75,
+    3410466.8,
+    3935585.3
+  ],
+  "mean_2l_selected": [
+    2663091.35,
+    2631722.175,
+    3306357.85,
+    2624510.3875,
+    3068106.925,
+    2894680.25,
+    3447050.175,
+    2989034.325,
+    3260307.25,
+    3227760.1875
+  ],
+  "mean_3l_selected": [
+    2631338.025,
+    2574164.125,
+    3295430.65,
+    2229669.05,
+    2867180.5,
+    2750297.3,
+    3436773.85,
+    3017652.15,
+    3120076.5,
+    3622486.475
+  ],
+  "mean_4l_selected": [
+    2560162.025,
+    2488936.025,
+    3163478.875,
+    2289023.7875,
+    2647149.125,
+    2709203.65,
+    3237790.05,
+    2986445.65,
+    3007024.075,
+    3114324.45
+  ],
+  "median_2l_selected": [
+    2609891.2,
+    2566810.2,
+    3269553.45,
+    2659275.7875,
+    3120792.525,
+    2851511.425,
+    3461171.95,
+    3253728.2,
+    3314473.55,
+    3386606.7375
+  ],
+  "median_3l_selected": [
+    2656891.125,
+    2746564.825,
+    3235381.875,
+    2171049.0375,
+    2818267.675,
+    2815805.95,
+    3325791.5,
+    3005806.15,
+    2906802.65,
+    3639633.5
+  ],
+  "median_4l_selected": [
+    2570206.725,
+    2747273.125,
+    2924223.125,
+    2230244.975,
+    2711271.4,
+    2733363.3,
+    3227959.275,
+    2867488.6,
+    2972804.875,
+    3192441.575
+  ],
+  "mixed_2l_selected": [
+    2771412.575,
+    2678006.5,
+    3372050.475,
+    2687032.5625,
+    3230872.275,
+    2928870.75,
+    3567651.6,
+    3178449.65,
+    3400757.3,
+    3331856.4
+  ],
+  "mixed_3l_selected": [
+    2793007.0,
+    2778677.35,
+    3324305.35,
+    2589381.9125,
+    2832406.25,
+    3004165.6,
+    3419679.4,
+    3217410.6,
+    3073624.0,
+    3511886.8
+  ],
+  "mixed_4l_selected": [
+    2712590.25,
+    2512017.225,
+    3060721.275,
+    2252941.4625,
+    2962963.0,
+    2865607.7,
+    3272529.975,
+    2911725.6,
+    3059614.575,
+    3671929.825
+  ]
+}
 
-  - model with 2 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3630750.6, with average epochs: 53
-  - model with 2 hidden layers trained on continuous columns with median value imputation average validation MSE: 3449073.125, with average epochs: 45
-  - model with 2 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3953062.9, with average epochs: 59
-  - model with 3 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3532331.15, with average epochs: 46
-  - model with 3 hidden layers trained on continuous columns with median value imputation average validation MSE: 3377024.95, with average epochs: 46
-  - model with 3 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3626120.15, with average epochs: 46
-  - model with 4 hidden layers trained on continuous columns with mean value imputation average validation MSE: 3760918.35, with average epochs: 40
-  - model with 4 hidden layers trained on continuous columns with median value imputation average validation MSE: 3891885.85, with average epochs: 25
-  - model with 4 hidden layers trained on continuous columns with mixed value imputation average validation MSE: 3868226.75, with average epochs: 41
+CV average results MSE:
+{
+  "mean_2l_all": 3423054.44,
+  "mean_3l_all": 3495423.5625,
+  "mean_4l_all": 3623339.25,
+  "median_2l_all": 3386141.4,
+  "median_3l_all": 3466565.2875,
+  "median_4l_all": 3629337.84,
+  "mixed_2l_all": 3370370.1174999997,
+  "mixed_3l_all": 3402495.8975,
+  "mixed_4l_all": 3505322.4,
+  "mean_2l_continuous": 3567773.19,
+  "mean_3l_continuous": 3448984.7025000006,
+  "mean_4l_continuous": 3510599.2962500006,
+  "median_2l_continuous": 3494795.8175,
+  "median_3l_continuous": 3415511.2650000006,
+  "median_4l_continuous": 3472116.49875,
+  "mixed_2l_continuous": 3433521.91125,
+  "mixed_3l_continuous": 3225629.9662499996,
+  "mixed_4l_continuous": 3234001.0575,
+  "mean_2l_selected": 3011262.0875,
+  "mean_3l_selected": 2954506.8625,
+  "mean_4l_selected": 2820353.7712499998,
+  "median_2l_selected": 3049381.5025000004,
+  "median_3l_selected": 2932199.42875,
+  "median_4l_selected": 2817727.6975,
+  "mixed_2l_selected": 3114696.00875,
+  "mixed_3l_selected": 3054454.42625,
+  "mixed_4l_selected": 2928264.0887499996
+}
 
-  - model with 2 hidden layers trained on selected columns with mean value imputation average validation MSE: 3039145.75, with average epochs: 72
-  - model with 2 hidden layers trained on selected columns with median value imputation average validation MSE: 3249341.5, with average epochs: 64
-  - model with 2 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3330383.05, with average epochs: 84
-  - model with 3 hidden layers trained on selected columns with mean value imputation average validation MSE: 2759699.15, with average epochs: 50
-  - model with 3 hidden layers trained on selected columns with median value imputation average validation MSE: 2733191.2, with average epochs: 50
-  - model with 3 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3064116.9, with average epochs: 69
-  - model with 4 hidden layers trained on selected columns with mean value imputation average validation MSE: 2865520.975, with average epochs: 44
-  - model with 4 hidden layers trained on selected columns with median value imputation average validation MSE: 3005371.525, with average epochs: 48
-  - model with 4 hidden layers trained on selected columns with mixed value imputation average validation MSE: 3090922.125, with average epochs: 44
+CV average results epochs:
+{
+  "mean_2l_all": 19.9,
+  "mean_3l_all": 17.0,
+  "mean_4l_all": 18.2,
+  "median_2l_all": 21.7,
+  "median_3l_all": 16.0,
+  "median_4l_all": 21.1,
+  "mixed_2l_all": 18.9,
+  "mixed_3l_all": 19.4,
+  "mixed_4l_all": 19.1,
+  "mean_2l_continuous": 74.7,
+  "mean_3l_continuous": 51.8,
+  "mean_4l_continuous": 38.9,
+  "median_2l_continuous": 83.2,
+  "median_3l_continuous": 49.9,
+  "median_4l_continuous": 39.1,
+  "mixed_2l_continuous": 82.9,
+  "mixed_3l_continuous": 50.3,
+  "mixed_4l_continuous": 42.5,
+  "mean_2l_selected": 87.4,
+  "mean_3l_selected": 59.4,
+  "mean_4l_selected": 48.3,
+  "median_2l_selected": 82.4,
+  "median_3l_selected": 56.7,
+  "median_4l_selected": 49.6,
+  "mixed_2l_selected": 81.4,
+  "mixed_3l_selected": 48.2,
+  "mixed_4l_selected": 40.2
+}
 
-Test results:
-  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MSE: 1745879.5269168525
-  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test MAE: 947.6535268930288
-  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test RMSE: 1306.8516371408155
-  - model with 3 hidden layer trained for 50 epochs trained on selected columns with mixed value imputation test R2 Score: 0.7797005354206836
-
-Predicted vs. ground truth values:
-    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                            18530.421875  ...                              23187
-1                            13775.159180  ...                              16400
-2                            14135.767578  ...                              15000
-3                            13764.296875  ...                              14000
-4                            13989.776367  ...                              14200
-5                            14218.668945  ...                              14500
-6                            14669.312500  ...                              13000
-7                            15084.762695  ...                              16200
-8                            13939.052734  ...                              13420
-9                            10516.772461  ...                              11500
-10                           10724.423828  ...                              12500
-11                           10818.501953  ...                              11000
-12                           10232.274414  ...                              10000
-13                           10817.459961  ...                              13000
-14                           10807.809570  ...                              10950
-15                           11135.613281  ...                              12000
-16                           10029.406250  ...                              11000
-17                            9513.922852  ...                               6000
-18                           11043.755859  ...                              12650
-19                           11552.556641  ...                              13000
-20                           11163.534180  ...                              11000
-21                           10554.657227  ...                              11300
-22                           10317.213867  ...                               9500
-23                           10571.360352  ...                              12830
-24                           11035.831055  ...                              13500
-25                            9816.041016  ...                               9250
-
-[26 rows x 4 columns]
+Best model:
+median_4l_selected - epochs: 49.6, MSE: 2817727.6975

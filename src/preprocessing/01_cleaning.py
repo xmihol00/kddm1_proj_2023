@@ -6,7 +6,7 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..")) # ensure includes of our files work
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import DATA_PATH
+from constants import DATA_PATH, RANDOM_SEED
 
 # data set header:
 # Id, University_name, Region, Founded_year, Motto, UK_rank, World_rank, CWUR_score, Minimum_IELTS_score, UG_average_fees_(in_pounds), 
@@ -45,7 +45,8 @@ def clean_and_deduplicate(df: pd.DataFrame):
     df.drop(columns=["Academic_staff"], inplace=True)
 
 if __name__ == "__main__":
-    print("Cleaning ...")
+    print(f"\nPre-processing on random seed {RANDOM_SEED} ...", file=sys.stderr)
+    print("Cleaning ...", file=sys.stderr)
     os.makedirs(DATA_PATH["cleaning"], exist_ok=True)    # make sure the output directory exists
     
     universities = pd.read_csv(DATA_PATH["original"] + "Universities.csv")

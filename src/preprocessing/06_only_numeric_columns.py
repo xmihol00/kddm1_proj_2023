@@ -17,7 +17,7 @@ def finalize_data_set(df_train: pd.DataFrame, df_test: pd.DataFrame, type: str):
     df_test.to_csv(DATA_PATH["numeric"] + f"Universities_test_{type}.csv", index=False)
 
 if __name__ == "__main__":
-    print("Dropping non numeric columns and the Id column ...")
+    print("Dropping non numeric columns and the Id column ...", file=sys.stderr)
     os.makedirs(DATA_PATH["numeric"], exist_ok=True)
 
     df_train = pd.read_csv(DATA_PATH["one-hot"] + "Universities_train_mean.csv")
