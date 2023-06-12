@@ -13,7 +13,7 @@ from sklearn import metrics
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS, MODEL_RANDOM_SEED
+from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
@@ -168,9 +168,9 @@ if __name__ == "__main__":
                 X_test_median = test_median.drop(columns=target_columns).to_numpy()
                 X_test_mixed = test_mixed.drop(columns=target_columns).to_numpy()
                 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -188,9 +188,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_2l_all"].append(epochs)
                 results_mse["mixed_2l_all"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -209,9 +209,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_3l_all"].append(epochs)
                 results_mse["mixed_3l_all"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -242,9 +242,9 @@ if __name__ == "__main__":
                 X_test_median = test_median[continuous_columns].to_numpy()
                 X_test_mixed = test_mixed[continuous_columns].to_numpy()
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -262,9 +262,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_2l_continuous"].append(epochs)
                 results_mse["mixed_2l_continuous"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -283,9 +283,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_3l_continuous"].append(epochs)
                 results_mse["mixed_3l_continuous"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -316,9 +316,9 @@ if __name__ == "__main__":
                 X_test_median = test_median[selected_columns].to_numpy()
                 X_test_mixed = test_mixed[selected_columns].to_numpy()
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -336,9 +336,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_2l_selected"].append(epochs)
                 results_mse["mixed_2l_selected"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -357,9 +357,9 @@ if __name__ == "__main__":
                 results_epochs["mixed_3l_selected"].append(epochs)
                 results_mse["mixed_3l_selected"].append(train_result)
 
-                tf.random.set_seed(MODEL_RANDOM_SEED)
-                np.random.seed(MODEL_RANDOM_SEED)
-                rn.seed(MODEL_RANDOM_SEED)
+                tf.random.set_seed(RANDOM_SEED)
+                np.random.seed(RANDOM_SEED)
+                rn.seed(RANDOM_SEED)
 
                 model = nn.Sequential([
                     nn.layers.Dense(X_train_mean.shape[1], activation="relu", input_shape=[X_train_mean.shape[1]]),
@@ -408,9 +408,9 @@ if __name__ == "__main__":
         y_train = train[target_columns].to_numpy()
         y_test = test[target_columns].to_numpy()
                 
-        tf.random.set_seed(MODEL_RANDOM_SEED)
-        np.random.seed(MODEL_RANDOM_SEED)
-        rn.seed(MODEL_RANDOM_SEED)
+        tf.random.set_seed(RANDOM_SEED)
+        np.random.seed(RANDOM_SEED)
+        rn.seed(RANDOM_SEED)
         
         model = nn.Sequential([
                 nn.layers.Dense(X_train.shape[1], activation="relu", input_shape=[X_train.shape[1]]),
