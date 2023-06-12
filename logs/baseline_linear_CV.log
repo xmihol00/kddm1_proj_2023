@@ -40,10 +40,10 @@ CV results MSE:
 
 CV average results MSE:
 {
-  "mean": 5039284.044230769,
-  "median": 4975170.512980768,
-  "mixed": 5001366.817307692
+  "mean": 4666753.98076923,
+  "median": 4562378.826923077,
+  "mixed": 4568930.634615385
 }
 
 Best model:
-median - MSE: 4975170.512980768
+median - MSE: 4562378.826923077

@@ -8,7 +8,7 @@ from sklearn.model_selection import GridSearchCV
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS, MODEL_RANDOM_SEED
+from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
@@ -27,7 +27,7 @@ def getBestParams(X_train, y_train):
         'epsilon' : [0.0001, 0.00025, 0.0005, 0.001, 0.005, 0.01, 0.02, 0.25, 0.5, 1, 5, 10],
     }
 
-    gs = GridSearchCV(svr, param_grid, scoring='neg_mean_squared_error', cv=5)
+    gs = GridSearchCV(svr, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
     gs.fit(X_train, y_train)
 
     degree = gs.best_params_['degree']
@@ -369,16 +369,16 @@ if __name__ == "__main__":
         best_UG = pd.concat([best_UG, current_frame_UG[current_frame_UG['mse'] == current_frame_UG['mse'].min()]])
         best_PG = pd.concat([best_PG, current_frame_PG[current_frame_PG['mse'] == current_frame_PG['mse'].min()]])
         in_total = pd.concat([best_UG, best_PG])
-        print("\n    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}\n".format(in_total['mse'].mean(), in_total['rmse'].mean(), in_total['mae'].mean(), in_total['r2'].mean()))
+        print("\n    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}\n".format(in_total['mse'].median(), in_total['rmse'].median(), in_total['mae'].median(), in_total['r2'].median()))
 
     if (args.cross_validation):
         print('Best performing parameters:')
         print(' UG_average_fees_(in_pounds):')
         print('    Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(best_UG['features'].mode()[0], best_UG['imputation'].mode()[0], best_UG['degree'].mode()[0], best_UG['kernel'].mode()[0], best_UG['epsilon'].mode()[0]))
-        print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_UG['mse'].mean(), best_UG['rmse'].mean(), best_UG['mae'].mean(), best_UG['r2'].mean()))
+        print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_UG['mse'].median(), best_UG['rmse'].median(), best_UG['mae'].median(), best_UG['r2'].median()))
         print(' PG_average_fees_(in_pounds):')
         print('    Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(best_PG['features'].mode()[0], best_PG['imputation'].mode()[0], best_PG['degree'].mode()[0], best_PG['kernel'].mode()[0], best_PG['epsilon'].mode()[0]))
-        print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_PG['mse'].mean(), best_PG['rmse'].mean(), best_PG['mae'].mean(), best_PG['r2'].mean()))
+        print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_PG['mse'].median(), best_PG['rmse'].median(), best_PG['mae'].median(), best_PG['r2'].median()))
         in_total = pd.concat([best_UG, best_PG])
         print('Best performing parameters (in total):')
         print(' Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(in_total['features'].mode()[0], in_total['imputation'].mode()[0], in_total['degree'].mode()[0], in_total['kernel'].mode()[0], in_total['epsilon'].mode()[0]))
