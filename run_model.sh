@@ -13,7 +13,7 @@ do
     # run a model with the corresponding seed (python3 -u <path/model_name.py> >./logs/<model_name>_seed<seed>.log)
     echo "Running model $3 ..."
     export RANDOM_SEED=42
-    python3 -u $1 1>./logs/$(basename ${1%.*})_seed$i.log 2>/dev/null
+    python3 -u $1 1>./logs/$(basename ${1%.*})_seed$i.log -ds $i 2>/dev/null
     echo ""
 done
 

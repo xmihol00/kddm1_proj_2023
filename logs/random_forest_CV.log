@@ -1,99 +1,101 @@
 shape: (105, 38)
 seed: 42
 
-all_mean___multiple_seeds best params: {'max_features': 11, 'n_estimators': 98}
-all_mean___multiple_seeds average MSE: 3438841.559612563, average MEA: 1190.1035228377064
-all_median_multiple_seeds best params: {'max_features': 9, 'n_estimators': 100}
-all_median_multiple_seeds average MSE: 3319336.7559814285, average MEA: 1162.2939047619047
-all_mixed__multiple_seeds best params: {'max_features': 10, 'n_estimators': 94}
-all_mixed__multiple_seeds average MSE: 3390871.0396260424, average MEA: 1190.754103343465
+all_mean___multiple_seeds best params: {'max_features': 8, 'n_estimators': 100}
+all_mean___multiple_seeds average MSE: 3384444.586486905, average MEA: 1181.1545952380952
+all_median_multiple_seeds best params: {'max_features': 8, 'n_estimators': 80}
+all_median_multiple_seeds average MSE: 3403986.400199405, average MEA: 1168.336488095238
+all_mixed__multiple_seeds best params: {'max_features': 13, 'n_estimators': 94}
+all_mixed__multiple_seeds average MSE: 3496911.5739356307, average MEA: 1198.6601317122593
 continuous_mean___multiple_seeds best params: {'max_features': 5, 'n_estimators': 96}
 continuous_mean___multiple_seeds average MSE: 3350325.4125552876, average MEA: 1179.9690476190476
 continuous_median_multiple_seeds best params: {'max_features': 5, 'n_estimators': 98}
 continuous_median_multiple_seeds average MSE: 3329950.267169433, average MEA: 1164.6759718172984
 continuous_mixed__multiple_seeds best params: {'max_features': 3, 'n_estimators': 80}
 continuous_mixed__multiple_seeds average MSE: 3324525.0862808777, average MEA: 1176.753839285714
-selected_mean___multiple_seeds best params: {'max_features': 1, 'n_estimators': 84}
-selected_mean___multiple_seeds average MSE: 3876457.9872904522, average MEA: 1220.1911564625848
-selected_median_multiple_seeds best params: {'max_features': 1, 'n_estimators': 100}
-selected_median_multiple_seeds average MSE: 3916575.2132669045, average MEA: 1218.4597619047618
-selected_mixed__multiple_seeds best params: {'max_features': 1, 'n_estimators': 100}
-selected_mixed__multiple_seeds average MSE: 3943924.006470239, average MEA: 1235.453785714286
+selected_mean___multiple_seeds best params: {'max_features': 2, 'n_estimators': 92}
+selected_mean___multiple_seeds average MSE: 3519359.5305765592, average MEA: 1204.1175724637683
+selected_median_multiple_seeds best params: {'max_features': 2, 'n_estimators': 100}
+selected_median_multiple_seeds average MSE: 3429058.477959762, average MEA: 1184.9124047619048
+selected_mixed__multiple_seeds best params: {'max_features': 2, 'n_estimators': 92}
+selected_mixed__multiple_seeds average MSE: 3570836.5757983387, average MEA: 1221.3309523809526
 
 RF model on mixed dataset with random_state: 42, max_features: 11, n_estimators: 84
 
 Feature importance:
                                                pos  ft_imp  column_index
-World_rank                                       1   0.213            19
-UK_rank                                          2   0.174             6
-Minimum_IELTS_score                              3   0.137            26
-International_students                           4   0.100            35
-CWUR_score                                       5   0.073            18
-Student_satisfaction                             6   0.042            27
-Estimated_cost_of_living_per_year_(in_pounds)    7   0.039            11
-Academic_staff_from                              8   0.030            33
-Founded_year                                     9   0.026             5
-Academic_staff_to                               10   0.025            22
-Latitude                                        11   0.022            30
-Longitude                                       12   0.020             1
-Student_enrollment_to                           13   0.019            24
-Student_enrollment_from                         14   0.015            14
-Region_West Midlands                            15   0.011            16
-Academic_Calender_Continuous                    16   0.008            10
-Academic_Calender_Trimesters                    17   0.008             7
-Region_East of England                          18   0.004            29
-Academic_Calender_Semesters                     19   0.004            17
-Campus_setting_Urban                            20   0.004            21
-Region_London                                   21   0.003            12
-Control_type_Private                            22   0.003             9
-Academic_Calender_Other                         23   0.003            32
-Control_type_Public                             24   0.003            31
-Region_South West England                       25   0.002            20
-Campus_setting_Suburban                         26   0.002             8
-Region_South East England                       27   0.002            15
-Campus_setting_Rural                            28   0.002            13
-Region_North East England                       29   0.001             0
-Region_East Midlands                            30   0.001            34
-Region_North West England                       31   0.001             2
-Region_Yorkshire and the Humber                 32   0.001             4
-Region_Wales                                    33   0.000            25
-Region_Scotland                                 34   0.000             3
-Academic_Calender_Quarters                      35   0.000            23
-Region_Northern Ireland                         36   0.000            28
-column index of features by relevance:    [19, 6, 26, 35, 18, 27, 11, 33, 5, 22, 30, 1, 24, 14, 16, 10, 7, 29, 17, 21, 12, 9, 32, 31, 20, 8, 15, 13, 0, 34, 2, 4, 25, 3, 23, 28]     
-column index of features by index order:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]     
+UK_rank                                          1   0.214            16
+World_rank                                       2   0.209            24
+Minimum_IELTS_score                              3   0.102             0
+International_students                           4   0.098            31
+CWUR_score                                       5   0.066             2
+Student_satisfaction                             6   0.047            29
+Estimated_cost_of_living_per_year_(in_pounds)    7   0.035            30
+Academic_staff_to                                8   0.033            33
+Academic_staff_from                              9   0.032            23
+Latitude                                        10   0.025            10
+Founded_year                                    11   0.023            19
+Student_enrollment_from                         12   0.019            28
+Student_enrollment_to                           13   0.018             9
+Longitude                                       14   0.014            15
+Academic_Calender_Trimesters                    15   0.010            35
+Region_West Midlands                            16   0.008             8
+Academic_Calender_Continuous                    17   0.007             7
+Control_type_Private                            18   0.006             3
+Region_East of England                          19   0.005            11
+Region_London                                   20   0.005            32
+Control_type_Public                             21   0.004            14
+Academic_Calender_Semesters                     22   0.003             4
+Campus_setting_Urban                            23   0.002            18
+Campus_setting_Suburban                         24   0.002            17
+Campus_setting_Rural                            25   0.002             1
+Region_Yorkshire and the Humber                 26   0.002            12
+Region_North East England                       27   0.002            13
+Region_South East England                       28   0.002            22
+Academic_Calender_Other                         29   0.002            26
+Region_North West England                       30   0.001            34
+Region_Wales                                    31   0.001            27
+Region_South West England                       32   0.001             6
+Region_Scotland                                 33   0.001             5
+Region_East Midlands                            34   0.000            25
+Region_Northern Ireland                         35   0.000            21
+Academic_Calender_Quarters                      36   0.000            20
+column index of features by relevance:    [16, 24, 0, 31, 2, 29, 30, 33, 23, 10, 19, 28, 9, 15, 35, 8, 7, 3, 11, 32, 14, 4, 18, 17, 1, 12, 13, 22, 26, 34, 27, 6, 5, 25, 21, 20]
+column index of features by index order:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
 
 Performance of the best model on the test set:
-  Accuracy:                                           0.684
+  Accuracy:                                           0.657
 
-  Mean Squared Error (MSE):                      2681618.58
-  Root Mean Squared Error (RMSE):                   1594.24
-  Mean Absolute Error (MAE):                        1110.20
-  R^2:                                                0.684
-    predicted UG_average_fees_(in_pounds)  predicted PG_average_fees_(in_pounds)  truth UG_average_fees_(in_pounds)  truth PG_average_fees_(in_pounds)
-0                            19318.333333                           22515.964286                              21770                              19888
-1                            17378.750000                           20836.535714                              17040                              15440
-2                            14428.452381                           15588.273810                              15200                              14800
-3                            14335.357143                           14775.297619                              14140                              14420
-4                            14666.428571                           15520.202381                              17890                              18240
-5                            13580.416667                           13837.142857                              12950                              14875
-6                            15581.309524                           16919.702381                              15600                              17040
-7                            14318.690476                           15007.857143                              14450                              14450
-8                            11180.035714                           11594.309524                              10500                              12500
-9                            11267.738095                           11776.666667                              12000                              12500
-10                           11059.214286                           11474.297619                              12000                              12500
-11                           11552.297619                           11879.250000                              11450                              11950
-12                           10799.547619                           11184.142857                              10000                              11500
-13                           10792.130952                           11311.559524                              10750                              10950
-14                           11703.523810                           12649.392857                              11000                              12000
-15                           11004.333333                           11434.833333                              11120                              11400
-16                           11982.988095                           12487.904762                              13500                              13500
-17                           10805.059524                           11241.785714                              10000                               6000
-18                           11421.190476                           11971.726190                               9250                               9250
-19                           11923.880952                           12460.821429                              11200                              13000
-20                           10787.940476                           11253.369048                              11000                              11000
-21                           10735.773810                           10980.178571                              10750                              11250
-22                           10506.035714                           11093.607143                              11000                               9500
-23                           11282.440476                           12207.797619                              10500                              10500
-24                           11099.488095                           11936.821429                              12660                              12830
-25                           11812.857143                           12335.833333                               9250                               9250
+  Mean Squared Error (MSE):                      2912314.31
+  Root Mean Squared Error (RMSE):                   1669.95
+  Mean Absolute Error (MAE):                        1161.58
+  R^2:                                                0.657
+    predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
+0                            19274.166667  ...                              19888
+1                            17315.357143  ...                              15440
+2                            14389.047619  ...                              14800
+3                            14215.119048  ...                              14420
+4                            14537.738095  ...                              18240
+5                            13555.892857  ...                              14875
+6                            15300.595238  ...                              17040
+7                            14154.404762  ...                              14450
+8                            10967.988095  ...                              12500
+9                            11235.452381  ...                              12500
+10                           11121.904762  ...                              12500
+11                           11431.416667  ...                              11950
+12                           10702.690476  ...                              11500
+13                           10640.285714  ...                              10950
+14                           11650.309524  ...                              12000
+15                           10747.892857  ...                              11400
+16                           12028.071429  ...                              13500
+17                           11066.928571  ...                               6000
+18                           11538.214286  ...                               9250
+19                           11980.357143  ...                              13000
+20                           10584.166667  ...                              11000
+21                           10503.988095  ...                              11250
+22                           10694.583333  ...                               9500
+23                           11347.416667  ...                              10500
+24                           11200.940476  ...                              12830
+25                           12637.916667  ...                               9250
+
+[26 rows x 4 columns]

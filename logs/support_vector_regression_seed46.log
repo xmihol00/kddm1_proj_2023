@@ -1,11 +1,11 @@
 Test result:
    seed                       target     features  ... degree  kernel  epsilon
-0    42  UG_average_fees_(in_pounds)  all columns  ...      2  linear       10
-1    42  PG_average_fees_(in_pounds)  all columns  ...      2  linear       10
+0    42  UG_average_fees_(in_pounds)  all columns  ...      2  linear   0.0001
+1    42  PG_average_fees_(in_pounds)  all columns  ...      2  linear   0.0001
 
 [2 rows x 11 columns]
 
-    Avg. MSE: 2726197.4975 - Avg. RMSE: 1650.2214 - Avg. MAE: 1323.0080 - Avg. R^2: 0.1501
+    Avg. MSE: 2725647.6377 - Avg. RMSE: 1650.0491 - Avg. MAE: 1323.0080 - Avg. R^2: 0.1503
 
 Predicted vs. ground truth values:
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)

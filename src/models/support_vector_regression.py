@@ -12,6 +12,7 @@ from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
+parser.add_argument("-ds", "--dataset_seed", type=int, default=RANDOM_SEED, help="Random seed of the data set splitting.")
 args = parser.parse_args()
 
 class PreProcessing(Enum):
@@ -59,7 +60,7 @@ def performSVR(X_train : pd.DataFrame, y_train : pd.DataFrame, X_test : pd.DataF
             degree_target, epsilon_target, kernel_target = getBestParams(X_train, y_train[target].to_numpy())
         else:
             degree_target = 2
-            epsilon_target = 10
+            epsilon_target = 0.0001
             kernel_target = 'linear'
         svr = SVR(kernel=kernel_target, degree=degree_target, epsilon=epsilon_target)
         degree.append(degree_target)
@@ -391,4 +392,4 @@ if __name__ == "__main__":
         print("Predicted vs. ground truth values:")
         print(predicted_truth)
 
-        predicted_truth.to_csv(f"results/SVR_predicted_truth_seed{RANDOM_SEED}.csv", index=False)
+        predicted_truth.to_csv(f"results/SVR_predicted_truth_seed{args.dataset_seed}.csv", index=False)

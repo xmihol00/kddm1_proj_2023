@@ -17,6 +17,7 @@ from constants import DATA_PATH, CV_SPLITS, RANDOM_SEED, DATASET_RANDOM_SEEDS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
+parser.add_argument("-ds", "--dataset_seed", type=int, default=RANDOM_SEED, help="Random seed of the data set splitting.")
 args = parser.parse_args()
 
 TRAIN_ALL_COLUMNS = True
@@ -434,4 +435,4 @@ if __name__ == "__main__":
                                         "truth UG_average_fees_(in_pounds)": y_test[:, 0], "truth PG_average_fees_(in_pounds)": y_test[:, 1]})
         
         print("Predicted vs. ground truth values:")
-        predicted_truth.to_csv(f"results/NN_predicted_truth_seed{RANDOM_SEED}.csv", index=False)
+        predicted_truth.to_csv(f"results/NN_predicted_truth_seed{args.dataset_seed}.csv", index=False)

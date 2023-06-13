@@ -234,11 +234,11 @@ def rf_param_search_multiple_seeds(data: "dict[pd.DataFrame]", columns: "dict[di
     evaluateMultipleSeeds( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed__multiple_seeds")
     
 def rf_with_best_param(data, columns):
-    best_columns = columns["all"]
-    X_train = data["train_mean"][best_columns].to_numpy()
-    y_train = data["train_mean"][columns["target"]].to_numpy()
-    X_test  = data["test_mean"][best_columns].to_numpy()
-    y_test  = data["test_mean"][columns["target"]].to_numpy()
+    best_columns = columns["continuous"]
+    X_train = data["train_median"][best_columns].to_numpy()
+    y_train = data["train_median"][columns["target"]].to_numpy()
+    X_test  = data["test_median"][best_columns].to_numpy()
+    y_test  = data["test_median"][columns["target"]].to_numpy()
 
     if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
         # analyses singe parameter performance by plots
@@ -246,13 +246,13 @@ def rf_with_best_param(data, columns):
         plotBestParams(X_train, y_train, suffix="mixed_all")
 
     # fit RF with best parameters found during cross validation
-    max_features=11
-    n_estimators=84
+    max_features=5
+    n_estimators=98
     setSeed()
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
     print()
-    print(f"RF model on mixed dataset with random_state: {RANDOM_SEED}, max_features: {max_features}, n_estimators: {n_estimators}")
+    print(f"RF model on median dataset with max_features: {max_features}, n_estimators: {n_estimators}")
     
     # evaluate performance on test set
     y_pred = printPerformance(rf, X_test, y_test, best_columns)
@@ -309,6 +309,7 @@ def setSeed():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
+    parser.add_argument("-ds", "--dataset_seed", type=int, default=RANDOM_SEED, help="Random seed of the data set splitting.")
     args = parser.parse_args()
     # args.cross_validation = True
     
@@ -337,4 +338,4 @@ if __name__ == "__main__":
     if args.cross_validation:
         predicted_truth.to_csv("results/RF_predicted_truth_CV.csv", index=False)
     else:
-        predicted_truth.to_csv(f"results/RF_predicted_truth_seed{RANDOM_SEED}.csv", index=False)
+        predicted_truth.to_csv(f"results/RF_predicted_truth_seed{args.dataset_seed}.csv", index=False)

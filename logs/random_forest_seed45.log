@@ -2,82 +2,58 @@ shape: (105, 38)
 seed: 42
 
 
-RF model on mixed dataset with random_state: 42, max_features: 11, n_estimators: 84
+RF model on median dataset with max_features: 5, n_estimators: 98
 
 Feature importance:
                                                pos  ft_imp  column_index
-World_rank                                       1   0.241            15
-UK_rank                                          2   0.148             8
-Minimum_IELTS_score                              3   0.141            26
-International_students                           4   0.091            31
-CWUR_score                                       5   0.089             1
-Academic_staff_to                                6   0.041            17
-Estimated_cost_of_living_per_year_(in_pounds)    7   0.039             9
-Academic_staff_from                              8   0.036             5
-Student_satisfaction                             9   0.035            29
-Founded_year                                    10   0.024            22
-Latitude                                        11   0.022            16
-Longitude                                       12   0.013            23
-Academic_Calender_Trimesters                    13   0.013            24
-Student_enrollment_from                         14   0.010            34
-Student_enrollment_to                           15   0.009            35
-Academic_Calender_Continuous                    16   0.008             4
-Academic_Calender_Semesters                     17   0.006            32
-Region_London                                   18   0.006            28
-Campus_setting_Urban                            19   0.003            30
-Campus_setting_Suburban                         20   0.003            25
-Region_East of England                          21   0.003            10
-Region_West Midlands                            22   0.003             2
-Control_type_Private                            23   0.003            21
-Control_type_Public                             24   0.002            20
-Region_South East England                       25   0.002            33
-Region_Yorkshire and the Humber                 26   0.002            27
-Region_East Midlands                            27   0.001            13
-Region_North East England                       28   0.001            14
-Region_South West England                       29   0.001             7
-Region_Wales                                    30   0.001            11
-Academic_Calender_Other                         31   0.001             3
-Campus_setting_Rural                            32   0.001            12
-Region_North West England                       33   0.001             6
-Region_Scotland                                 34   0.000             0
-Region_Northern Ireland                         35   0.000            18
-Academic_Calender_Quarters                      36   0.000            19
-column index of features by relevance:    [15, 8, 26, 31, 1, 17, 9, 5, 29, 22, 16, 23, 24, 34, 35, 4, 32, 28, 30, 25, 10, 2, 21, 20, 33, 27, 13, 14, 7, 11, 3, 12, 6, 0, 18, 19]
-column index of features by index order:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+World_rank                                       1   0.298             5
+UK_rank                                          2   0.142             4
+CWUR_score                                       3   0.140             0
+Minimum_IELTS_score                              4   0.117             2
+International_students                           5   0.074             8
+Estimated_cost_of_living_per_year_(in_pounds)    6   0.050             1
+Academic_staff_from                              7   0.049             9
+Student_satisfaction                             8   0.043             3
+Academic_staff_to                                9   0.038            10
+Founded_year                                    10   0.022            11
+Student_enrollment_from                         11   0.016             6
+Student_enrollment_to                           12   0.012             7
+column index of features by relevance:    [5, 4, 0, 2, 8, 1, 9, 3, 10, 11, 6, 7]
+column index of features by index order:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 Performance of the best model on the test set:
-  Accuracy:                                           0.328
+  Accuracy:                                           0.230
 
-  Mean Squared Error (MSE):                      2905199.57
-  Root Mean Squared Error (RMSE):                   1649.88
-  Mean Absolute Error (MAE):                        1212.75
-  R^2:                                                0.328
+  Mean Squared Error (MSE):                      3348980.64
+  Root Mean Squared Error (RMSE):                   1764.85
+  Mean Absolute Error (MAE):                        1254.22
+  R^2:                                                0.230
     predicted UG_average_fees_(in_pounds)  ...  truth PG_average_fees_(in_pounds)
-0                            19380.238095  ...                              17250
-1                            14230.952381  ...                              14000
-2                            14911.547619  ...                              14800
-3                            14870.357143  ...                              14500
-4                            15754.880952  ...                              14500
-5                            16742.619048  ...                              16500
-6                            13335.071429  ...                              13420
-7                            13327.297619  ...                              13430
-8                            13403.964286  ...                              13850
-9                            12584.666667  ...                              11900
-10                           13846.940476  ...                              12890
-11                           11736.892857  ...                              11250
-12                           11466.214286  ...                              11500
-13                           11470.535714  ...                              12700
-14                           11120.345238  ...                              12500
-15                           13664.226190  ...                              14000
-16                           11297.452381  ...                              10500
-17                           11739.761905  ...                              12000
-18                           11575.559524  ...                              14500
-19                           10858.333333  ...                               6000
-20                           10445.547619  ...                              12500
-21                           12603.869048  ...                              14000
-22                           10777.464286  ...                              10500
-23                           11092.678571  ...                              12830
-24                           10586.726190  ...                              11250
-25                           12037.321429  ...                               9250
+0                            19432.653061  ...                              17250
+1                            14293.632653  ...                              14000
+2                            15092.581633  ...                              14800
+3                            15349.755102  ...                              14500
+4                            15735.469388  ...                              14500
+5                            16844.346939  ...                              16500
+6                            12888.163265  ...                              13420
+7                            13413.908163  ...                              13430
+8                            13500.979592  ...                              13850
+9                            12543.693878  ...                              11900
+10                           13074.755102  ...                              12890
+11                           11837.581633  ...                              11250
+12                           11246.265306  ...                              11500
+13                           11571.683673  ...                              12700
+14                           11327.438776  ...                              12500
+15                           13566.663265  ...                              14000
+16                           11428.224490  ...                              10500
+17                           11513.693878  ...                              12000
+18                           11508.173469  ...                              14500
+19                           10730.153061  ...                               6000
+20                           10298.571429  ...                              12500
+21                           11901.989796  ...                              14000
+22                           10538.316327  ...                              10500
+23                           10819.877551  ...                              12830
+24                           10166.683673  ...                              11250
+25                           12524.081633  ...                               9250
 
 [26 rows x 4 columns]

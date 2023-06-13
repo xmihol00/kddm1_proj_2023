@@ -199,12 +199,12 @@
 \begin{frame}{Training and Evaluation}
   \vspace{-1cm}
   \begin{itemize}
-      \item 5-fold cross validation (across seeds $[40, 49]$),
+      \item 5-fold cross validation across seeds $[40, 49]$,
       \item 3 subsets of the data set:
         \begin{itemize}
             \item all continuous and categorical columns,
             \item only continuous columns excluding \texttt{Latitude} and \texttt{Longitude}
-            \item columns with absolute value of correlation higher than 0.5 with the target variables
+            \item columns with absolute value of correlation higher than 0.5 with the target variables,
         \end{itemize}
       \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
       \item average performance across seeds $[40, 49]$.
@@ -253,7 +253,7 @@
   Linear Regression
   \begin{itemize}
       \item baseline model to assess performance against,
-      \item no cross validation.
+      \item cross validation only for column subsets.
   \end{itemize}
   Fully Connected Neural Network
   \begin{itemize}
@@ -270,36 +270,36 @@
   Random Forest
   \begin{itemize}
       \item grid search parameters:\\
+      TODO
       max features $[1, 17]$, N estimators $[80, 100]$.
   \end{itemize}
   Support Vector Regression
   \begin{itemize}
       \item grid search parameters:\\
+      TODO
       kernel (linear, poly, rbf, sigmoid), degree (2, 3, 4), epsilon [0, 0.2].
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Prediction Performance, Ensemble}
-\vspace{-0.9cm}
- Consistently all models perform:
-  \begin{itemize}
-      \item best on the mixed imputed data set,
-      \item worse on the mean imputed data set.
-  \end{itemize}
-  \begin{table}[ht!]
+\vspace{-1cm}
+\begin{itemize}
+    \item No clear best imputation approach,
+    \item no clear best subset of columns.
+\end{itemize}
+\begin{table}[ht!]
+\scriptsize
     \hspace{-0.7cm}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{l|l|l|l|l|l|l}
+                 & MSE        & MAE     & RMSE    & R2 score & Columns & Imputation\\
         \hline
-                 & MSE        & MAE     & RMSE    & R2 score\\
-        \hline
-        LR       & 4127253.4  & 1362.20 & 1982.70 & 0.497 \\
-        FCNN     & 3024218.6  & 1167.42 & 1703.25 & 0.643 \\
-        RF       & 3034398.11 & 1117.76 & 1681.78 & 0.611  \\
-        SVR      &            &         &         & \\
-        Ensemble &            &         &         & \\
-        \hline
+        LR       & 3708162.9 & 1408.8 & 1909.6 & 0.3075 & continuous & mixed \\
+        FCNN     & 3389145.4 & 1304.6 & 1826.1 & 0.3659 & selected & median \\
+        RF       & 3200786.3 & 1192.1 & 1761.7 & 0.4061 & continuous & median \\
+        SVR      & 5407680.3 & 1596.1 & 2235.7  & 0.1688 & all & mixed \\
+        Ensemble & 2355721.7 & 1087.2 & 1534.6  & 0.5231 & ----- & ----- \\
     \end{tabular}
-    \caption{Average prediction performance across random seeds $[40, 49]$ on the mixed imputed data set}
+    \caption{Average prediction performance across random seeds $[40, 49]$}
     \label{tab:pred_perf}
 \end{table}
 \end{frame}
