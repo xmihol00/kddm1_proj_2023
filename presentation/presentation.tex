@@ -196,20 +196,6 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}{Training and Evaluation}
-  \vspace{-1cm}
-  \begin{itemize}
-      \item 5-fold cross validation across seeds $[40, 49]$,
-      \item 3 subsets of the data set:
-        \begin{itemize}
-            \item all continuous and categorical columns,
-            \item only continuous columns excluding \texttt{Latitude} and \texttt{Longitude}
-            \item columns with absolute value of correlation higher than 0.5 with the target variables,
-        \end{itemize}
-      \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
-      \item average performance across seeds $[40, 49]$.
-  \end{itemize}
-\end{frame}
 
 \begin{frame}{Imputation}
   \vspace{-1cm}
@@ -245,6 +231,21 @@
       % \caption{Missing Zero}
       \label{tab:missing_values_zero}
     \end{table}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Training and Evaluation}
+  \vspace{-1cm}
+  \begin{itemize}
+      \item 5-fold cross validation across seeds $[40, 49]$,
+      \item 3 subsets of the data set:
+        \begin{itemize}
+            \item all continuous and categorical columns,
+            \item only continuous columns excluding \texttt{Latitude} and \texttt{Longitude}
+            \item columns with absolute value of correlation higher than 0.5 with the target variables,
+        \end{itemize}
+      \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
+      \item average performance across seeds $[40, 49]$.
   \end{itemize}
 \end{frame}
 
