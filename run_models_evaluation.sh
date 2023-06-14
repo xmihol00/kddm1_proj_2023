@@ -25,7 +25,7 @@ if [[ "${model_selector}" == "all" ]]; then
     echo "evaluating SVR model..."
     ./run_model.sh ./src/models/support_vector_regression.py SVR_predicted_truth SVR
     
-    echo "evaluating baseline model..."
+    echo "evaluating linear model..."
     ./run_model.sh ./src/models/baseline_linear.py baseline_predicted_truth baseline
 
     echo "evaluating ensemble model..."
@@ -47,8 +47,8 @@ if [[ "${model_selector}" == "svr" ]]; then
     ./run_model.sh ./src/models/support_vector_regression.py SVR_predicted_truth SVR
 fi
 
-if [[ "${model_selector}" == "baseline" ]]; then    
-    echo "evaluating baseline model..."
+if [[ "${model_selector}" == "linear" ]]; then    
+    echo "evaluating linear model..."
     ./run_model.sh ./src/models/baseline_linear.py baseline_predicted_truth baseline
 fi
 

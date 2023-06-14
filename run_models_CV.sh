@@ -25,7 +25,7 @@ if [[ "${model_selector}" == "all" ]]; then
     echo "Running CV on SVR model..."
     python3 -u ./src/models/support_vector_regression.py -cv 1>./logs/support_vector_regression_CV.log 2>/dev/null
 
-    echo "Running CV on baseline model..."
+    echo "Running CV on linear model..."
     python3 -u ./src/models/baseline_linear.py -cv 1>./logs/baseline_linear_CV.log 2>/dev/null
 fi
 
@@ -44,8 +44,8 @@ if [[ "${model_selector}" == "svr" ]]; then
     python3 -u ./src/models/support_vector_regression.py -cv 1>./logs/support_vector_regression_CV.log 2>/dev/null
 fi
 
-if [[ "${model_selector}" == "baseline" ]]; then
-    echo "Running CV on baseline model..."
+if [[ "${model_selector}" == "linear" ]]; then
+    echo "Running CV on linear model..."
     python3 -u ./src/models/baseline_linear.py -cv 1>./logs/baseline_linear_CV.log 2>/dev/null
 fi
 

@@ -30,7 +30,7 @@ Predicted vs. ground truth values mixed imputed on continuous columns:
 [26 rows x 4 columns]
 
 Results:
-  - MSE:      3861618.733693408
-  - MAE:      1526.584503964239
-  - RMSE:     1965.100184136526
-  - R2 Score: 0.07297752024336568
+  - MSE:      3861618.7336934125
+  - MAE:      1526.5845039642395
+  - RMSE:     1965.100184136527
+  - R2 Score: 0.07297752024336457
