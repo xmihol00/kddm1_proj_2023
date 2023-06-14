@@ -62,15 +62,18 @@ def performSVR(X_train : pd.DataFrame, y_train : pd.DataFrame, X_test : pd.DataF
             degree_target = 2
             epsilon_target = 0.0001
             kernel_target = 'linear'
+
         svr = SVR(kernel=kernel_target, degree=degree_target, epsilon=epsilon_target)
         degree.append(degree_target)
         epsilon.append(epsilon_target)
         kernel.append(kernel_target)
+
         svr.fit(X_train, y_train[target].to_numpy())
         test = y_test[target].to_numpy()
         pred = svr.predict(X_test)
         y_pred.append(pred)
         y_test_result.append(test)
+
         mse_target, mae_target, rmse_target, r2_target = getPerformance(test, pred)
         mse.append(mse_target)
         mae.append(mae_target)
@@ -158,6 +161,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -170,6 +174,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -215,6 +220,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -227,6 +233,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -271,6 +278,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -283,6 +291,7 @@ if __name__ == "__main__":
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+
             y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
@@ -316,7 +325,6 @@ if __name__ == "__main__":
             current_frame_PG = current_frame[current_frame['target'] == 'PG_average_fees_(in_pounds)']
             best_UG = pd.concat([best_UG, current_frame_UG[current_frame_UG['mse'] == current_frame_UG['mse'].min()]])
             best_PG = pd.concat([best_PG, current_frame_PG[current_frame_PG['mse'] == current_frame_PG['mse'].min()]])
-
 
     else:
         y_test.clear()

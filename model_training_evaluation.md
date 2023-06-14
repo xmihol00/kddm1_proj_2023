@@ -1,5 +1,5 @@
 # Model Training and Evaluation
-The following sections summarize how we trained and evaluated our machine learning models. We reference the columns of the University dataset by their indices, mapping from column names is available in the following table:
+The following sections summarize how we trained and evaluated our machine learning models. We provide a only table summarizing the data set below. More information about the data set and performed pre-processing is available in the [dataset_analysis.md](dataset_analysis.md) file.
 |  Index  | Column                                         |
 |---------|------------------------------------------------|
 |  0      | Id                                             |
@@ -26,60 +26,23 @@ The following sections summarize how we trained and evaluated our machine learni
 |  21     | Website                                        |
 
 ## Common Practice
-We used 80/20 dataset split to train and evaluate all models. Additionally, we implemented cross validation to tune hyper-parameters of our models since the dataset is very small. We fixed the randomness for the dataset split, weight initialization, cross validation fold selection as well as the batch selection during training using a random seed of 14 (our group number). We evaluated our models with the mean squared error, root mean squared error, mean absolute error and R2 score metrics. 
+We used 80/20 dataset split to train and evaluate all models. Additionally, we implemented 5-fold cross validation to tune hyper-parameters of our models since the dataset is very small. We fixed the randomness for the dataset split, weight initialization, cross validation fold selection as well as the batch selection during training using a random seed 42 for the models and seeds $[40, 49]$ for the data set to get more representative results less affected by the data set spilt. Moreover, we performed the cross validation on 3 differently imputed data sets (mean, median and mixed, see [dataset_analysis.md](dataset_analysis.md)) and on 3 subsets of the available columns:
+    - all continuous and categorical columns (*all*),
+    - only continuous columns excluding the columns `Latitude` and `Longitude` (*continuous*),
+    - columns with absolute value of correlation higher than 0.5 (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `International_students`, `Academic_staff_from`, `Academic_staff_to`) with the target variables (*selected*).
+
+We evaluated the performance of our models on the cross validation sets and test set with the mean squared error, mean absolute error, root mean squared error and R2 score metrics. Since we run the cross validation as well as the final evaluation on the test set for 10 different seeds, we computed the final results shown in tables below as the median across these runs to eliminate outliers. 
 
 ## Models
 We describe how we trained and found the best hyper-parameters for our models in the following sections.
 
 ### Baseline - Linear Regression
-We trained the simples possible model, i.e. linear regression model, on all the continuous and categorical columns column to have a baseline for comparing our more advanced models. No hyper-parameter tuning was necessary for this model.
+We trained the simples possible model, i.e. linear regression model, to have a baseline for comparison of our more advanced models. No hyper-parameter tuning was necessary for this model.
 
-The performance of this model is summarized in the following table:
-| Training Column Indices                               |         MSE |    RMSE |     MAE | R2 score |
-|-------------------------------------------------------|------------:|--------:|--------:|---------:|
-| 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 |  2647955.42 | 1595.23 | 1172.27 |   0.6722 |
-
-### Random Forest
-In Random Forest Regression, each tree in the ensemble is built from a sample drawn with replacement from the training set.
-It combines multiple decision trees to make predictions.
-
-Advantages of Random Forest Regression:
-
-- Perform on large data sets with high dimensionality
-- Less prone to overfitting, than single decision trees.
-- Capture complex nonlinear relationships.
-- Estimates of feature importance.
-
-Disadvantages of Random Forest Regression:
-
-- Bad on noisy or irrelevant features.
-- Computationally expensive for complex datasets.
-
-We applied `GridSearchCV` to find the best parameter for the number of estimators by the negative mean squared error.
-The best parameters found at single parameter search for `n_estimators` are above 80 and for `max_features` are in the interval [5, 15].
-For combine parameter search `n_estimators=39` and `max_features=17` yield the best performance.
-We also performed some empirical approaches.
-The overall best result was gained by `n_estimators=100` and `max_features=10`.
-Thus we trained with this parameters. The returned accuracy averaged over 10 different seeds is 0.611.
-
-| Model                    | Training Column Indices                            |        MSE |    RMSE |     MAE | R2 score |
-| -------------------------|----------------------------------------------------|-----------:|--------:|--------:|---------:|
-| Random Forest            | 7, 6, 5, 11, 8, 18, 14, 16, 12, 13, 3              | 3034398.11 | 1117.76 | 1681.78 |   0.611  |
-
-### Support Vector Regression
-The goal of SVR (Support Vector Regression) is to find a function that approximates the relationship between the input features
-and a continuous target, while minimizing the prediction error. It has the same underlying idea as the SVM (Support Vector Machine)
-but SVR is focused on regression problems and SVM on classification.
-
-Because of different kernel functions SVR can handle non-linear relationships between features and the target.
-
-Advantages:
-- It is robust to outliers.
-- Decision model can be easily updated
-
-Disadvantages:
-- Not suitable for large datasets.
-- Model does not perform well when data set has more noise. (Target classes are overlapping) 
+The performance of the linear regression model is summarized in the following table:
+|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
+|----------:|-------:|-------:|---------:|--------------------|------------------------|
+| 3708162.9 | 1408.8 | 1909.6 |   0.3075 | continuous         | mixed                  |
 
 ### Neural Network
 First, we defined 3 neural network architectures listed below:
@@ -88,31 +51,81 @@ First, we defined 3 neural network architectures listed below:
     - non-linear with 4 hidden layers, first three with a ReLU activation and last with a linear activation,
 The number of neurons in the input layer varies based on the selected subset of used columns for training, see below. The numbers of neurons in the following hidden layers is the same as in the input layer. The output layer has 2 neurons given the two predicted variables.
 
-Second, we trained the defined models using a 3-fold cross validation scheme with an early stopping with patience for 25 epochs as the stopping criterion. The batch size was set to 8, since the dataset is very small. Several optimizers with different learning rate configurations were tested, the best performing was the Adam optimizer with quite high learning rate of 0.05. Each of the models was trained on all the training datasets, i.e. with missing values imputed with the mean, the median and with mixed missing value imputation using various techniques. Additionally, we selected 3 subsets of the available columns in the training dataset to repeatably train on. The subsets are the following:
-    - all continuous and categorical columns,
-    - only continuous columns excluding the columns `Latitude` and `Longitude`,
-    - columns with absolute value of correlation higher than 0.5 (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `International_students`, `Academic_staff_from`, `Academic_staff_to`) with the target variables.
+Second, we trained the defined models an early stopping with patience for 25 epochs as the stopping criterion. The batch size was set to 8, since the dataset is very small. Several optimizers with different learning rate configurations were tested, the best performing was the Adam optimizer with quite high learning rate of 0.05. 
 
 Third, we re-trained the on average best performing model on the cross validation folds. The selected model was trained using the whole training dataset with the on average best performing subset of columns and the average number of epochs recorder during the cross validation runs as the stopping criterion.
 
-The best performing model was the non-linear model with 2 hidden layers trained using the selected columns from the mixed missing value imputed dataset. The performance of this model is summarized in the following table:
-| Training Column Indices |        MSE |    RMSE |    MAE | R2 score |
-|-------------------------|-----------:|--------:|-------:|---------:|
-| 5, 6, 7, 8, 11, 14      | 1789915.76 | 1309.89 | 983.00 |   0.7789 |
+Advantages of neural networks:
+- capture complex non-linear relationships,
+- flexible, neural networks can handle a wide range of regression problems,
+- automatic learning of the relevant features from the input data,
+- scalable by increasing the number of hidden layers and neurons.
+
+Disadvantages of neural networks:
+- prone to overfitting, especially when dealing with small datasets,
+- black box models, their internal workings are not easily interpretable,
+- computationally expensive,
+- require a substantial amount of labeled training data to perform well.
+
+The best performing model was the model with 4 hidden layers. The performance of this model is summarized in the following table:
+|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
+|----------:|-------:|-------:|---------:|--------------------|------------------------|
+| 3389145.4 | 1304.6 | 1826.1 |   0.3659 | selected           | median                 |
+
+### Random Forest
+In random forest regression, each tree in the ensemble is built from a sample drawn with replacement from the training set.
+It combines multiple decision trees to make predictions.
+
+Advantages of random forests:
+- perform well on large data sets with high dimensionality,
+- less prone to overfitting, than single decision tree,
+- capture complex non-linear relationships,
+- estimation of feature importance.
+
+Disadvantages of random forests:
+- perform poorly on noisy or irrelevant features,
+- computationally expensive for complex datasets.
+
+We applied a `GridSearchCV` with `max_features` ranging from 1 to 17 and `n_estimators` ranging from 80 to 100 to find the best hyper-parameters. The best found parameters were `max_features=5` and `n_estimators=98`. The performance of the best random forest model is summarized in the following table:
+|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
+|----------:|-------:|-------:|---------:|--------------------|------------------------|
+| 3200786.3 | 1192.1 | 1761.7 |   0.4061 | continuous         | median                 |
+
+### Support Vector Regression
+The goal of the support vector regression (SVR) is to find a function that approximates the relationship between the input features
+and a continuous target, while minimizing the prediction error. It has the same underlying idea as the support vector machine (SVM)
+but SVR is focused on regression problems and SVM on classification.
+
+SVR can handle non-linear relationships between features and the target by applying different kernel functions.
+
+Advantages of support vector regression:
+- perform well in high-dimensional feature spaces,
+- robust to outliers,
+- decision model can be easily updated.
+
+Disadvantages of support vector regression:
+- not suitable for large datasets,
+- perform poorly on noisy data sets or data sets with overlapping target classes.
+
+We applied a `GridSearchCV` with `kernel` one of $(linear, poly, rbf)$, `degree` one of $(2, 3, 4)$ and `epsilon` one of $(0.0001, 0.00025, 0.0005, 0.001, 0.005, 0.01, 0.02, 0.25, 0.5, 1, 5, 10)$ to find the best hyper-parameters. The best found parameters were `kernel=linear`, `degree=2` and `epsilon=0.0001`. Unfortunately, even after double checking the implementation for errors, the performance of the best support vector regression model is quite poor summarized in the following table:
+|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
+|----------:|-------:|-------:|---------:|--------------------|------------------------|
+| 5407680.3 | 1596.1 | 2235.7 |   0.1688 | all                | mixed                  |
 
 ## Ensemble
-We decided to further improve the prediction by creating an ensemble simply by averaging the predictions outputs of our models. The performance of the ensemble is summarized in the following table:
-|        MSE |    RMSE |     MAE | R2 score |
-|-----------:|--------:|--------:|---------:|
-|            |         |         |          |
+We decided to further improve the prediction performance by creating an ensemble simply by averaging the predictions of the described models above. The ensemble brings a significant improvement in the performance, which is summarized in the following table:
+|       MSE |    MAE |   RMSE | R2 score |
+|----------:|-------:|-------:|---------:|
+| 2355721.7 | 1087.2 | 1534.6 |   0.5231 |
 
 ## Performance Comparison Table
-| Model                    | Training Column Indices                               |        MSE |    RMSE |     MAE | R2 score |
-| -------------------------|-------------------------------------------------------|-----------:|--------:|--------:|---------:|
-| baseline - linear        | 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 | 3654911.02 | 1886.08 | 1384.17 |   0.5416 |
-| Neural Network           | 5, 6, 7, 8, 11, 14                                    | 1789915.76 | 1309.89 |  983.00 |   0.7789 |
-| Random Forest            | 7, 6, 5, 11, 8, 18, 14, 16, 12, 13, 3                 | 3034398.11 | 1117.76 | 1681.78 |   0.611  |
-| Support Vector Machine   |                                                       |            |         |         |          |
-| Ensemble                 |                                                       |            |         |         |          |
+| Model                     |       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
+| --------------------------|----------:|-------:|-------:|---------:|--------------------|------------------------|
+| Linear Regression         | 3708162.9 | 1408.8 | 1909.6 |   0.3075 | continuous         | mixed                  |
+| Neural Network            | 3389145.4 | 1304.6 | 1826.1 |   0.3659 | selected           | median                 |
+| Random Forest             | 3200786.3 | 1192.1 | 1761.7 |   0.4061 | continuous         | median                 |
+| Support Vector Regression | 5407680.3 | 1596.1 | 2235.7 |   0.1688 | all                | mixed                  |
+| Ensemble                  | 2355721.7 | 1087.2 | 1534.6 |   0.5231 |                    |                        | 
 
 ## Summary
+All the models apart form the support vector regression model reached a comparable performance. Additionally, we were able to significantly improve the prediction performance by creating an ensemble of the models.

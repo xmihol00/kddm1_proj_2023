@@ -63,12 +63,11 @@ The following sections provide an extensive analysis of the Universities dataset
 
 ## Correlation Analysis
 The following plot captures the correlation of data from continuous and categorical columns:
-![image](plots/correlation_heatmap.png)
+![image](plots/knowledge_gained/correlation_heatmap.png)
 
-TODO: comment on the dependencies relationships
+We can clearly see that the `CWUR_score` and `Minimum_IELTS_score` as well as the `UK_rank` and `World_rank` should be strong predictors of the fees as they are highly correlated with them. Another strong predictor is the `Academic_staff` variable, which suggests that larger universities have higher fees. Similar idea applies to the `International_students`, it seems that international students tend to choose more prestigious universities, therefore universities with higher fees.
 
 ## Knowledge gain from the data set
-
 These insights are partial generated with the open-source tool 'orange' and partial by python libraries.
 
 1. Fees behave similar, with the Average PG fees being higher than Average UG fees.  
@@ -94,7 +93,7 @@ These insights are partial generated with the open-source tool 'orange' and part
       ![image](./plots/orange/scatter_world_rank_per_CWUR.png)
 
 7. Most universities are founded in 1925. This could be related to political action.  
-      ![image](./plots/knowledge_gained/bar_top%2010%20hist%20founded.png)
+      ![image](./plots/knowledge_gained/bar_hist%20top%2010%20founded%20year.png)
 
 8. The Capital London hold the highest estimated cost of living.  
       ![image](./plots/knowledge_gained/boxplot_Cost%20of%20living%20per%20region.png)
@@ -107,25 +106,27 @@ We have pre-processed the dataset with the following steps:
 1. Cleaning (`src/preprocessing/01_cleaning.py`):
       - setting the first unnamed column as an index,
       - setting values in the column `Founded_year` later than current year to NaN,
-      - transforming percentages in columns `International_students` and `Student_satisfaction` interval of [0,1],
+      - transforming percentages in columns `International_students` and `Student_satisfaction` to interval of [0,1],
       - splitting columns `Student_enrollment` and `Academic_staff` in additional columns with suffixes *from* and *to*,
       - setting value `over` in in the `Academic_staff_from` column to `5000` and value `5000` in the column `Academic_staff_to` to NaN,
       - analyzing the dataset for duplicit entries and filtering them out.
 
 2. Dataset split (`src/preprocessing/02_train_test_split.py`):
-      - splitting the dataset immediately to train set (80 %) and test set (20 %) to ensure the will not be any leakage of the test set to the train set.
+      - splitting the dataset immediately to training set (80 %) and test set (20 %) to ensure the will not be any leakage of the test set to the training set.
 
 3. Missing value imputation (`src/preprocessing/03_missing_value_imputation.py`):
-      - imputing missing entries in continuos columns `CWUR_score` and `Student_satisfaction` the mean and the median computed for the given column (two versions of the dataset, i.e mean imputed and median imputed, are used from now on),
-      - imputing missing entries in categorical columns `Academic_Calender` and `Campus_setting` with the mode, i.e. the most frequent category, for the given column,
+      - imputing missing entries in continuos columns `CWUR_score`, `Student_satisfaction` and `Founded_year` with the mean and the median computed for the given column, imputing the column `CWUR_score` using linear regression based on the `UK_rank` column, the `Founded_year` column with values researched online and the `Student_satisfaction` column with the median (3 versions of the dataset, i.e mean imputed, median imputed and mixed imputed, are used from now on),
+      - imputing missing entries in categorical columns `Academic_Calender` and `Campus_setting` with the mode or using a KNN imputation based on the columns `Longitude` and `Latitude` for the mixed imputed data set,
       - imputing missing entries in the `Academic_staff_to` column with a constant of 10,000.
 
 4. Normalization and one-hot encoding (`src/preprocessing/04_normalization_one_hot.py`):
-      - normalizing continuous columns (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `International_students`, `Student_satisfaction`, `Estimated_cost_of_living_per_year_(in_pounds)`, `Student_enrollment_from`, `Student_enrollment_to`, `Academic_staff_from`, `Academic_staff_to`) to zero mean and unit variance,
-      - one-hot encoding of categorical columns (`Region`, `Control_type`, `Academic_Calender`, `Campus_setting`),
-      - sorting column alphabetically by their column names.
+      - normalizing continuous columns (`UK_rank`, `World_rank`, `CWUR_score`, `Minimum_IELTS_score`, `Founded_year`, `International_students`, `Student_satisfaction`, `Estimated_cost_of_living_per_year_(in_pounds)`, `Student_enrollment_from`, `Student_enrollment_to`, `Academic_staff_from`, `Academic_staff_to`) to zero mean and unit variance,
+      - always using the statistics from the training sets to ensure no data leakage from the test set.
 
-5. Numeric values filtering (`src/preprocessing/05_only_numeric_columns.py`)
+5. One-hot encoding (`src/preprocessing/05_one-hot_encoding.py`):
+      - one-hot encoding of categorical columns (`Region`, `Control_type`, `Academic_Calender`, `Campus_setting`).
+
+6. Numeric values filtering (`src/preprocessing/06_only_numeric_columns.py`)
       - dropping non numeric columns (`Motto`, `University_name`, `Website`),
-      - dropping the `Founded_year` column, which still has NaN values,
-      - dropping the index `Id` column.
+      - dropping the index `Id` column,
+      - sorting column alphabetically by their column names.
