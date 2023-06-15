@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-cv", "--cross_validation", action="store_true", help="Perform cross-validation.")
 parser.add_argument("-ds", "--dataset_seed", type=int, default=RANDOM_SEED, help="Random seed of the data set splitting.")
 args = parser.parse_args()
+TRAIN_MODEL = True;
 
 class PreProcessing(Enum):
     MEAN = 1
@@ -23,19 +24,23 @@ class PreProcessing(Enum):
 def getBestParams(X_train, y_train):
     svr = SVR()
     param_grid = {
-        'kernel' : ['linear', 'poly', 'rbf'],
+        'C' : [0.005, 0.01, 0.05, 0.1, 0.5, 1, 3, 5],
+        'kernel' : ['linear', 'rbf'],
         'degree' : [2, 3, 4],
-        'epsilon' : [0.0001, 0.00025, 0.0005, 0.001, 0.005, 0.01, 0.02, 0.25, 0.5, 1, 5, 10],
+        'epsilon' : [0.0001, 0.0005, 0.005, 0.01, 0.25, 0.5, 1, 5],
+        'gamma' : [0.0001, 0.001, 0.01, 0.01, 1]
     }
 
     gs = GridSearchCV(svr, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)
     gs.fit(X_train, y_train)
 
+    c = gs.best_params_['C']
     degree = gs.best_params_['degree']
     epsilon = gs.best_params_['epsilon']
     kernel = gs.best_params_['kernel']
+    gamma = gs.best_params_['gamma']
 
-    return degree, epsilon, kernel
+    return c, degree, epsilon, kernel, gamma
 
 def getPerformance(y_true, y_pred):
     mse = metrics.mean_squared_error(y_true, y_pred)
@@ -51,22 +56,28 @@ def performSVR(X_train : pd.DataFrame, y_train : pd.DataFrame, X_test : pd.DataF
     mae = []
     rmse = []
     r2 = []
+    c = []
     degree = []
     epsilon = []
     kernel = []
+    gamma = []
 
     for target in targets:
         if (args.cross_validation):
-            degree_target, epsilon_target, kernel_target = getBestParams(X_train, y_train[target].to_numpy())
+            c_target, degree_target, epsilon_target, kernel_target, gamma_target = getBestParams(X_train, y_train[target].to_numpy())
         else:
+            gamma_target = 0.0001
+            c_target = 5
             degree_target = 2
-            epsilon_target = 0.0001
+            epsilon_target = 5.0
             kernel_target = 'linear'
 
-        svr = SVR(kernel=kernel_target, degree=degree_target, epsilon=epsilon_target)
+        svr = SVR(kernel=kernel_target, degree=degree_target, epsilon=epsilon_target, C=c_target, gamma=gamma_target)
+        c.append(c_target)
         degree.append(degree_target)
         epsilon.append(epsilon_target)
         kernel.append(kernel_target)
+        gamma.append(gamma_target)
 
         svr.fit(X_train, y_train[target].to_numpy())
         test = y_test[target].to_numpy()
@@ -80,13 +91,13 @@ def performSVR(X_train : pd.DataFrame, y_train : pd.DataFrame, X_test : pd.DataF
         rmse.append(rmse_target)
         r2.append(r2_target)
 
-    return y_test_result, y_pred, mse, mae, rmse, r2, degree, kernel, epsilon
+    return y_test_result, y_pred, mse, mae, rmse, r2, c, degree, kernel, epsilon, gamma
 
 if __name__ == "__main__":
     target_columns = ["UG_average_fees_(in_pounds)", "PG_average_fees_(in_pounds)"]
 
-    best_UG = pd.DataFrame(columns=['seed', 'target', 'features', 'imputation', 'mse', 'mae', 'rmse', 'r2', 'degree', 'kernel', 'epsilon'])
-    best_PG = pd.DataFrame(columns=['seed', 'target', 'features', 'imputation', 'mse', 'mae', 'rmse', 'r2', 'degree', 'kernel', 'epsilon'])
+    best_UG = pd.DataFrame(columns=['seed', 'target', 'features', 'imputation', 'mse', 'mae', 'rmse', 'r2', 'C', 'degree', 'kernel', 'epsilon', 'gamma'])
+    best_PG = pd.DataFrame(columns=['seed', 'target', 'features', 'imputation', 'mse', 'mae', 'rmse', 'r2', 'C', 'degree', 'kernel', 'epsilon', 'gamma'])
 
     seed = []
     target = []
@@ -96,9 +107,11 @@ if __name__ == "__main__":
     mae = []
     rmse = []
     r2 = []
+    c = []
     degree = []
     kernel = []
     epsilon = []
+    gamma = []
 
     y_pred = []
     y_test = []
@@ -149,7 +162,7 @@ if __name__ == "__main__":
 
             feature_selection = "all columns"
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -158,11 +171,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -171,11 +186,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -184,9 +201,11 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
             feature_selection = "continuous columns"
 
@@ -208,7 +227,7 @@ if __name__ == "__main__":
             X_test_mixed = test_mixed[continuous_columns].to_numpy()
             y_test_mixed = test_mixed[target_columns]
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -217,11 +236,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -230,11 +251,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -243,9 +266,11 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
             feature_selection = "selected columns"
 
@@ -266,7 +291,7 @@ if __name__ == "__main__":
             X_test_mixed = test_mixed[selected_columns].to_numpy()
             y_test_mixed = test_mixed[target_columns]
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_mean, y_train_mean, X_test_mean, y_test_mean, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -275,11 +300,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_median, y_train_median, X_test_median, y_test_median, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -288,11 +315,13 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
-            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
+            y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur  = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
             seed.extend([random_seed, random_seed])
             target.extend(target_columns)
             features.extend([feature_selection, feature_selection])
@@ -301,9 +330,11 @@ if __name__ == "__main__":
             mae.extend(mae_cur)
             rmse.extend(rmse_cur)
             r2.extend(r2_cur)
+            c.extend(c_cur)
             degree.extend(degree_cur)
             kernel.extend(kernel_cur)
             epsilon.extend(epsilon_cur)
+            gamma.extend(gamma_cur)
 
             result = pd.DataFrame({
                 'seed' : seed,
@@ -314,9 +345,11 @@ if __name__ == "__main__":
                 'mae' : mae,
                 'rmse' : rmse,
                 'r2' : r2,
+                'C' : c,
                 'degree' : degree,
                 'kernel' : kernel,
-                'epsilon' : epsilon
+                'epsilon' : epsilon,
+                'gamma' : gamma
             })
 
             current_frame = result[result['seed'] == random_seed]
@@ -330,18 +363,24 @@ if __name__ == "__main__":
         y_test.clear()
         y_pred.clear()
 
-        feature_selection = "all columns"
+        feature_selection = "selected columns"
 
-        all_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score", "Latitude" , "Longitude",
-                                        "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to",
-                                        "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
+        selected_columns = ["UK_rank", "World_rank", "CWUR_score", "Minimum_IELTS_score", "International_students",
+                            "Academic_staff_from", "Academic_staff_to"]
 
-        X_train_mixed = train_mixed[all_columns].to_numpy()
+
+        #feature_selection = "all columns"
+
+        #all_columns = ["CWUR_score", "Estimated_cost_of_living_per_year_(in_pounds)", "Minimum_IELTS_score", "Latitude" , "Longitude",
+        #                                "Student_satisfaction", "UK_rank", "World_rank", "Student_enrollment_from", "Student_enrollment_to",
+        #                                "International_students", "Academic_staff_from", "Academic_staff_to", "Founded_year"]
+
+        X_train_mixed = train_mixed[selected_columns].to_numpy()
         y_train_mixed = train_mixed[target_columns]
-        X_test_mixed = test_mixed[all_columns].to_numpy()
+        X_test_mixed = test_mixed[selected_columns].to_numpy()
         y_test_mixed = test_mixed[target_columns]
 
-        y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, degree_cur, kernel_cur, epsilon_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
+        y_test_result, y_pred, mse_cur, mae_cur, rmse_cur, r2_cur, c_cur, degree_cur, kernel_cur, epsilon_cur, gamma_cur = performSVR(X_train_mixed, y_train_mixed, X_test_mixed, y_test_mixed, target_columns)
         seed.extend([RANDOM_SEED, RANDOM_SEED])
         target.extend(target_columns)
         features.extend([feature_selection, feature_selection])
@@ -350,9 +389,11 @@ if __name__ == "__main__":
         mae.extend(mae_cur)
         rmse.extend(rmse_cur)
         r2.extend(r2_cur)
+        c.extend(c_cur)
         degree.extend(degree_cur)
         kernel.extend(kernel_cur)
         epsilon.extend(epsilon_cur)
+        gamma.extend(gamma_cur)
 
         result = pd.DataFrame({
                 'seed' : seed,
@@ -363,9 +404,11 @@ if __name__ == "__main__":
                 'mae' : mae,
                 'rmse' : rmse,
                 'r2' : r2,
+                'C' : c,
                 'degree' : degree,
                 'kernel' : kernel,
-                'epsilon' : epsilon
+                'epsilon' : epsilon,
+                'gamma' : gamma
             })
 
         y_test = y_test_result
@@ -383,14 +426,14 @@ if __name__ == "__main__":
     if (args.cross_validation):
         print('Best performing parameters:')
         print(' UG_average_fees_(in_pounds):')
-        print('    Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(best_UG['features'].mode()[0], best_UG['imputation'].mode()[0], best_UG['degree'].mode()[0], best_UG['kernel'].mode()[0], best_UG['epsilon'].mode()[0]))
+        print('    Features: {0}, imputation: {1}, C: {2}, degree: {3}, kernel: {4}, epsilon: {5}, gamma: {6}'.format(best_UG['features'].mode()[0], best_UG['imputation'].mode()[0], best_UG['C'].mode()[0], best_UG['degree'].mode()[0], best_UG['kernel'].mode()[0], best_UG['epsilon'].mode()[0], best_UG['gamma'].mode()[0]))
         print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_UG['mse'].median(), best_UG['rmse'].median(), best_UG['mae'].median(), best_UG['r2'].median()))
         print(' PG_average_fees_(in_pounds):')
-        print('    Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(best_PG['features'].mode()[0], best_PG['imputation'].mode()[0], best_PG['degree'].mode()[0], best_PG['kernel'].mode()[0], best_PG['epsilon'].mode()[0]))
+        print('    Features: {0}, imputation: {1}, C: {2}, degree: {3}, kernel: {4}, epsilon: {5}, gamma: {6}'.format(best_PG['features'].mode()[0], best_PG['imputation'].mode()[0], best_PG['C'].mode()[0], best_PG['degree'].mode()[0], best_PG['kernel'].mode()[0], best_PG['epsilon'].mode()[0], best_PG['gamma'].mode()[0]))
         print("    Avg. MSE: {:0.4f} - Avg. RMSE: {:0.4f} - Avg. MAE: {:0.4f} - Avg. R^2: {:0.4f}".format(best_PG['mse'].median(), best_PG['rmse'].median(), best_PG['mae'].median(), best_PG['r2'].median()))
         in_total = pd.concat([best_UG, best_PG])
         print('Best performing parameters (in total):')
-        print(' Features: {0}, imputation: {1}, degree: {2}, kernel: {3}, epsilon: {4}'.format(in_total['features'].mode()[0], in_total['imputation'].mode()[0], in_total['degree'].mode()[0], in_total['kernel'].mode()[0], in_total['epsilon'].mode()[0]))
+        print(' Features: {0}, imputation: {1}, C: {2}, degree: {3}, kernel: {4}, epsilon: {5}, gamma: {6}'.format(in_total['features'].mode()[0], in_total['imputation'].mode()[0], in_total['C'].mode()[0], in_total['degree'].mode()[0], in_total['kernel'].mode()[0], in_total['epsilon'].mode()[0], in_total['gamma'].mode()[0]))
     else:
         predicted_truth = pd.DataFrame({"predicted UG_average_fees_(in_pounds)": y_pred[0],
                                         "predicted PG_average_fees_(in_pounds)": y_pred[1],
