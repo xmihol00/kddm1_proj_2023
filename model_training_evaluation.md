@@ -1,5 +1,6 @@
 # Model Training and Evaluation
-The following sections summarize how we trained and evaluated our machine learning models. We provide a only table summarizing the data set below. More information about the data set and performed pre-processing is available in the [dataset_analysis.md](dataset_analysis.md) file.
+The following sections summarize how we trained and evaluated our machine learning models. We provide a only table summarizing the data set below. More information about the data set and performed pre-processing is available in the [dataset_analysis.md](dataset_analysis.md) file. 
+
 |  Index  | Column                                         |
 |---------|------------------------------------------------|
 |  0      | Id                                             |
@@ -40,6 +41,7 @@ We describe how we trained and found the best hyper-parameters for our models in
 We trained the simples possible model, i.e. linear regression model, to have a baseline for comparison of our more advanced models. No hyper-parameter tuning was necessary for this model.
 
 The performance of the linear regression model is summarized in the following table:
+
 |       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
 |----------:|-------:|-------:|---------:|--------------------|------------------------|
 | 3708162.9 | 1408.8 | 1909.6 |   0.3075 | continuous         | mixed                  |
@@ -68,9 +70,10 @@ Disadvantages of neural networks:
 - require a substantial amount of labeled training data to perform well.
 
 The best performing model was the model with 4 hidden layers. The performance of this model is summarized in the following table:
-|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
-|----------:|-------:|-------:|---------:|--------------------|------------------------|
-| 3389145.4 | 1304.6 | 1826.1 |   0.3659 | selected           | median                 |
+
+|       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |  
+|----------:|-------:|-------:|---------:|--------------------|------------------------|  
+| 3389145.4 | 1304.6 | 1826.1 |   0.3659 | selected           | median                 |  
 
 ### Random Forest
 In random forest regression, each tree in the ensemble is built from a sample drawn with replacement from the training set.
@@ -87,6 +90,7 @@ Disadvantages of random forests:
 - computationally expensive for complex datasets.
 
 We applied a `GridSearchCV` with `max_features` ranging from 1 to 17 and `n_estimators` ranging from 80 to 100 to find the best hyper-parameters. The best found parameters were `max_features=5` and `n_estimators=98`. The performance of the best random forest model is summarized in the following table:
+
 |       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
 |----------:|-------:|-------:|---------:|--------------------|------------------------|
 | 3200786.3 | 1192.1 | 1761.7 |   0.4061 | continuous         | median                 |
@@ -107,16 +111,18 @@ Disadvantages of support vector regression:
 - not suitable for large datasets,
 - perform poorly on noisy data sets or data sets with overlapping target classes.
 
-We applied a `GridSearchCV` with `kernel` one of $(linear, poly, rbf)$, `degree` one of $(2, 3, 4)$ and `epsilon` one of $(0.0001, 0.00025, 0.0005, 0.001, 0.005, 0.01, 0.02, 0.25, 0.5, 1, 5, 10)$ to find the best hyper-parameters. The best found parameters were `kernel=linear`, `degree=2` and `epsilon=0.0001`. Unfortunately, even after double checking the implementation for errors, the performance of the best support vector regression model is quite poor summarized in the following table:
+We applied a `GridSearchCV` with `C` (0.005, 0.01, 0.05, 0.1, 0.5, 1, 3, 5), `kernel` one of (linear, rbf),  `epsilon` one of (0.0001, 0.0005, 0.005, 0.01, 0.25, 0.5, 1, 5) and `gamma` (0.0001, 0.001, 0.01, 0.1, 1) to find the best hyper-parameters. The best found parameters were `C=5`, `kernel=linear`, `epsilon=5` and `gamma=0.0001`. Unfortunately, even after double checking the implementation prone to overfit on models with a polynomial approach for the kernel:
+
 |       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
 |----------:|-------:|-------:|---------:|--------------------|------------------------|
-| 5407680.3 | 1596.1 | 2235.7 |   0.1688 | all                | mixed                  |
+| 3643681.3 | 1219.7 | 1814.7 |   0.4625 | selected           | mixed                  |
 
 ## Ensemble
 We decided to further improve the prediction performance by creating an ensemble simply by averaging the predictions of the described models above. The ensemble brings a significant improvement in the performance, which is summarized in the following table:
+
 |       MSE |    MAE |   RMSE | R2 score |
 |----------:|-------:|-------:|---------:|
-| 2355721.7 | 1087.2 | 1534.6 |   0.5231 |
+| 2363667.7 | 1108.6 | 1537.3 |   0.5178 |
 
 ## Performance Comparison Table
 | Model                     |       MSE |    MAE |   RMSE | R2 score | Best Column Subset | Best Imputation Method |
@@ -124,8 +130,8 @@ We decided to further improve the prediction performance by creating an ensemble
 | Linear Regression         | 3708162.9 | 1408.8 | 1909.6 |   0.3075 | continuous         | mixed                  |
 | Neural Network            | 3389145.4 | 1304.6 | 1826.1 |   0.3659 | selected           | median                 |
 | Random Forest             | 3200786.3 | 1192.1 | 1761.7 |   0.4061 | continuous         | median                 |
-| Support Vector Regression | 5407680.3 | 1596.1 | 2235.7 |   0.1688 | all                | mixed                  |
-| Ensemble                  | 2355721.7 | 1087.2 | 1534.6 |   0.5231 |                    |                        | 
+| Support Vector Regression | 3643681.3 | 1219.7 | 1814.7 |   0.4625 | selected           | mixed                  |
+| Ensemble                  | 2363667.7 | 1108.6 | 1537.3 |   0.5178 |                    |                        | 
 
 ## Summary
-All the models apart form the support vector regression model reached a comparable performance. Additionally, we were able to significantly improve the prediction performance by creating an ensemble of the models.
+All the models reached a comparable performance. Additionally, we were able to significantly improve the prediction performance by creating an ensemble of the models.

@@ -26,18 +26,20 @@ We used a 5-fold cross validation to find the best hyper-parameters of our model
 We then evaluated the best models using metrics like mean squared error. Furthermore, we performed the evaluation similarly to the cross validation to reduce the influence of the data set splits. The evaluation metrics were then selected as the median values from the 10 different evaluation runs.
 
 # Models (slides 7 and 8)
-We used 4 different regression models. 
+We have decided to use 4 different models for the regression part of our Project.
 
-A linear regression model as a baseline to assess performance of the other models. 
+ - First was a linear regression model as a baseline to assess performance of the other more advanced models. 
 
-Second selected model was a fully connected neural network with 2 to 4 hidden layers with ReLU hidden activation function and a linear output activation function. We used the Adam optimizer for an average number of epochs recorded during the cross validation. Consequently, we used early stopping as the stopping criterion during cross validation.
+- Second selected model was a fully connected neural network with 2 to 4 hidden layers with ReLU hidden activation function and a linear output activation function. We used the Adam optimizer for an average number of epochs recorded during the cross validation. Consequently, we used early stopping as the stopping criterion during cross validation.
 
-TODO
+- As our third model we decided to use random forest regression mainly because of the advantages that this model works well with both categorical and continuous values, and it is less prone to overfit with more features. For hyperparameter tuning we performed grid search on max_features and n_estimators. 
 
-TODO
+- As our last model we decided to use a support vector regression model because this model is very robust to outliers, it performs well in high-dimensional features space and SVR can handle non-linear relationships because of different kernel functions. Since we have a relatively small dataset we don't mind that SVR is not suitable for large datasets.
+  We also performed gridsearch for hyperparameter tuning on this model.
 
 # Prediction Performance, Ensemble (slide 9)
-TODO
+Here on the last slide you can see the performance of our models on different evaluation metrics.
 
-In the end we also used ensemble modeling to combine the results of all 4 models to create a more precise result. Therefor we took
-the mean over all 4 models which results in our final prediction result.
+We also used ensemble modeling to combine the predicted results of all models to create a more precise result. In the end we performed the same
+evaluation metrics on the aggregated result which you could also find on this table and as you can see the ensemble brings a significant improvement 
+in the performance.

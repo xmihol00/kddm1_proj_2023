@@ -28,7 +28,7 @@ def getBestParams(X_train, y_train):
         'kernel' : ['linear', 'rbf'],
         'degree' : [2, 3, 4],
         'epsilon' : [0.0001, 0.0005, 0.005, 0.01, 0.25, 0.5, 1, 5],
-        'gamma' : [0.0001, 0.001, 0.01, 0.01, 1]
+        'gamma' : [0.0001, 0.001, 0.01, 0.1, 1]
     }
 
     gs = GridSearchCV(svr, param_grid, scoring='neg_mean_squared_error', cv=CV_SPLITS)

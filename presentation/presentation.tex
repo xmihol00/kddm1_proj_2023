@@ -36,7 +36,9 @@
 %% Logos
 % \additionallogo{figures/logo}  % additional institute/department logo (footline; optional)
 % \logobar{Supported by: ...}  % sponsors (titlepage; optional)
-
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{multirow}
 
 \newcommand{\cc}[0]{\cellcolor{cyan!60}\textbf}
 \newcommand{\cg}[0]{\cellcolor{green!60}}
@@ -72,7 +74,7 @@
   \item Universities from the United Kingdom,
   \item 21 columns and 147 row (131 unique rows).
     \begin{table}[h]
-      \centering
+    \hspace{-1cm}
       \tiny
       \begin{tabular}{l|lBl|l}
         Idx & Column                               & Idx & Column \\
@@ -240,26 +242,32 @@
       \item 5-fold cross validation across seeds $[40, 49]$,
       \item 3 subsets of the data set:
         \begin{itemize}
+        	\footnotesize
             \item all continuous and categorical columns,
             \item only continuous columns excluding \texttt{Latitude} and \texttt{Longitude}
             \item columns with absolute value of correlation higher than 0.5 with the target variables,
         \end{itemize}
-      \item performance evaluation metrics: MSE, MAE, RMSE, R2 score,
+      \item performance evaluation metrics:
+      	\begin{itemize}
+      		\footnotesize
+      		\item MSE, MAE, RMSE, R2 score
+		\end{itemize}       
       \item average performance across seeds $[40, 49]$.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Models}
   \vspace{-0.5cm}
-  Linear Regression
+  Linear Regression (LR)
   \begin{itemize}
       \item baseline model to assess performance against,
       \item cross validation only for column subsets.
   \end{itemize}
-  Fully Connected Neural Network
+  Fully Connected Neural Network (FCNN)
   \begin{itemize}
       \item 3 architectures with:
         \begin{itemize}
+        	\footnotesize
             \item increasing number of hidden layers,
             \item ReLU hidden activation, linear output activation.
         \end{itemize}
@@ -268,25 +276,36 @@
 
 \begin{frame}{Models}
   \vspace{-0.5cm}
-  Random Forest
+  Random Forest (RF)
   \begin{itemize}
       \item grid search parameters:\\
-      max features $[1, 17]$, N estimators $[80, 100]$.
+      \begin{itemize}
+      	\footnotesize
+      	\item max features $[1, 17]$\\
+      	\item N estimators $[80, 100]$.
+  	\end{itemize}
   \end{itemize}
-  Support Vector Regression
+  Support Vector Regression (SVR)
   \begin{itemize}
       \item grid search parameters:\\
-      kernel (linear, poly, rbf, sigmoid), degree (2, 3, 4),\\epsilon (0.0001, 0.00025, 0.0005, 0.001, 0.005, \\0.01, 0.02, 0.25, 0.5, 1, 5, 10).
+      \begin{itemize}
+      	\footnotesize
+        \item C (0.005, 0.01, 0.05, 0.1, 0.5, 1, 3, 5)\\
+      	\item kernel (linear, rbf)\\
+      	\item epsilon (0.0001, 0.0005, 0.005, 0.01, 0.25, 0.5, 1, 5)\\
+      	\item gamma (0.0001, 0.001, 0.01, 0.1, 1)
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Prediction Performance, Ensemble}
 \vspace{-1cm}
 \begin{itemize}
-    \item No clear best imputation approach,
+    \item no clear best imputation approach,
     \item no clear best subset of columns.
 \end{itemize}
 \begin{table}[ht!]
+\captionsetup{font=scriptsize}
 \scriptsize
     \hspace{-0.7cm}
     \begin{tabular}{l|l|l|l|l|l|l}
@@ -295,9 +314,11 @@
         LR       & 3708162.9 & 1408.8 & 1909.6 & 0.3075 & continuous & mixed \\
         FCNN     & 3389145.4 & 1304.6 & 1826.1 & 0.3659 & selected & median \\
         RF       & 3200786.3 & 1192.1 & 1761.7 & 0.4061 & continuous & median \\
-        SVR      & 5407680.3 & 1596.1 & 2235.7  & 0.1688 & all & mixed \\
-        Ensemble & 2355721.7 & 1087.2 & 1534.6  & 0.5231 & ----- & ----- \\
+        SVR      & 3643681.6 & 1219.7 & 1814.7  & 0.4625 & selected & mixed \\
+        \hline
+        Ensemble & 2363667.7 & 1108.6 & 1537.3  & 0.5178 & ----- & ----- \\
     \end{tabular}
+    \small
     \caption{Average prediction performance across random seeds $[40, 49]$}
     \label{tab:pred_perf}
 \end{table}
