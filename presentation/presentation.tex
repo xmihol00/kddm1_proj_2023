@@ -72,7 +72,7 @@
   \vspace{-1cm}
   \begin{itemize}
   \item Universities from the United Kingdom,
-  \item 21 columns and 147 row (131 unique rows).
+  \item 21 columns and 145 row (131 unique rows).
     \begin{table}[h]
     \hspace{-1cm}
       \tiny
@@ -155,7 +155,7 @@
 \end{frame}
 
 \begin{frame}{Data Set Analysis 5}
-  \vspace{-1cm}
+  \vspace{-1.0cm}
   \begin{figure}
       \centering
       
@@ -173,15 +173,22 @@
           \label{fig:hist_international}
       \end{subfigure}
       \hfill
-      \vspace{-1cm}
-      \begin{subfigure}[b]{0.38\textwidth}
+      \vspace{-0.6cm}
+      \begin{subfigure}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/bar_hist campus setting.png}
         % \caption{$4$}
         \label{fig:hist_campus}
       \end{subfigure}
-
-    \caption{Linear dependency of World-rank, UK-rank and CWUR}
+      \hfill
+      \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim={0 0 0 0}, clip]{./figs/bar_hist control type.png}
+        % \caption{$4$}
+        \label{fig:hist_control_type}
+      \end{subfigure}
+    \vspace{-1.5cm}
+    \caption{Bias}
     \label{fig:analysis_5}
     \end{figure}
 \end{frame}
@@ -199,22 +206,22 @@
 \end{frame}
 
 
-\begin{frame}{Imputation}
+\begin{frame}{Imputation (mean, median, mixed)}
   \vspace{-1cm}
   \begin{itemize}
   \item Missing values (6 out of 21 columns):
     \begin{table}[h]
       \centering
       \tiny
-      \begin{tabular}{l|l|l|l}
-        Idx & Column             & NaN Count & Imuptation Approach \\
+      \begin{tabular}{l|l|lBl|l|l}
+        Idx & Column             & NaN & mean & median & mixed \\
         \hline
-        1   & University\_name   & 14        & dropped \\
-        3   & Founded\_year      & 15        & researched online \\
-        4   & Motto              & 18        & dropped \\
-        7   & CWUR\_score        & 52        & linear regression based on "UK\_rank" \\
-        16  & Academic\_Calender & 29        & mode \\
-        17  & Campus\_setting    & 19        & KNN based on "Latitude" and "Longitude"
+        1   & University\_name   & 14  & dropped & dropped & dropped \\
+        3   & Founded\_year      & 14  & mean & median &  researched online \\
+        4   & Motto              & 17  & dropped & dropped & dropped \\
+        7   & CWUR\_score        & 47  & mean & median & linear regression on "UK\_rank" \\
+        16  & Academic\_Calender & 26  & mode & mode & mode\\
+        17  & Campus\_setting    & 18  & mean & median & KNN on "Latitude" and "Longitude"
       \end{tabular}\hfill\
       % \caption{Missing Nan}
       \label{tab:missing_values_nan}
@@ -226,9 +233,9 @@
       \begin{tabular}{l|l|l|l|l}
         Idx & Column                & Suspicious Value & Count & Imuptation Approach \\
         \hline
-        3   & Founded\_year         & 9999             & 16    & researched online \\
-        12  & Student\_satisfaction & 0                & 7     & median \\
-        14  & Academic\_staff       & over             & 7     & 10000 \\
+        3   & Founded\_year         & 9999             & 14    & researched online \\
+        12  & Student\_satisfaction & 0                & 6     & median \\
+        14  & Academic\_staff       & over             & 6     & 10000 \\
       \end{tabular}\hfill\
       % \caption{Missing Zero}
       \label{tab:missing_values_zero}

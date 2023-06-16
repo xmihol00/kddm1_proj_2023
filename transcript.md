@@ -1,11 +1,37 @@
 # Introduction (slide 1)
-Dear audience, welcome to our presentation. My name is X and together with my colleagues Y and Z we will discuss regression. Specifically, we will focus on dataset pre-processing and on prediction with different regression models.
+Dear audience, welcome to our presentation "Prediction Using Regression on Universities Data Set". My name is Ronald Infanger and together with my colleagues David Mihola and Thomas Sterner we will discuss pre-processing and regression models.
 
 # Outline (slide 2)
-The outline of the presentation as well as how we approached the project is the following. First, we researched information about the Universities dataset and performed some analysis. We followed the analysis by cleaning and pre-processing the dataset. Then we defined a training and evaluation scheme used across different models that we tested. Lastly, we analyzed the performance of the chosen models and created an ensemble to see if we cn improve the performance with it.
+First, we researched additional information and further analyzed the given data. This was followed by data cleaning and pre-processing. Then in step 3 we defined a training and evaluation scheme for different models. Lastly, we analyzed the model performance and created an ensemble to show its benefit.
 
-# Data set Analysis (slides )
-TODO
+# Data set Analysis 1 (slides 3)
+The dataset contains universities from UK and consist of 21 features with 131 unique entries. The features are of continues and categorical data types. In blue you can see the target features to predict, which are "under graduate fees" and "post graduate fees". The green color indicates good estimators for the target features.
+
+# Data set Analysis 2 (slides 4)
+The correlation matrix gives a first impression on good estimators.
+We investigate related features in more detail in the following scatter plots.
+
+# Data set Analysis 3 (slides 5)
+The scatter plots are created with the open source data mining tool "orange". The color indicate "Control_type" with public in red and private in blue. The line indicate the linear relation.  
+The first diagram shows the PG fees over UG fees.
+The blue line seem to differ in slope, but due to their low number, there is little statistical evidence.  
+The second diagram indicate PG fees over CWUR-score.
+Since it has only one blue data point we see no blue line. This already indicates that the dataset is missing some CWUR values.
+
+# Data set Analysis 4 (slides 6)
+The first diagram shows World-rank over UK-rank.
+They are of similar order, with rank 1 containing the best rated university. There is a linear relation but with much higher variance.
+Some universities perform well on one rank but much worse in the other. This indicates different ranking criteria and might also be an effect of a different evaluation date.
+
+The second diagram indicate World-rank over CWUR-score.
+They seam to have more similarities.
+
+# Data set Analysis 5 (slides 7)
+The final analysis slide is related to bias.
+The first diagram counts universities per region. The second shows international students per region. The third indicate universities per campus setting. The fourth illustrate the bias in control type.
+
+The conclusion is that most universities are in public control and placed in an urban setting.
+London, the UK capital, contains the biggest amount of universities and a relative high amount of international students.
 
 # Cleaning and Pre-processing (slide 5)
 Cleaning and pre-processing is the most important part of our project. We used a 6 stage pipeline, which starts with identification of missing values other than NaN. Then, we splitted compounded columns like the academic staff and converted percentage columns to floating point values. Lastly, we removed duplicit entries.
