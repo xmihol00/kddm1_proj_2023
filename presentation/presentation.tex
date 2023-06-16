@@ -209,36 +209,38 @@
 \begin{frame}{Imputation (mean, median, mixed)}
   \vspace{-1cm}
   \begin{itemize}
-  \item Missing values (6 out of 21 columns):
-    \begin{table}[h]
-      \centering
-      \tiny
-      \begin{tabular}{l|l|lBl|l|l}
-        Idx & Column             & NaN & mean & median & mixed \\
-        \hline
-        1   & University\_name   & 14  & dropped & dropped & dropped \\
-        3   & Founded\_year      & 14  & mean & median &  researched online \\
-        4   & Motto              & 17  & dropped & dropped & dropped \\
-        7   & CWUR\_score        & 47  & mean & median & linear regression on "UK\_rank" \\
-        16  & Academic\_Calender & 26  & mode & mode & mode\\
-        17  & Campus\_setting    & 18  & mean & median & KNN on "Latitude" and "Longitude"
-      \end{tabular}\hfill\
-      % \caption{Missing Nan}
-      \label{tab:missing_values_nan}
-    \end{table}
   \item Suspicious values (3 out of 21 columns):
     \begin{table}[h]
       \centering
       \tiny
-      \begin{tabular}{l|l|l|l|l}
-        Idx & Column                & Suspicious Value & Count & Imuptation Approach \\
+      \begin{tabular}{l|l|l|lBl}
+        Idx & Column                & Suspicious Value & Count & Cleaning Approach \\
         \hline
-        3   & Founded\_year         & 9999             & 14    & researched online \\
-        12  & Student\_satisfaction & 0                & 6     & median \\
-        14  & Academic\_staff       & over             & 6     & 10000 \\
+        3   & Founded\_year         & 9999             & 14    & set NaN \\
+        12  & Student\_satisfaction & 0                & 6     & set NaN \\
+        14  & Academic\_staff       & over             & 6     & set NaN \\
       \end{tabular}\hfill\
       % \caption{Missing Zero}
       \label{tab:missing_values_zero}
+    \end{table}
+  \item Missing values (8 out of 21 columns):
+    \begin{table}[h]
+      \centering
+      \tiny
+      \begin{tabular}{l|l|lBl|l|l}
+        Idx & Column                & NaN & mean    & median  & mixed \\
+        \hline
+        1   & University\_name      & 14  & dropped & dropped & dropped \\
+        3   & Founded\_year         & 28  & mean    & median  & researched online \\
+        4   & Motto                 & 17  & dropped & dropped & dropped \\
+        7   & CWUR\_score           & 47  & mean    & median  & linear regression on "UK\_rank" \\
+        12  & Student\_satisfaction & 6   & mean    & median  & median \\
+        14  & Academic\_staff       & 6   & 10'000  & 10'000  & 10'000 \\
+        16  & Academic\_Calender    & 26  & mode    & mode    & mode\\
+        17  & Campus\_setting       & 18  & mode    & mode    & KNN on "Latitude" and "Longitude"
+      \end{tabular}\hfill\
+      % \caption{Missing Nan}
+      \label{tab:missing_values_nan}
     \end{table}
   \end{itemize}
 \end{frame}
