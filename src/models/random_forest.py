@@ -234,11 +234,12 @@ def rf_param_search_multiple_seeds(data: "dict[pd.DataFrame]", columns: "dict[di
     evaluateMultipleSeeds( data["train_mixed"][columns["selected"]],  data["train_mixed"][columns["target"]], param_grid["selected"], "selected_mixed__multiple_seeds")
     
 def rf_with_best_param(data, columns):
+    best_set="median"
     best_columns = columns["continuous"]
-    X_train = data["train_median"][best_columns].to_numpy()
-    y_train = data["train_median"][columns["target"]].to_numpy()
-    X_test  = data["test_median"][best_columns].to_numpy()
-    y_test  = data["test_median"][columns["target"]].to_numpy()
+    X_train = data[f"train_{best_set}"][best_columns].to_numpy()
+    y_train = data[f"train_{best_set}"][columns["target"]].to_numpy()
+    X_test  = data[f"test_{best_set}"][best_columns].to_numpy()
+    y_test  = data[f"test_{best_set}"][columns["target"]].to_numpy()
 
     if IS_ANALYZING_PARAMETERS_BY_ELBOW_METHOD:
         # analyses singe parameter performance by plots
@@ -252,7 +253,7 @@ def rf_with_best_param(data, columns):
     rf = RandomForestRegressor(random_state=RANDOM_SEED, max_features=max_features, n_estimators=n_estimators)
     rf.fit(X_train, y_train)
     print()
-    print(f"RF model on median dataset with max_features: {max_features}, n_estimators: {n_estimators}")
+    print(f"RF model on dataset: {best_set}, max_features: {max_features}, n_estimators: {n_estimators}")
     
     # evaluate performance on test set
     y_pred = printPerformance(rf, X_test, y_test, best_columns)
