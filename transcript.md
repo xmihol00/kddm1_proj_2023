@@ -54,7 +54,7 @@ We then evaluated the best models using metrics like mean squared error. Further
 # Models (slides 7 and 8)
 We have decided to use 4 different models for the regression part of our Project.
 
- - First was a linear regression model as a baseline to assess performance of the other more advanced models. 
+- First was a linear regression model as a baseline to assess performance of the other more advanced models. 
 
 - Second selected model was a fully connected neural network with 2 to 4 hidden layers with ReLU hidden activation function and a linear output activation function. We used the Adam optimizer for an average number of epochs recorded during the cross validation. Consequently, we used early stopping as the stopping criterion during cross validation.
 
