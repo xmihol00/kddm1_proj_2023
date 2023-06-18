@@ -39,7 +39,7 @@ The goal is to the tuition fees (both for under and post graduate programs) of a
 ```
 
 ## Result reproduction
-The results can be reproduced using the provided shell scripts listed above. The execution of the shell scripts may take several hours, therefore we are already providing all the results as well as the logs capturing the training end evaluation process in the `results/` and `logs/` directories. The following examples show to to execute the scripts:
+The results can be reproduced using the provided shell scripts listed above. The execution of the shell scripts may take several hours, therefore we are already providing all the results as well as the logs capturing the training end evaluation process in the `results/` and `logs/` directories. The following examples show to execute the scripts, make sure to install all Python libraries listed in the `requirements.txt` file prior the execution:
 ```
 ./run_preprocessing.sh                             # pre-processes the data set with a default random seed of 42
 export RANDOM_SEED=1; ./run_preprocessing.sh       # pre-processes the data set with a random seed of 1
